@@ -1,0 +1,47 @@
+*.class
+*.jar
+*.war
+*.ear
+
+# Directorios de compilación
+bin/
+build/
+out/
+target/
+
+# Logs
+*.log
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+
+# NetBeans
+nbproject/private/
+build/
+dist/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+
+# macOS
+.DS_Store
+
+# Archivos de respaldo
+*.swp
+*.bak
+*~
