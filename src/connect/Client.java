@@ -25,8 +25,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public final class Client {
     public void start() {
-        String host = "127.0.0.1";
-        int port = GameConfig.defaults().serverPort();
+        start("127.0.0.1", GameConfig.defaults().serverPort());
+    }
+
+    public void start(String host, int port) {
         PanelGame panel = new PanelGame();
         JFrame frame = createFrame(panel);
 

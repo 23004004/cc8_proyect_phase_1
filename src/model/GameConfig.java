@@ -40,4 +40,17 @@ public record GameConfig(
     public static GameConfig defaults() {
         return new GameConfig(20, 20, 10, 200, 1000, 50, 30, 5000);
     }
+
+    public GameConfig withServerPort(int newServerPort) {
+        return new GameConfig(
+                rows,
+                columns,
+                obstaclePercentage,
+                movementIntervalMs,
+                protectionTimeMs,
+                maximumPlayers,
+                centralFlagAreaPercentage,
+                newServerPort
+        );
+    }
 }

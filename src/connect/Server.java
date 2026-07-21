@@ -23,9 +23,14 @@ import protocol.JoinRequest;
 import protocol.PlayerDisconnectedMessage;
 
 import java.io.IOException;
+import java.net.BindException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.NetworkInterface;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -69,20 +74,70 @@ public final class Server {
         try (ServerSocket serverSocket = new ServerSocket(config.serverPort())) {
             this.serverSocket = serverSocket;
             startConsoleControl();
-            System.out.println("Servidor escuchando en el puerto " + config.serverPort() + ".");
+            printConnectionInfo();
             System.out.println("Escribe 'start' para iniciar la partida o 'stop' para salir.");
 
             while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
                 clientExecutor.submit(new ClientHandler(socket));
             }
+        } catch (BindException ex) {
+            throw new IllegalStateException(
+                    "El puerto " + config.serverPort() + " ya está en uso. Prueba con otro, por ejemplo: make run-server PORT=5001",
+                    ex
+            );
         } catch (IOException ex) {
             if (!isShuttingDown()) {
-                throw new IllegalStateException("No se pudo iniciar el servidor", ex);
+                throw new IllegalStateException(
+                        "No se pudo iniciar el servidor en el puerto " + config.serverPort() + ": " + ex.getMessage(),
+                        ex
+                );
             }
         } finally {
             shutdownExecutors();
         }
+    }
+
+    private void printConnectionInfo() {
+        System.out.println("Servidor escuchando en el puerto " + config.serverPort() + ".");
+        System.out.println("Conexiones locales: 127.0.0.1:" + config.serverPort());
+
+        List<String> addresses = localIpv4Addresses();
+        if (addresses.isEmpty()) {
+            System.out.println("Conexiones en red local: no se detectaron interfaces IPv4 útiles.");
+            return;
+        }
+
+        System.out.println("Conexiones en red local:");
+        for (String address : addresses) {
+            System.out.println("  " + address + ":" + config.serverPort());
+        }
+    }
+
+    private List<String> localIpv4Addresses() {
+        List<String> addresses = new ArrayList<>();
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces != null && interfaces.hasMoreElements()) {
+                NetworkInterface networkInterface = interfaces.nextElement();
+                if (!networkInterface.isUp() || networkInterface.isLoopback() || networkInterface.isVirtual()) {
+                    continue;
+                }
+
+                Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+                while (inetAddresses.hasMoreElements()) {
+                    InetAddress inetAddress = inetAddresses.nextElement();
+                    if (inetAddress instanceof Inet4Address && !inetAddress.isLoopbackAddress()) {
+                        String hostAddress = inetAddress.getHostAddress();
+                        if (!addresses.contains(hostAddress)) {
+                            addresses.add(hostAddress);
+                        }
+                    }
+                }
+            }
+        } catch (IOException ignored) {
+        }
+        return addresses;
     }
 
     private void startConsoleControl() {

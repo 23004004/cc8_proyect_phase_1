@@ -18,10 +18,13 @@ compile:
 	@echo "Compiled into $(OUT_DIR)/"
 
 run-server: compile
-	@$(JAR) -cp $(OUT_DIR) Main server
+	@if [ -n "$(PORT)" ]; then $(JAR) -cp $(OUT_DIR) Main server $(PORT); else $(JAR) -cp $(OUT_DIR) Main server; fi
 
 run-client: compile
-	@$(JAR) -cp $(OUT_DIR) Main client
+	@if [ -n "$(HOST)" ] && [ -n "$(PORT)" ]; then $(JAR) -cp $(OUT_DIR) Main client $(HOST) $(PORT); \
+	elif [ -n "$(HOST)" ]; then $(JAR) -cp $(OUT_DIR) Main client $(HOST); \
+	elif [ -n "$(PORT)" ]; then $(JAR) -cp $(OUT_DIR) Main client $(PORT); \
+	else $(JAR) -cp $(OUT_DIR) Main client; fi
 
 clean:
 	@rm -rf $(OUT_DIR)
