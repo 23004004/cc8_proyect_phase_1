@@ -1,15 +1,53 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+import connect.Client;
+import connect.Server;
+import model.GameConfig;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+public final class Main {
+    private static final String USAGE = """
+            Uso:
+              java Main server
+              java Main client
+            """;
+
+    private Main() {
+        // Utility class.
+    }
+
+    public static void main(String[] args) {
+        Mode mode = parseMode(args);
+        if (mode == null) {
+            System.out.print(USAGE);
+            return;
         }
+
+        switch (mode) {
+            case SERVER -> runServer();
+            case CLIENT -> runClient();
+        }
+    }
+
+    private static Mode parseMode(String[] args) {
+        if (args == null || args.length != 1) {
+            return null;
+        }
+
+        return switch (args[0].trim().toLowerCase()) {
+            case "server" -> Mode.SERVER;
+            case "client" -> Mode.CLIENT;
+            default -> null;
+        };
+    }
+
+    private static void runServer() {
+        new Server(GameConfig.defaults()).start();
+    }
+
+    private static void runClient() {
+        new Client().start();
+    }
+
+    private enum Mode {
+        SERVER,
+        CLIENT
     }
 }
