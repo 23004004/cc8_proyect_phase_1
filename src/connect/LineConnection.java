@@ -34,7 +34,7 @@ public final class LineConnection implements Closeable {
         return codec.deserialize(line);
     }
 
-    public void sendMessage(ProtocolMessage message) throws IOException {
+    public synchronized void sendMessage(ProtocolMessage message) throws IOException {
         writer.write(codec.serialize(message));
         writer.write('\n');
         writer.flush();
@@ -45,7 +45,7 @@ public final class LineConnection implements Closeable {
     }
 
     @Override
-    public void close() throws IOException {
+    public synchronized void close() throws IOException {
         socket.close();
     }
 }

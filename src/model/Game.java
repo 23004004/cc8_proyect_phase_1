@@ -76,6 +76,10 @@ public final class Game {
         obstacles.add(Objects.requireNonNull(position, "position must not be null"));
     }
 
+    public void clearObstacles() {
+        obstacles.clear();
+    }
+
     public void addPlayer(Player player) {
         Player validatedPlayer = Objects.requireNonNull(player, "player must not be null");
         players.put(validatedPlayer.playerId(), validatedPlayer);
