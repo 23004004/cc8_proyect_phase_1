@@ -4,7 +4,6 @@ import model.Direction;
 import model.Flag;
 import model.FlagStatus;
 import model.Game;
-import model.GameStatus;
 import model.Player;
 import model.Position;
 
@@ -62,7 +61,6 @@ public final class GameInitializer {
                     .withConnected(true));
         }
 
-        game.setStatus(GameStatus.RUNNING);
     }
 
     private Generation generateValidBoard(Game game, int obstacleCount) {

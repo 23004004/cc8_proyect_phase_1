@@ -112,10 +112,12 @@ public final class Server {
             return;
         }
 
+        game.setStatus(GameStatus.STARTING);
         initializer.initialize(game);
         matchStarted.set(true);
 
         broadcast(GameMessageMapper.toGameStartedMessage(game));
+        game.setStatus(GameStatus.RUNNING);
         tickFuture = tickExecutor.scheduleAtFixedRate(
                 this::runTickSafely,
                 0L,
