@@ -3,13 +3,21 @@ package connect;
 import model.Direction;
 import model.GameConfig;
 import protocol.ChangeDirectionRequest;
+import protocol.ErrorMessage;
+import protocol.GameOverMessage;
+import protocol.GameStartedMessage;
 import protocol.GameStateMessage;
 import protocol.JoinAcceptedMessage;
+import protocol.JoinRejectedMessage;
 import protocol.JoinRequest;
+import protocol.PlayerDisconnectedMessage;
 import protocol.LeaveRequest;
 import protocol.ProtocolMessage;
 import protocol.ProtocolVersion;
+import view.PanelGame;
 
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
@@ -19,6 +27,8 @@ public final class Client {
     public void start() {
         String host = "127.0.0.1";
         int port = GameConfig.defaults().serverPort();
+        PanelGame panel = new PanelGame();
+        JFrame frame = createFrame(panel);
 
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("Nombre del jugador: ");
@@ -32,7 +42,7 @@ public final class Client {
 
                 connection.sendMessage(new JoinRequest(ProtocolVersion.V1_0, name));
 
-                Thread reader = new Thread(() -> readLoop(connection, playerIdRef, gameIdRef), "client-reader");
+                Thread reader = new Thread(() -> readLoop(connection, panel, playerIdRef, gameIdRef), "client-reader");
                 reader.setDaemon(true);
                 reader.start();
 
@@ -65,10 +75,22 @@ public final class Client {
             }
         } catch (IOException ex) {
             System.out.println("No se pudo conectar al servidor: " + ex.getMessage());
+        } finally {
+            frame.dispose();
         }
     }
 
-    private void readLoop(LineConnection connection, AtomicReference<String> playerIdRef, AtomicReference<String> gameIdRef) {
+    private JFrame createFrame(PanelGame panel) {
+        JFrame frame = new JFrame("Captura la Bandera");
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        frame.setContentPane(panel);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        return frame;
+    }
+
+    private void readLoop(LineConnection connection, PanelGame panel, AtomicReference<String> playerIdRef, AtomicReference<String> gameIdRef) {
         try {
             while (true) {
                 ProtocolMessage message = connection.readMessage();
@@ -77,14 +99,25 @@ public final class Client {
                     return;
                 }
 
+                if (message instanceof GameStartedMessage gameStarted) {
+                    panel.applyGameStarted(gameStarted);
+                } else if (message instanceof GameStateMessage gameState) {
+                    panel.applyGameState(gameState);
+                } else if (message instanceof GameOverMessage gameOver) {
+                    panel.applyGameOver(gameOver);
+                } else if (message instanceof PlayerDisconnectedMessage disconnected) {
+                    panel.applyStatusText("Jugador desconectado: " + disconnected.playerId());
+                } else if (message instanceof JoinRejectedMessage joinRejected) {
+                    panel.applyStatusText("Join rechazado: " + joinRejected.reason());
+                } else if (message instanceof ErrorMessage errorMessage) {
+                    panel.applyStatusText("Error: " + errorMessage.code());
+                }
+
                 System.out.println(message);
                 if (message instanceof JoinAcceptedMessage joinAccepted) {
                     playerIdRef.set(joinAccepted.playerId());
                     gameIdRef.set(joinAccepted.gameId());
                     System.out.println("Asignado playerId: " + joinAccepted.playerId());
-                }
-                if (message instanceof GameStateMessage state) {
-                    System.out.println("Tick " + state.tick() + ", jugadores: " + state.players().size());
                 }
             }
         } catch (IOException | IllegalArgumentException ex) {
