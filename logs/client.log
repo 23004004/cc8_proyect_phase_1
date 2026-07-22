@@ -2,3 +2,231 @@ jul 21, 2026 9:50:03 P. M. connect.FileEventLogger info
 INFO: CONNECTING host=127.0.0.1 port=5000 name=L
 jul 21, 2026 9:50:03 P. M. connect.FileEventLogger info
 INFO: JOIN_SENT host=127.0.0.1 port=5000 name=L
+jul 21, 2026 10:52:51 P. M. connect.FileEventLogger info
+INFO: CONNECTING host=172.27.103.21 port=5000 name=Litos
+jul 21, 2026 10:52:56 P. M. connect.FileEventLogger warning
+WARNING: CONNECTION_FAILED error=Connect timed out
+jul 21, 2026 10:52:56 P. M. connect.FileEventLogger info
+INFO: CLIENT_STOPPED
+jul 21, 2026 10:55:46 P. M. connect.FileEventLogger info
+INFO: CONNECTING host=172.27.103.21 port=5000 name=l
+jul 21, 2026 10:55:51 P. M. connect.FileEventLogger warning
+WARNING: CONNECTION_FAILED error=Connect timed out
+jul 21, 2026 10:55:51 P. M. connect.FileEventLogger info
+INFO: CLIENT_STOPPED
+jul 22, 2026 7:57:20 A. M. connect.FileEventLogger info
+INFO: CONNECTING host=192.168.0.26 port=5001 name=li
+jul 22, 2026 7:57:20 A. M. connect.FileEventLogger info
+INFO: JOIN_SENT host=192.168.0.26 port=5001 name=li
+jul 22, 2026 7:57:21 A. M. connect.FileEventLogger info
+INFO: JOIN_ACCEPTED gameId=GAME-001 playerId=P01
+jul 22, 2026 7:57:41 A. M. connect.FileEventLogger info
+INFO: GAME_STARTED gameId=GAME-001 rows=20 columns=20
+jul 22, 2026 7:57:48 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=DOWN
+jul 22, 2026 7:57:49 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=LEFT
+jul 22, 2026 7:57:49 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=DOWN
+jul 22, 2026 7:57:50 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=LEFT
+jul 22, 2026 7:57:51 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=UP
+jul 22, 2026 7:57:52 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=LEFT
+jul 22, 2026 7:57:52 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=DOWN
+jul 22, 2026 7:57:53 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=LEFT
+jul 22, 2026 7:57:53 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=DOWN
+jul 22, 2026 7:57:55 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=LEFT
+jul 22, 2026 7:57:56 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=UP
+jul 22, 2026 7:57:56 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=RIGHT
+jul 22, 2026 7:57:57 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=DOWN
+jul 22, 2026 7:57:58 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=LEFT
+jul 22, 2026 7:57:58 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=DOWN
+jul 22, 2026 7:57:59 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=RIGHT
+jul 22, 2026 7:57:59 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=UP
+jul 22, 2026 7:58:01 A. M. connect.FileEventLogger info
+INFO: FLAG_PICKED_UP gameId=GAME-001 tick=99 playerId=P01
+jul 22, 2026 7:58:01 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=RIGHT
+jul 22, 2026 7:58:02 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=DOWN
+jul 22, 2026 7:58:02 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=LEFT
+jul 22, 2026 7:58:02 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=UP
+jul 22, 2026 7:58:03 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=RIGHT
+jul 22, 2026 7:58:04 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=DOWN
+jul 22, 2026 7:58:06 A. M. connect.FileEventLogger info
+INFO: GAME_OVER gameId=GAME-001 winnerId=P01 winnerName=li reason=EXITED_WITH_FLAG
+jul 22, 2026 7:58:07 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=DOWN
+jul 22, 2026 7:58:07 A. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 22, 2026 7:58:07 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=DOWN
+jul 22, 2026 7:58:07 A. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 22, 2026 7:58:07 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=LEFT
+jul 22, 2026 7:58:07 A. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 22, 2026 7:58:12 A. M. connect.FileEventLogger info
+INFO: READ_LOOP_FINISHED
+jul 22, 2026 7:58:12 A. M. connect.FileEventLogger info
+INFO: CLIENT_STOPPED
+jul 22, 2026 7:59:16 A. M. connect.FileEventLogger info
+INFO: CONNECTING host=192.168.0.26 port=5001 name=l
+jul 22, 2026 7:59:17 A. M. connect.FileEventLogger info
+INFO: JOIN_SENT host=192.168.0.26 port=5001 name=l
+jul 22, 2026 7:59:17 A. M. connect.FileEventLogger info
+INFO: JOIN_ACCEPTED gameId=GAME-001 playerId=P02
+jul 22, 2026 7:59:33 A. M. connect.FileEventLogger info
+INFO: GAME_STARTED gameId=GAME-001 rows=20 columns=20
+jul 22, 2026 7:59:45 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=RIGHT
+jul 22, 2026 7:59:47 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=LEFT
+jul 22, 2026 7:59:47 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 7:59:49 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=UP
+jul 22, 2026 7:59:50 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=LEFT
+jul 22, 2026 7:59:52 A. M. connect.FileEventLogger info
+INFO: FLAG_PICKED_UP gameId=GAME-001 tick=98 playerId=P01
+jul 22, 2026 7:59:56 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=UP
+jul 22, 2026 7:59:57 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=RIGHT
+jul 22, 2026 7:59:57 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=LEFT
+jul 22, 2026 7:59:57 A. M. connect.FileEventLogger info
+INFO: FLAG_STOLEN gameId=GAME-001 tick=124 previousCarrierId=P01 newCarrierId=P02
+jul 22, 2026 7:59:58 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 7:59:59 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=RIGHT
+jul 22, 2026 8:00:01 A. M. connect.FileEventLogger info
+INFO: FLAG_STOLEN gameId=GAME-001 tick=141 previousCarrierId=P02 newCarrierId=P01
+jul 22, 2026 8:00:02 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=UP
+jul 22, 2026 8:00:03 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=RIGHT
+jul 22, 2026 8:00:03 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:00:04 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=UP
+jul 22, 2026 8:00:04 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=RIGHT
+jul 22, 2026 8:00:04 A. M. connect.FileEventLogger info
+INFO: FLAG_STOLEN gameId=GAME-001 tick=158 previousCarrierId=P01 newCarrierId=P02
+jul 22, 2026 8:00:05 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=RIGHT
+jul 22, 2026 8:00:06 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=LEFT
+jul 22, 2026 8:00:06 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=UP
+jul 22, 2026 8:00:13 A. M. connect.FileEventLogger info
+INFO: FLAG_STOLEN gameId=GAME-001 tick=201 previousCarrierId=P02 newCarrierId=P01
+jul 22, 2026 8:00:14 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:00:14 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=UP
+jul 22, 2026 8:00:16 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=RIGHT
+jul 22, 2026 8:00:17 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:00:18 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=UP
+jul 22, 2026 8:00:18 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=LEFT
+jul 22, 2026 8:00:18 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:00:20 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:00:25 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=UP
+jul 22, 2026 8:00:26 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=LEFT
+jul 22, 2026 8:00:26 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:00:26 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=LEFT
+jul 22, 2026 8:00:27 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=UP
+jul 22, 2026 8:00:27 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=LEFT
+jul 22, 2026 8:00:28 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:00:28 A. M. connect.FileEventLogger info
+INFO: FLAG_STOLEN gameId=GAME-001 tick=276 previousCarrierId=P01 newCarrierId=P02
+jul 22, 2026 8:00:28 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=RIGHT
+jul 22, 2026 8:00:29 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:00:36 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=LEFT
+jul 22, 2026 8:00:36 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=RIGHT
+jul 22, 2026 8:00:37 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=LEFT
+jul 22, 2026 8:00:38 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:00:39 A. M. connect.FileEventLogger info
+INFO: FLAG_STOLEN gameId=GAME-001 tick=334 previousCarrierId=P02 newCarrierId=P01
+jul 22, 2026 8:00:41 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=RIGHT
+jul 22, 2026 8:00:41 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=UP
+jul 22, 2026 8:00:41 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=RIGHT
+jul 22, 2026 8:00:42 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:00:43 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=UP
+jul 22, 2026 8:00:45 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:00:46 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=LEFT
+jul 22, 2026 8:00:46 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:06:49 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=UP
+jul 22, 2026 8:06:49 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:06:50 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=LEFT
+jul 22, 2026 8:06:51 A. M. connect.FileEventLogger info
+INFO: FLAG_STOLEN gameId=GAME-001 tick=2191 previousCarrierId=P01 newCarrierId=P02
+jul 22, 2026 8:06:51 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=RIGHT
+jul 22, 2026 8:06:51 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:06:52 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=RIGHT
+jul 22, 2026 8:06:53 A. M. connect.FileEventLogger info
+INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P02 direction=DOWN
+jul 22, 2026 8:06:54 A. M. connect.FileEventLogger info
+INFO: GAME_OVER gameId=GAME-001 winnerId=P02 winnerName=l reason=EXITED_WITH_FLAG
+jul 22, 2026 8:10:04 A. M. connect.FileEventLogger info
+INFO: PLAYER_DISCONNECTED gameId=GAME-001 playerId=P01
+jul 22, 2026 8:10:04 A. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=UNKNOWN_PLAYER description=Jugador desconocido.
+jul 22, 2026 8:10:20 A. M. connect.FileEventLogger info
+INFO: READ_LOOP_FINISHED
+jul 22, 2026 8:10:20 A. M. connect.FileEventLogger info
+INFO: CLIENT_STOPPED
