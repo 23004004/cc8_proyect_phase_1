@@ -131,3 +131,88 @@ No asumas información que no aparezca en el documento oficial del protocolo.
 Si alguna regla entra en conflicto con una decisión de diseño, deberá respetarse el protocolo oficial.
 
 Nuestro primer objetivo será diseñar correctamente la arquitectura del proyecto antes de escribir cualquier línea de código.
+
+
+### Otro promp importante
+
+Algo antes de seguir con el promp principal, arreglemos los logs y incluso el funcionamiento del client y funcionalidad de la UI,
+
+Cuando inicio el client todo bien, cuando empiza el juego se genera un monton de log, pero demasiado por cada tick, entonces pensaba
+
+mejorar ese tema, incluyendo la UI
+
+Empieza el juego y me personaje este quieta y que se mueva no escribiendo el comando, si no que con el teclado con las letras AWSD
+
+como un video juego, y para la acción de robar sea la R o la barra espaciadora lo mas facil, y el servidor me guarde un log o
+
+algo asi de que es lo que esta haciendo cada usuario.
+
+
+## Ejecución local
+
+Compilar:
+
+```bash
+make compile
+```
+
+Levantar servidor:
+
+```bash
+make run-server PORT=5001
+```
+
+Levantar cliente local:
+
+```bash
+make run-client HOST=127.0.0.1 PORT=5001
+```
+
+Levantar cliente desde otra computadora de la misma red:
+
+```bash
+make run-client HOST=IP_DEL_SERVIDOR PORT=5001
+```
+
+## Controles del cliente
+
+- `W`: cambiar dirección hacia arriba.
+- `A`: cambiar dirección hacia la izquierda.
+- `S`: cambiar dirección hacia abajo.
+- `D`: cambiar dirección hacia la derecha.
+- `R` o barra espaciadora: reenviar la dirección actual para intentar contacto con el portador.
+- Cerrar la ventana: enviar `LEAVE` y cerrar la conexión.
+
+El protocolo oficial no define una acción independiente para robar. El robo ocurre cuando el servidor detecta que un jugador intenta avanzar hacia la celda ocupada por el portador de la bandera.
+
+## Logs
+
+El cliente ya no imprime cada `GAME_STATE` recibido, porque ese mensaje llega en cada tick y satura la consola.
+
+El servidor escribe eventos relevantes en:
+
+```text
+logs/server.log
+```
+
+Se registran conexiones, `JOIN`, rechazos, cambios de dirección, salidas, desconexiones, toma de bandera, robo de bandera e inicio/fin de partida.
+
+El cliente escribe eventos relevantes en:
+
+```text
+logs/client.log
+```
+
+Para verlos en tiempo real:
+
+```bash
+tail -f logs/client.log
+```
+
+En el cliente se registran conexión TCP, `JOIN` enviado, `JOIN_ACCEPTED`, `JOIN_REJECTED`, cambios de dirección enviados, errores del servidor, eventos de bandera y cierre.
+
+Para diagnosticar conexiones desde otra computadora:
+
+- Si aparece `TCP_ACCEPTED` en `logs/server.log`, la conexión llegó al servidor Java.
+- Si no aparece `TCP_ACCEPTED`, el problema está antes del servidor: IP incorrecta, puerto incorrecto, equipos en redes distintas o firewall bloqueando Java/puerto.
+- Si aparece `TCP_ACCEPTED` pero no `JOIN_ACCEPTED`, revisar las líneas `PROTOCOL_ERROR` o `JOIN_REJECTED`.

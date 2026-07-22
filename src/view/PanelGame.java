@@ -1,5 +1,6 @@
 package view;
 
+import model.Direction;
 import protocol.GameOverMessage;
 import protocol.GameStartedMessage;
 import protocol.GameStateMessage;
@@ -30,6 +31,8 @@ public final class PanelGame extends JPanel {
     private long tick;
     private String gameId = "-";
     private String statusText = "Esperando partida";
+    private String localPlayerId = "-";
+    private Direction localDirection = Direction.DOWN;
     private FlagDto flag;
     private List<PositionDto> obstacles = List.of();
     private List<PlayerDto> players = List.of();
@@ -92,6 +95,26 @@ public final class PanelGame extends JPanel {
         runOnEdt(() -> {
             synchronized (lock) {
                 this.statusText = text == null ? "" : text;
+            }
+            repaint();
+        });
+    }
+
+    public void setLocalPlayerId(String playerId) {
+        runOnEdt(() -> {
+            synchronized (lock) {
+                this.localPlayerId = playerId == null || playerId.isBlank() ? "-" : playerId;
+            }
+            repaint();
+        });
+    }
+
+    public void applyLocalDirection(Direction direction) {
+        runOnEdt(() -> {
+            synchronized (lock) {
+                if (direction != null) {
+                    this.localDirection = direction;
+                }
             }
             repaint();
         });
@@ -200,6 +223,11 @@ public final class PanelGame extends JPanel {
             }
             g2.setColor(fill);
             g2.fillOval(x + 5, y + 5, cellSize - 10, cellSize - 10);
+            if (player.playerId().equals(localPlayerId)) {
+                g2.setColor(new Color(0x22C55E));
+                g2.setStroke(new BasicStroke(3f));
+                g2.drawOval(x + 2, y + 2, cellSize - 4, cellSize - 4);
+            }
             g2.setColor(Color.WHITE);
             g2.setFont(getFont().deriveFont(Font.BOLD, Math.max(11f, cellSize / 3f)));
             String label = player.playerId();
@@ -215,7 +243,7 @@ public final class PanelGame extends JPanel {
             g2.setColor(getForeground());
             g2.setFont(getFont().deriveFont(Font.BOLD, 15f));
             g2.drawString("Game: " + gameId, 24, getHeight() - 54);
-            g2.drawString("Tick: " + tick, 24, getHeight() - 32);
+            g2.drawString("Jugador: " + localPlayerId + " | Dirección: " + localDirection + " | Tick: " + tick, 24, getHeight() - 32);
             g2.drawString(statusText, 24, getHeight() - 10);
         }
     }

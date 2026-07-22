@@ -36,8 +36,17 @@ public final class GameInitializer {
         int rows = game.config().rows();
         int columns = game.config().columns();
         int obstacleCount = (rows * columns * game.config().obstaclePercentage()) / 100;
+        List<SpawnPoint> spawnPoints = createSpawnPoints(rows, columns);
+        if (orderedPlayers.size() > spawnPoints.size()) {
+            throw new IllegalStateException("Too many players for the available spawn points");
+        }
 
-        Generation generation = generateValidBoard(game, obstacleCount);
+        List<SpawnPoint> assignedSpawnPoints = new ArrayList<>();
+        for (int index = 0; index < orderedPlayers.size(); index++) {
+            assignedSpawnPoints.add(removeRandomSpawnPoint(spawnPoints));
+        }
+
+        Generation generation = generateValidBoard(game, obstacleCount, entryPositions(assignedSpawnPoints));
 
         game.clearObstacles();
         for (Position obstacle : generation.obstacles()) {
@@ -45,13 +54,9 @@ public final class GameInitializer {
         }
         game.setFlag(new Flag(generation.flagPosition(), FlagStatus.AVAILABLE, null));
 
-        List<SpawnPoint> spawnPoints = createSpawnPoints(rows, columns);
-        if (orderedPlayers.size() > spawnPoints.size()) {
-            throw new IllegalStateException("Too many players for the available spawn points");
-        }
-
-        for (Player player : orderedPlayers) {
-            SpawnPoint spawnPoint = removeRandomSpawnPoint(spawnPoints);
+        for (int index = 0; index < orderedPlayers.size(); index++) {
+            Player player = orderedPlayers.get(index);
+            SpawnPoint spawnPoint = assignedSpawnPoints.get(index);
             game.updatePlayer(player
                     .withPosition(spawnPoint.position())
                     .withDirection(spawnPoint.direction())
@@ -63,24 +68,35 @@ public final class GameInitializer {
 
     }
 
-    private Generation generateValidBoard(Game game, int obstacleCount) {
+    private Generation generateValidBoard(Game game, int obstacleCount, Set<Position> requiredFreePositions) {
+        int availableObstacleCells = game.config().rows() * game.config().columns() - requiredFreePositions.size() - 1;
+        int effectiveObstacleCount = Math.min(obstacleCount, Math.max(0, availableObstacleCells));
         int attempts = 0;
         while (attempts++ < 500) {
-            List<Position> obstacles = generateObstacles(game.config().rows(), game.config().columns(), obstacleCount);
+            List<Position> obstacles = generateObstacles(
+                    game.config().rows(),
+                    game.config().columns(),
+                    effectiveObstacleCount,
+                    requiredFreePositions
+            );
             Position flagPosition = generateFlagPosition(game, obstacles);
-            if (hasPathToBorder(game.config().rows(), game.config().columns(), flagPosition, obstacles)) {
+            if (hasPathToBorder(game.config().rows(), game.config().columns(), flagPosition, obstacles)
+                    && allPositionsReachFlag(game.config().rows(), game.config().columns(), flagPosition, obstacles, requiredFreePositions)) {
                 return new Generation(obstacles, flagPosition);
             }
         }
         throw new IllegalStateException("Unable to generate a valid board");
     }
 
-    private List<Position> generateObstacles(int rows, int columns, int obstacleCount) {
+    private List<Position> generateObstacles(int rows, int columns, int obstacleCount, Set<Position> requiredFreePositions) {
         Set<Position> obstacles = new HashSet<>();
         while (obstacles.size() < obstacleCount) {
             int row = random.nextInt(rows);
             int column = random.nextInt(columns);
-            obstacles.add(new Position(row, column));
+            Position candidate = new Position(row, column);
+            if (!requiredFreePositions.contains(candidate)) {
+                obstacles.add(candidate);
+            }
         }
         return new ArrayList<>(obstacles);
     }
@@ -129,6 +145,43 @@ public final class GameInitializer {
         return false;
     }
 
+    private boolean allPositionsReachFlag(
+            int rows,
+            int columns,
+            Position flagPosition,
+            List<Position> obstacles,
+            Set<Position> requiredFreePositions
+    ) {
+        for (Position position : requiredFreePositions) {
+            if (!hasPath(rows, columns, position, flagPosition, obstacles)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean hasPath(int rows, int columns, Position origin, Position target, List<Position> obstacles) {
+        Set<Position> blocked = new HashSet<>(obstacles);
+        Set<Position> visited = new HashSet<>();
+        ArrayDeque<Position> queue = new ArrayDeque<>();
+        queue.add(origin);
+        visited.add(origin);
+
+        while (!queue.isEmpty()) {
+            Position current = queue.removeFirst();
+            if (current.equals(target)) {
+                return true;
+            }
+            for (Direction direction : Direction.values()) {
+                Position next = current.move(direction);
+                if (next.isInside(rows, columns) && !blocked.contains(next) && visited.add(next)) {
+                    queue.addLast(next);
+                }
+            }
+        }
+        return false;
+    }
+
     private List<SpawnPoint> createSpawnPoints(int rows, int columns) {
         List<SpawnPoint> spawnPoints = new ArrayList<>((rows + columns) * 2);
         for (int column = 0; column < columns; column++) {
@@ -146,9 +199,20 @@ public final class GameInitializer {
         return spawnPoints.remove(random.nextInt(spawnPoints.size()));
     }
 
+    private Set<Position> entryPositions(List<SpawnPoint> spawnPoints) {
+        Set<Position> positions = new HashSet<>();
+        for (SpawnPoint spawnPoint : spawnPoints) {
+            positions.add(spawnPoint.entryPosition());
+        }
+        return positions;
+    }
+
     private record Generation(List<Position> obstacles, Position flagPosition) {
     }
 
     private record SpawnPoint(Position position, Direction direction) {
+        private Position entryPosition() {
+            return position.move(direction);
+        }
     }
 }

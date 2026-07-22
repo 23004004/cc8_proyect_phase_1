@@ -10,6 +10,7 @@ import model.GameStatus;
 import model.Player;
 import protocol.ErrorCode;
 import protocol.ErrorMessage;
+import protocol.ProtocolDecodeException;
 import protocol.GameMessageMapper;
 import protocol.JoinAcceptedMessage;
 import protocol.JoinRejectedMessage;
@@ -49,6 +50,7 @@ public final class Server {
     private final Game game;
     private final GameSession session;
     private final GameInitializer initializer;
+    private final ServerEventLogger eventLogger;
     private final Map<String, ClientContext> clientsByPlayerId;
     private final ExecutorService clientExecutor;
     private final ScheduledExecutorService tickExecutor;
@@ -63,6 +65,7 @@ public final class Server {
         this.game = new Game("GAME-001", config);
         this.session = new GameSession(game);
         this.initializer = new GameInitializer();
+        this.eventLogger = new ServerEventLogger();
         this.clientsByPlayerId = new ConcurrentHashMap<>();
         this.clientExecutor = Executors.newCachedThreadPool();
         this.tickExecutor = Executors.newSingleThreadScheduledExecutor();
@@ -75,11 +78,12 @@ public final class Server {
             this.serverSocket = serverSocket;
             startConsoleControl();
             printConnectionInfo();
+            eventLogger.info("SERVER_STARTED port=" + config.serverPort());
             System.out.println("Escribe 'start' para iniciar la partida o 'stop' para salir.");
 
             while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
-                clientExecutor.submit(new ClientHandler(socket));
+                acceptClient(socket);
             }
         } catch (BindException ex) {
             throw new IllegalStateException(
@@ -111,6 +115,20 @@ public final class Server {
         System.out.println("Conexiones en red local:");
         for (String address : addresses) {
             System.out.println("  " + address + ":" + config.serverPort());
+        }
+    }
+
+    private void acceptClient(Socket socket) {
+        String remoteAddress = String.valueOf(socket.getRemoteSocketAddress());
+        eventLogger.info("TCP_ACCEPTED remote=" + remoteAddress);
+        try {
+            clientExecutor.submit(new ClientHandler(socket, remoteAddress));
+        } catch (IOException ex) {
+            eventLogger.warning("TCP_HANDLER_FAILED remote=" + remoteAddress + " error=" + ex.getMessage());
+            try {
+                socket.close();
+            } catch (IOException ignored) {
+            }
         }
     }
 
@@ -159,20 +177,32 @@ public final class Server {
     }
 
     private synchronized void startMatch() {
-        if (matchStarted.get() || game.status() != GameStatus.WAITING) {
-            return;
-        }
-        if (game.players().isEmpty()) {
-            System.out.println("No hay jugadores conectados.");
-            return;
+        long nowEpochMillis = System.currentTimeMillis();
+        ProtocolMessage gameStartedMessage;
+        synchronized (session) {
+            if (matchStarted.get() || game.status() != GameStatus.WAITING) {
+                eventLogger.warning("START_IGNORED status=" + game.status() + " matchStarted=" + matchStarted.get());
+                return;
+            }
+            if (game.players().isEmpty()) {
+                System.out.println("No hay jugadores conectados.");
+                eventLogger.warning("START_REJECTED reason=NO_PLAYERS");
+                return;
+            }
+
+            game.setStatus(GameStatus.STARTING);
+            initializer.initialize(game);
+            matchStarted.set(true);
+            gameStartedMessage = GameMessageMapper.toGameStartedMessage(game, nowEpochMillis);
+            eventLogger.info("MATCH_STARTING gameId=" + game.gameId() + " players=" + game.players().size());
         }
 
-        game.setStatus(GameStatus.STARTING);
-        initializer.initialize(game);
-        matchStarted.set(true);
-
-        broadcast(GameMessageMapper.toGameStartedMessage(game));
-        game.setStatus(GameStatus.RUNNING);
+        broadcast(gameStartedMessage);
+        synchronized (session) {
+            if (game.status() == GameStatus.STARTING) {
+                game.setStatus(GameStatus.RUNNING);
+            }
+        }
         tickFuture = tickExecutor.scheduleAtFixedRate(
                 this::runTickSafely,
                 0L,
@@ -181,6 +211,7 @@ public final class Server {
         );
 
         System.out.println("Partida iniciada.");
+        eventLogger.info("MATCH_RUNNING gameId=" + game.gameId());
     }
 
     private void runTickSafely() {
@@ -194,6 +225,7 @@ public final class Server {
     private void runTick() {
         GameTickResult result = session.tick(System.currentTimeMillis());
         if (!result.events().isEmpty()) {
+            logGameEvents(result.events());
             broadcast(result.events());
         }
         broadcast(result.stateMessage());
@@ -201,6 +233,23 @@ public final class Server {
             ScheduledFuture<?> current = tickFuture;
             if (current != null) {
                 current.cancel(false);
+            }
+            eventLogger.info("MATCH_FINISHED gameId=" + game.gameId() + " tick=" + result.tick());
+        }
+    }
+
+    private void logGameEvents(List<ProtocolMessage> events) {
+        for (ProtocolMessage event : events) {
+            switch (event) {
+                case protocol.FlagPickedUpMessage pickedUp ->
+                        eventLogger.info("FLAG_PICKED_UP gameId=" + pickedUp.gameId() + " tick=" + pickedUp.tick() + " playerId=" + pickedUp.playerId());
+                case protocol.FlagStolenMessage stolen ->
+                        eventLogger.info("FLAG_STOLEN gameId=" + stolen.gameId() + " tick=" + stolen.tick() + " previousCarrierId=" + stolen.previousCarrierId() + " newCarrierId=" + stolen.newCarrierId());
+                case protocol.GameOverMessage gameOver ->
+                        eventLogger.info("GAME_OVER gameId=" + gameOver.gameId() + " winnerId=" + gameOver.winnerId() + " winnerName=" + gameOver.winnerName() + " reason=" + gameOver.reason());
+                case protocol.PlayerDisconnectedMessage disconnected ->
+                        eventLogger.info("PLAYER_DISCONNECTED gameId=" + disconnected.gameId() + " playerId=" + disconnected.playerId());
+                default -> eventLogger.info("EVENT type=" + event.type());
             }
         }
     }
@@ -244,9 +293,11 @@ public final class Server {
 
     private final class ClientHandler implements Runnable {
         private final ClientContext context;
+        private final String remoteAddress;
 
-        private ClientHandler(Socket socket) throws IOException {
+        private ClientHandler(Socket socket, String remoteAddress) throws IOException {
             this.context = new ClientContext(new LineConnection(socket));
+            this.remoteAddress = remoteAddress;
         }
 
         @Override
@@ -260,13 +311,27 @@ public final class Server {
                     }
                     handleMessage(message);
                 }
+            } catch (ProtocolDecodeException ex) {
+                handleProtocolDecodeException(ex);
             } catch (IllegalArgumentException ex) {
+                eventLogger.warning("CLIENT_MESSAGE_ERROR remote=" + remoteAddress + " playerId=" + context.playerId() + " error=" + ex.getMessage());
                 context.send(new ErrorMessage(ProtocolVersion.V1_0, ErrorCode.INVALID_MESSAGE, ex.getMessage()));
             } catch (IOException ex) {
+                eventLogger.warning("CLIENT_IO_ERROR remote=" + remoteAddress + " playerId=" + context.playerId() + " error=" + ex.getMessage());
                 handleUnexpectedDisconnect();
             } finally {
                 context.closeQuietly();
             }
+        }
+
+        private void handleProtocolDecodeException(ProtocolDecodeException ex) {
+            ErrorCode code = ex.errorCode();
+            eventLogger.warning("PROTOCOL_ERROR remote=" + remoteAddress + " playerId=" + context.playerId() + " code=" + code + " message=" + ex.getMessage());
+            if (ex.messageType() == MessageType.JOIN && code == ErrorCode.UNSUPPORTED_PROTOCOL_VERSION) {
+                context.send(new JoinRejectedMessage(ProtocolVersion.V1_0, JoinRejectedReason.UNSUPPORTED_PROTOCOL_VERSION));
+                return;
+            }
+            context.send(new ErrorMessage(ProtocolVersion.V1_0, code, ex.getMessage()));
         }
 
         private void handleMessage(ProtocolMessage message) throws IOException {
@@ -301,37 +366,48 @@ public final class Server {
 
             if (!ProtocolVersion.V1_0.equals(joinRequest.protocolVersion())) {
                 context.send(new JoinRejectedMessage(ProtocolVersion.V1_0, JoinRejectedReason.UNSUPPORTED_PROTOCOL_VERSION));
+                eventLogger.warning("JOIN_REJECTED remote=" + remoteAddress + " reason=UNSUPPORTED_PROTOCOL_VERSION name=" + joinRequest.name());
                 return;
             }
             if (joinRequest.name() == null || joinRequest.name().isBlank()) {
                 context.send(new JoinRejectedMessage(ProtocolVersion.V1_0, JoinRejectedReason.INVALID_NAME));
+                eventLogger.warning("JOIN_REJECTED remote=" + remoteAddress + " reason=INVALID_NAME");
                 return;
             }
-            if (game.status() != GameStatus.WAITING || matchStarted.get()) {
-                context.send(new JoinRejectedMessage(ProtocolVersion.V1_0, JoinRejectedReason.GAME_ALREADY_STARTED));
+            String playerId;
+            JoinRejectedReason rejectedReason = null;
+            synchronized (session) {
+                if (game.status() != GameStatus.WAITING || matchStarted.get()) {
+                    rejectedReason = JoinRejectedReason.GAME_ALREADY_STARTED;
+                    playerId = null;
+                } else if (game.players().size() >= config.maximumPlayers()) {
+                    rejectedReason = JoinRejectedReason.GAME_FULL;
+                    playerId = null;
+                } else {
+                    playerId = nextPlayerId();
+                    Player player = new Player(
+                            playerId,
+                            joinRequest.name().trim(),
+                            -1,
+                            -1,
+                            Direction.DOWN,
+                            true,
+                            false,
+                            false,
+                            0L
+                    );
+                    game.addPlayer(player);
+                    context.joined(playerId);
+                    clientsByPlayerId.put(playerId, context);
+                }
+            }
+            if (rejectedReason != null) {
+                context.send(new JoinRejectedMessage(ProtocolVersion.V1_0, rejectedReason));
+                eventLogger.warning("JOIN_REJECTED remote=" + remoteAddress + " reason=" + rejectedReason + " name=" + joinRequest.name().trim());
                 return;
             }
-            if (game.players().size() >= config.maximumPlayers()) {
-                context.send(new JoinRejectedMessage(ProtocolVersion.V1_0, JoinRejectedReason.GAME_FULL));
-                return;
-            }
-
-            String playerId = nextPlayerId();
-            Player player = new Player(
-                    playerId,
-                    joinRequest.name().trim(),
-                    -1,
-                    -1,
-                    Direction.DOWN,
-                    true,
-                    false,
-                    false,
-                    0L
-            );
-            game.addPlayer(player);
-            context.joined(playerId);
-            clientsByPlayerId.put(playerId, context);
             context.send(new JoinAcceptedMessage(ProtocolVersion.V1_0, playerId, game.gameId()));
+            eventLogger.info("JOIN_ACCEPTED remote=" + remoteAddress + " gameId=" + game.gameId() + " playerId=" + playerId + " name=" + joinRequest.name().trim());
         }
 
         private void handleChangeDirection(ChangeDirectionRequest changeDirection) {
@@ -343,7 +419,17 @@ public final class Server {
                 context.send(new ErrorMessage(ProtocolVersion.V1_0, ErrorCode.UNKNOWN_PLAYER, "playerId no corresponde a esta conexión."));
                 return;
             }
+            GameStatus status;
+            synchronized (session) {
+                status = game.status();
+            }
+            if (status != GameStatus.RUNNING) {
+                ErrorCode code = status == GameStatus.FINISHED ? ErrorCode.GAME_FINISHED : ErrorCode.GAME_NOT_STARTED;
+                context.send(new ErrorMessage(ProtocolVersion.V1_0, code, "La partida no está en ejecución."));
+                return;
+            }
             session.submitDirectionChange(changeDirection.playerId(), changeDirection.direction());
+            eventLogger.info("CHANGE_DIRECTION gameId=" + changeDirection.gameId() + " playerId=" + changeDirection.playerId() + " direction=" + changeDirection.direction());
         }
 
         private void handleLeave(LeaveRequest leaveRequest) {
@@ -351,12 +437,15 @@ public final class Server {
                 context.send(new ErrorMessage(ProtocolVersion.V1_0, ErrorCode.UNKNOWN_PLAYER, "Salida inválida."));
                 return;
             }
+            eventLogger.info("LEAVE gameId=" + leaveRequest.gameId() + " playerId=" + leaveRequest.playerId());
             disconnectAndBroadcast();
         }
 
         private void handleUnexpectedDisconnect() {
             if (context.joined()) {
                 disconnectAndBroadcast();
+            } else {
+                eventLogger.info("CLIENT_DISCONNECTED_BEFORE_JOIN remote=" + remoteAddress);
             }
         }
 

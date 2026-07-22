@@ -15,7 +15,7 @@ public final class GameMessageMapper {
     private GameMessageMapper() {
     }
 
-    public static GameStartedMessage toGameStartedMessage(Game game) {
+    public static GameStartedMessage toGameStartedMessage(Game game, long nowEpochMillis) {
         return new GameStartedMessage(
                 ProtocolVersion.V1_0,
                 game.gameId(),
@@ -25,7 +25,7 @@ public final class GameMessageMapper {
                 game.config().protectionTimeMs(),
                 toPositionDtos(game.obstacles()),
                 toFlagDto(game.flag()),
-                toPlayerDtos(game.players(), System.currentTimeMillis())
+                toPlayerDtos(game.players(), nowEpochMillis)
         );
     }
 

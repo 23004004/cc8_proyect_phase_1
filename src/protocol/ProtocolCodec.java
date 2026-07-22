@@ -18,86 +18,98 @@ public final class ProtocolCodec {
     }
 
     public ProtocolMessage deserialize(String json) {
-        Object parsed = new JsonParser(json).parse();
+        Object parsed;
+        try {
+            parsed = new JsonParser(json).parse();
+        } catch (RuntimeException ex) {
+            throw new ProtocolDecodeException(null, ErrorCode.INVALID_JSON, ex.getMessage(), ex);
+        }
+
         Map<String, Object> object = expectObject(parsed);
 
-        String typeValue = requireString(object, "type");
-        String version = requireString(object, "protocolVersion");
-        MessageType type = MessageType.valueOf(typeValue);
-        validateVersion(version);
+        try {
+            String typeValue = requireString(object, "type");
+            String version = requireString(object, "protocolVersion");
+            MessageType type = MessageType.valueOf(typeValue);
+            validateVersion(version, type);
 
-        return switch (type) {
-            case JOIN -> new JoinRequest(version, requireString(object, "name"));
-            case CHANGE_DIRECTION -> new ChangeDirectionRequest(
-                    version,
-                    requireString(object, "gameId"),
-                    requireString(object, "playerId"),
-                    Direction.valueOf(requireString(object, "direction"))
-            );
-            case LEAVE -> new LeaveRequest(
-                    version,
-                    requireString(object, "gameId"),
-                    requireString(object, "playerId")
-            );
-            case JOIN_ACCEPTED -> new JoinAcceptedMessage(
-                    version,
-                    requireString(object, "playerId"),
-                    requireString(object, "gameId")
-            );
-            case JOIN_REJECTED -> new JoinRejectedMessage(
-                    version,
-                    JoinRejectedReason.valueOf(requireString(object, "reason"))
-            );
-            case GAME_STARTED -> new GameStartedMessage(
-                    version,
-                    requireString(object, "gameId"),
-                    requireInt(object, "rows"),
-                    requireInt(object, "columns"),
-                    requireInt(object, "movementIntervalMs"),
-                    requireInt(object, "protectionTimeMs"),
-                    readPositions(object, "obstacles"),
-                    readFlag(object, "flag"),
-                    readPlayers(object, "players")
-            );
-            case GAME_STATE -> new GameStateMessage(
-                    version,
-                    requireString(object, "gameId"),
-                    requireLong(object, "tick"),
-                    readPlayers(object, "players"),
-                    readFlag(object, "flag")
-            );
-            case FLAG_PICKED_UP -> new FlagPickedUpMessage(
-                    version,
-                    requireString(object, "gameId"),
-                    requireLong(object, "tick"),
-                    requireString(object, "playerId")
-            );
-            case FLAG_STOLEN -> new FlagStolenMessage(
-                    version,
-                    requireString(object, "gameId"),
-                    requireLong(object, "tick"),
-                    requireString(object, "previousCarrierId"),
-                    requireString(object, "newCarrierId"),
-                    requireInt(object, "protectionTimeMs")
-            );
-            case PLAYER_DISCONNECTED -> new PlayerDisconnectedMessage(
-                    version,
-                    requireString(object, "gameId"),
-                    requireString(object, "playerId")
-            );
-            case GAME_OVER -> new GameOverMessage(
-                    version,
-                    requireString(object, "gameId"),
-                    requireString(object, "winnerId"),
-                    requireString(object, "winnerName"),
-                    GameOverReason.valueOf(requireString(object, "reason"))
-            );
-            case ERROR -> new ErrorMessage(
-                    version,
-                    ErrorCode.valueOf(requireString(object, "code")),
-                    requireString(object, "description")
-            );
-        };
+            return switch (type) {
+                case JOIN -> new JoinRequest(version, requireString(object, "name"));
+                case CHANGE_DIRECTION -> new ChangeDirectionRequest(
+                        version,
+                        requireString(object, "gameId"),
+                        requireString(object, "playerId"),
+                        parseDirection(requireString(object, "direction"), MessageType.CHANGE_DIRECTION)
+                );
+                case LEAVE -> new LeaveRequest(
+                        version,
+                        requireString(object, "gameId"),
+                        requireString(object, "playerId")
+                );
+                case JOIN_ACCEPTED -> new JoinAcceptedMessage(
+                        version,
+                        requireString(object, "playerId"),
+                        requireString(object, "gameId")
+                );
+                case JOIN_REJECTED -> new JoinRejectedMessage(
+                        version,
+                        JoinRejectedReason.valueOf(requireString(object, "reason"))
+                );
+                case GAME_STARTED -> new GameStartedMessage(
+                        version,
+                        requireString(object, "gameId"),
+                        requireInt(object, "rows"),
+                        requireInt(object, "columns"),
+                        requireInt(object, "movementIntervalMs"),
+                        requireInt(object, "protectionTimeMs"),
+                        readPositions(object, "obstacles"),
+                        readFlag(object, "flag"),
+                        readPlayers(object, "players")
+                );
+                case GAME_STATE -> new GameStateMessage(
+                        version,
+                        requireString(object, "gameId"),
+                        requireLong(object, "tick"),
+                        readPlayers(object, "players"),
+                        readFlag(object, "flag")
+                );
+                case FLAG_PICKED_UP -> new FlagPickedUpMessage(
+                        version,
+                        requireString(object, "gameId"),
+                        requireLong(object, "tick"),
+                        requireString(object, "playerId")
+                );
+                case FLAG_STOLEN -> new FlagStolenMessage(
+                        version,
+                        requireString(object, "gameId"),
+                        requireLong(object, "tick"),
+                        requireString(object, "previousCarrierId"),
+                        requireString(object, "newCarrierId"),
+                        requireInt(object, "protectionTimeMs")
+                );
+                case PLAYER_DISCONNECTED -> new PlayerDisconnectedMessage(
+                        version,
+                        requireString(object, "gameId"),
+                        requireString(object, "playerId")
+                );
+                case GAME_OVER -> new GameOverMessage(
+                        version,
+                        requireString(object, "gameId"),
+                        requireString(object, "winnerId"),
+                        requireString(object, "winnerName"),
+                        GameOverReason.valueOf(requireString(object, "reason"))
+                );
+                case ERROR -> new ErrorMessage(
+                        version,
+                        ErrorCode.valueOf(requireString(object, "code")),
+                        requireString(object, "description")
+                );
+            };
+        } catch (ProtocolDecodeException ex) {
+            throw ex;
+        } catch (IllegalArgumentException ex) {
+            throw new ProtocolDecodeException(null, ErrorCode.INVALID_MESSAGE, ex.getMessage(), ex);
+        }
     }
 
     private Map<String, Object> toJsonObject(ProtocolMessage message) {
@@ -250,7 +262,7 @@ public final class ProtocolCodec {
                     requireString(player, "name"),
                     requireInt(player, "row"),
                     requireInt(player, "column"),
-                    Direction.valueOf(requireString(player, "direction")),
+                    parseDirection(requireString(player, "direction"), MessageType.GAME_STARTED),
                     requireBoolean(player, "insideBoard"),
                     requireBoolean(player, "hasFlag"),
                     requireBoolean(player, "protected")
@@ -264,14 +276,30 @@ public final class ProtocolCodec {
         return new FlagDto(
                 requireInt(flag, "row"),
                 requireInt(flag, "column"),
-                FlagStatus.valueOf(requireString(flag, "status")),
+                parseFlagStatus(requireString(flag, "status")),
                 requireNullableString(flag, "carrierId")
         );
     }
 
-    private void validateVersion(String version) {
+    private void validateVersion(String version, MessageType type) {
         if (!ProtocolVersion.V1_0.equals(version)) {
-            throw new IllegalArgumentException("Unsupported protocol version: " + version);
+            throw new ProtocolDecodeException(type, ErrorCode.UNSUPPORTED_PROTOCOL_VERSION, "Unsupported protocol version: " + version);
+        }
+    }
+
+    private Direction parseDirection(String value, MessageType messageType) {
+        try {
+            return Direction.valueOf(value);
+        } catch (IllegalArgumentException ex) {
+            throw new ProtocolDecodeException(messageType, ErrorCode.INVALID_DIRECTION, "Invalid direction: " + value, ex);
+        }
+    }
+
+    private FlagStatus parseFlagStatus(String value) {
+        try {
+            return FlagStatus.valueOf(value);
+        } catch (IllegalArgumentException ex) {
+            throw new ProtocolDecodeException(MessageType.GAME_STARTED, ErrorCode.INVALID_MESSAGE, "Invalid flag status: " + value, ex);
         }
     }
 

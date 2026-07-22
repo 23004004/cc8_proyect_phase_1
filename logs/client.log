@@ -1,0 +1,4 @@
+jul 21, 2026 9:50:03 P. M. connect.FileEventLogger info
+INFO: CONNECTING host=127.0.0.1 port=5000 name=L
+jul 21, 2026 9:50:03 P. M. connect.FileEventLogger info
+INFO: JOIN_SENT host=127.0.0.1 port=5000 name=L
