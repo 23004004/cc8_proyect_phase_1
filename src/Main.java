@@ -1,8 +1,12 @@
 import connect.Client;
+import connect.GameConfigLoader;
 import connect.Server;
 import model.GameConfig;
 
+import java.nio.file.Path;
+
 public final class Main {
+    private static final Path SERVER_CONFIG_PATH = Path.of("config", "server.properties");
     private static final String USAGE = """
             Uso:
               java Main server [port]
@@ -101,10 +105,11 @@ public final class Main {
     }
 
     private static void runServer(Integer portOverride) {
-        GameConfig config = GameConfig.defaults();
+        GameConfig config = GameConfigLoader.load(SERVER_CONFIG_PATH, GameConfig.defaults());
         if (portOverride != null) {
             config = config.withServerPort(portOverride);
         }
+        System.out.println("Configuración del servidor: " + SERVER_CONFIG_PATH);
         new Server(config).start();
     }
 

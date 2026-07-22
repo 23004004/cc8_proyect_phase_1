@@ -78,7 +78,9 @@ public final class Server {
             this.serverSocket = serverSocket;
             startConsoleControl();
             printConnectionInfo();
+            printGameConfig();
             eventLogger.info("SERVER_STARTED port=" + config.serverPort());
+            eventLogger.info("SERVER_CONFIG " + configSummary());
             System.out.println("Escribe 'start' para iniciar la partida o 'stop' para salir.");
 
             while (!serverSocket.isClosed()) {
@@ -116,6 +118,28 @@ public final class Server {
         for (String address : addresses) {
             System.out.println("  " + address + ":" + config.serverPort());
         }
+    }
+
+    private void printGameConfig() {
+        System.out.println("Configuración de juego:");
+        System.out.println("  rows=" + config.rows());
+        System.out.println("  columns=" + config.columns());
+        System.out.println("  obstaclePercentage=" + config.obstaclePercentage());
+        System.out.println("  movementIntervalMs=" + config.movementIntervalMs());
+        System.out.println("  protectionTimeMs=" + config.protectionTimeMs());
+        System.out.println("  maximumPlayers=" + config.maximumPlayers());
+        System.out.println("  centralFlagAreaPercentage=" + config.centralFlagAreaPercentage());
+    }
+
+    private String configSummary() {
+        return "rows=" + config.rows()
+                + " columns=" + config.columns()
+                + " obstaclePercentage=" + config.obstaclePercentage()
+                + " movementIntervalMs=" + config.movementIntervalMs()
+                + " protectionTimeMs=" + config.protectionTimeMs()
+                + " maximumPlayers=" + config.maximumPlayers()
+                + " centralFlagAreaPercentage=" + config.centralFlagAreaPercentage()
+                + " serverPort=" + config.serverPort();
     }
 
     private void acceptClient(Socket socket) {

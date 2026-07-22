@@ -121,7 +121,8 @@ public final class Client {
 
                 if (message instanceof GameStartedMessage gameStarted) {
                     panel.applyGameStarted(gameStarted);
-                    eventLogger.info("GAME_STARTED gameId=" + gameStarted.gameId() + " rows=" + gameStarted.rows() + " columns=" + gameStarted.columns());
+                    eventLogger.info("GAME_STARTED " + gameStartedSummary(gameStarted));
+                    System.out.println("Configuración recibida: " + gameStartedSummary(gameStarted));
                     System.out.println("Partida iniciada. Usa W/A/S/D en la ventana.");
                 } else if (message instanceof GameStateMessage gameState) {
                     panel.applyGameState(gameState);
@@ -174,6 +175,16 @@ public final class Client {
         }
         String value = scanner.nextLine().trim();
         return value.isBlank() ? fallback : value;
+    }
+
+    private String gameStartedSummary(GameStartedMessage message) {
+        return "gameId=" + message.gameId()
+                + " rows=" + message.rows()
+                + " columns=" + message.columns()
+                + " movementIntervalMs=" + message.movementIntervalMs()
+                + " protectionTimeMs=" + message.protectionTimeMs()
+                + " obstacles=" + message.obstacles().size()
+                + " players=" + message.players().size();
     }
 
     private void installKeyboardControls(
