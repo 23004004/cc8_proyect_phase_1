@@ -1,7 +1,7 @@
 package protocol;
 
 public final class ProtocolVersion {
-    public static final String V1_0 = "1.0";
+    public static final int V3 = 3;
 
     private ProtocolVersion() {
     }

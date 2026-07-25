@@ -3,13 +3,11 @@ package protocol.dto;
 import model.Direction;
 
 public record PlayerDto(
-        String playerId,
+        int playerId,
         String name,
-        int row,
-        int column,
+        int x,
+        int y,
         Direction direction,
-        boolean insideBoard,
-        boolean hasFlag,
-        boolean protectedPlayer
+        boolean hasFlag
 ) {
 }

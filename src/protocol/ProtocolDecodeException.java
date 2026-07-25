@@ -4,14 +4,10 @@ public final class ProtocolDecodeException extends RuntimeException {
     private final MessageType messageType;
     private final ErrorCode errorCode;
 
-    public ProtocolDecodeException(MessageType messageType, ErrorCode errorCode, String message, Throwable cause) {
-        super(message, cause);
+    public ProtocolDecodeException(MessageType messageType, ErrorCode errorCode, String message) {
+        super(message);
         this.messageType = messageType;
         this.errorCode = errorCode;
-    }
-
-    public ProtocolDecodeException(MessageType messageType, ErrorCode errorCode, String message) {
-        this(messageType, errorCode, message, null);
     }
 
     public MessageType messageType() {

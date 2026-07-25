@@ -5,9 +5,7 @@ import model.Game;
 import model.Player;
 import protocol.dto.FlagDto;
 import protocol.dto.PlayerDto;
-import protocol.dto.PositionDto;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -15,67 +13,46 @@ public final class GameMessageMapper {
     private GameMessageMapper() {
     }
 
-    public static GameStartedMessage toGameStartedMessage(Game game, long nowEpochMillis) {
+    public static LobbyStateMessage toLobbyStateMessage(Game game) {
+        return new LobbyStateMessage(game.status(), playersWithNames(game));
+    }
+
+    public static GameStartedMessage toGameStartedMessage(Game game) {
         return new GameStartedMessage(
-                ProtocolVersion.V1_0,
-                game.gameId(),
-                game.config().rows(),
-                game.config().columns(),
-                game.config().movementIntervalMs(),
-                game.config().protectionTimeMs(),
-                toPositionDtos(game.obstacles()),
+                scaled(game.config().mapSize()),
+                scaled(game.config().circleRadius()),
+                scaled(game.config().playerRadius()),
+                scaled(game.config().playerSpeed()),
+                scaled(game.config().interactionRadius()),
+                game.config().tickIntervalMs(),
                 toFlagDto(game.flag()),
-                toPlayerDtos(game.players(), nowEpochMillis)
+                playersWithNames(game)
         );
     }
 
-    public static GameStateMessage toGameStateMessage(Game game, long nowEpochMillis) {
-        return new GameStateMessage(
-                ProtocolVersion.V1_0,
-                game.gameId(),
-                game.tick(),
-                toPlayerDtos(game.players(), nowEpochMillis),
-                toFlagDto(game.flag())
-        );
+    public static GameStateMessage toGameStateMessage(Game game) {
+        return new GameStateMessage(game.tick(), toFlagDto(game.flag()), playersWithoutNames(game));
     }
 
-    public static FlagDto toFlagDto(Flag flag) {
-        if (flag == null) {
-            return null;
-        }
-        return new FlagDto(
-                flag.position().row(),
-                flag.position().column(),
-                flag.status(),
-                flag.carrierId()
-        );
+    private static List<PlayerDto> playersWithNames(Game game) {
+        return game.players().stream()
+                .sorted(Comparator.comparingInt(Player::playerId))
+                .map(player -> new PlayerDto(player.playerId(), player.name(), player.x(), player.y(), player.direction(), player.hasFlag()))
+                .toList();
     }
 
-    public static List<PlayerDto> toPlayerDtos(List<Player> players, long nowEpochMillis) {
-        List<Player> orderedPlayers = new ArrayList<>(players);
-        orderedPlayers.sort(Comparator.comparing(Player::playerId));
-
-        List<PlayerDto> result = new ArrayList<>(orderedPlayers.size());
-        for (Player player : orderedPlayers) {
-            result.add(new PlayerDto(
-                    player.playerId(),
-                    player.name(),
-                    player.row(),
-                    player.column(),
-                    player.direction(),
-                    player.insideBoard(),
-                    player.hasFlag(),
-                    player.isProtected(nowEpochMillis)
-            ));
-        }
-        return result;
+    private static List<PlayerDto> playersWithoutNames(Game game) {
+        return game.players().stream()
+                .sorted(Comparator.comparingInt(Player::playerId))
+                .map(player -> new PlayerDto(player.playerId(), "", player.x(), player.y(), player.direction(), player.hasFlag()))
+                .toList();
     }
 
-    public static List<PositionDto> toPositionDtos(List<model.Position> positions) {
-        List<PositionDto> result = new ArrayList<>(positions.size());
-        for (model.Position position : positions) {
-            result.add(new PositionDto(position.row(), position.column()));
-        }
-        return result;
+    private static FlagDto toFlagDto(Flag flag) {
+        return new FlagDto(flag.x(), flag.y(), flag.status(), flag.carrierId());
+    }
+
+    private static int scaled(int value) {
+        return value * 100;
     }
 }

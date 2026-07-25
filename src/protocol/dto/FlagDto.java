@@ -3,9 +3,9 @@ package protocol.dto;
 import model.FlagStatus;
 
 public record FlagDto(
-        int row,
-        int column,
+        int x,
+        int y,
         FlagStatus status,
-        String carrierId
+        int carrierId
 ) {
 }

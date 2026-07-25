@@ -406,3 +406,1127 @@ jul 22, 2026 8:55:10 A. M. connect.FileEventLogger info
 INFO: CHANGE_DIRECTION_SENT gameId=GAME-001 playerId=P01 direction=RIGHT
 jul 22, 2026 8:55:10 A. M. connect.FileEventLogger warning
 WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:11:56 P. M. connect.FileEventLogger info
+INFO: CONNECTING host=192.168.0.12 port=5001 name=jk
+jul 24, 2026 11:11:56 P. M. connect.FileEventLogger info
+INFO: JOIN_SENT host=192.168.0.12 port=5001 name=jk
+jul 24, 2026 11:11:56 P. M. connect.FileEventLogger info
+INFO: JOIN_ACCEPTED gameId=1 playerId=1
+jul 24, 2026 11:12:13 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_NOT_STARTED description=La partida no está en ejecución.
+jul 24, 2026 11:12:13 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:14 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:14 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_NOT_STARTED description=La partida no está en ejecución.
+jul 24, 2026 11:12:14 P. M. connect.FileEventLogger info
+INFO: GAME_STARTED players=1
+jul 24, 2026 11:12:14 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:14 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:15 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:15 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:15 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:16 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:16 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:16 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:16 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:16 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:16 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:17 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:17 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:17 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:17 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:17 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:17 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:17 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:19 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:19 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:19 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:19 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:19 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:19 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:21 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:21 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:21 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:21 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:21 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:21 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:21 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:23 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:23 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:23 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:23 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:23 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:23 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:23 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:27 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:27 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:27 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:27 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:27 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:27 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:27 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:29 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:29 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:29 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:29 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:29 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:29 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:30 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:30 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:31 P. M. connect.FileEventLogger info
+INFO: INTERACT_SENT playerId=1
+jul 24, 2026 11:12:31 P. M. connect.FileEventLogger info
+INFO: FLAG_PICKED_UP tick=334 playerId=1
+jul 24, 2026 11:12:31 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:31 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:31 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: GAME_OVER winnerId=1 winnerName=jk
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:36 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:12:37 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:12:54 P. M. connect.FileEventLogger info
+INFO: CLIENT_STOPPED
+jul 24, 2026 11:13:14 P. M. connect.FileEventLogger info
+INFO: CONNECTING host=192.168.0.12 port=5001 name=8
+jul 24, 2026 11:13:14 P. M. connect.FileEventLogger info
+INFO: JOIN_SENT host=192.168.0.12 port=5001 name=8
+jul 24, 2026 11:13:14 P. M. connect.FileEventLogger info
+INFO: JOIN_ACCEPTED gameId=1 playerId=1
+jul 24, 2026 11:14:40 P. M. connect.FileEventLogger info
+INFO: GAME_STARTED players=1
+jul 24, 2026 11:14:41 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:41 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:14:41 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:42 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:14:42 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:14:42 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:14:42 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:14:42 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:14:42 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: INTERACT_SENT playerId=1
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: FLAG_PICKED_UP tick=120 playerId=1
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:14:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:14:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:14:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:14:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:14:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:14:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: GAME_OVER winnerId=1 winnerName=8
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:14:52 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:14:52 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:14:52 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:14:52 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:15:11 P. M. connect.FileEventLogger info
+INFO: INTERACT_SENT playerId=1
+jul 24, 2026 11:15:11 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:18:27 P. M. connect.FileEventLogger info
+INFO: CONNECTING host=192.168.0.12 port=5001 name=lk
+jul 24, 2026 11:18:27 P. M. connect.FileEventLogger info
+INFO: JOIN_SENT host=192.168.0.12 port=5001 name=lk
+jul 24, 2026 11:18:27 P. M. connect.FileEventLogger info
+INFO: JOIN_ACCEPTED gameId=1 playerId=1
+jul 24, 2026 11:18:44 P. M. connect.FileEventLogger info
+INFO: GAME_STARTED players=1
+jul 24, 2026 11:18:44 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:18:46 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:18:46 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:46 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:46 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:46 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:50 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:18:50 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:50 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:50 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:18:50 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:18:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:18:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:51 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:55 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:18:55 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:55 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:18:55 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:55 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:55 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:00 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:00 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:00 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:00 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:00 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:01 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:19:01 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:19:01 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:19:01 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:19:01 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:19:01 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:19:01 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:19:02 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:19:02 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:19:02 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=DOWN
+jul 24, 2026 11:19:02 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:02 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:02 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:02 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:04 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:04 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:04 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:19:04 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:04 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:04 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=RIGHT
+jul 24, 2026 11:19:04 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:05 P. M. connect.FileEventLogger info
+INFO: INTERACT_SENT playerId=1
+jul 24, 2026 11:19:05 P. M. connect.FileEventLogger info
+INFO: FLAG_PICKED_UP tick=429 playerId=1
+jul 24, 2026 11:19:05 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:06 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:06 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:06 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:06 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:06 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:06 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:06 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=UP
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:08 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:08 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: GAME_OVER winnerId=1 winnerName=lk
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:10 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:10 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:10 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:10 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:10 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:10 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:10 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:10 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:10 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:10 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:10 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:10 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:10 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:10 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:11 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:11 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:11 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:11 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:11 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:11 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:11 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:11 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:11 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=LEFT
+jul 24, 2026 11:19:11 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 24, 2026 11:19:11 P. M. connect.FileEventLogger info
+INFO: INPUT_SENT playerId=1 direction=NONE
+jul 24, 2026 11:19:11 P. M. connect.FileEventLogger warning
+WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.

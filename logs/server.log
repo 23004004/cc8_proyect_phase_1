@@ -424,3 +424,937 @@ jul 22, 2026 8:55:06 A. M. connect.FileEventLogger info
 INFO: GAME_OVER gameId=GAME-001 winnerId=P01 winnerName=g reason=EXITED_WITH_FLAG
 jul 22, 2026 8:55:06 A. M. connect.FileEventLogger info
 INFO: MATCH_FINISHED gameId=GAME-001 tick=140
+jul 24, 2026 11:11:40 P. M. connect.FileEventLogger info
+INFO: SERVER_STARTED tcpPort=5001 discoveryPort=5001
+jul 24, 2026 11:11:50 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.12
+jul 24, 2026 11:11:56 P. M. connect.FileEventLogger info
+INFO: TCP_ACCEPTED remote=/192.168.0.12:62451
+jul 24, 2026 11:11:56 P. M. connect.FileEventLogger info
+INFO: JOIN_ACCEPTED remote=/192.168.0.12:62451 playerId=1 name=jk
+jul 24, 2026 11:12:09 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=5
+jul 24, 2026 11:12:10 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=4
+jul 24, 2026 11:12:11 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=3
+jul 24, 2026 11:12:12 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=2
+jul 24, 2026 11:12:13 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=1
+jul 24, 2026 11:12:14 P. M. connect.FileEventLogger info
+INFO: MATCH_RUNNING players=1
+jul 24, 2026 11:12:14 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:14 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:15 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:15 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:15 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:16 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:16 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:16 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:16 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:16 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:16 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:17 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:17 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:17 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:17 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:17 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:17 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:17 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:18 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:19 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:19 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:19 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:19 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:19 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:19 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:20 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:21 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:21 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:21 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:21 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:21 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:21 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:21 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:22 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:23 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:23 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:23 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:23 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:23 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:23 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:23 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:24 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:25 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:26 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:27 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:27 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:27 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:27 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:27 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:27 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:27 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:28 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:29 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:29 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:29 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:29 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:29 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:29 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:30 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:30 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:31 P. M. connect.FileEventLogger info
+INFO: INTERACT playerId=1
+jul 24, 2026 11:12:31 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:12:31 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:31 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:32 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:33 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:34 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:12:35 P. M. connect.FileEventLogger info
+INFO: MATCH_FINISHED tick=426 winnerId=1
+jul 24, 2026 11:13:02 P. M. connect.FileEventLogger info
+INFO: SERVER_STARTED tcpPort=5001 discoveryPort=5001
+jul 24, 2026 11:13:05 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.12
+jul 24, 2026 11:13:14 P. M. connect.FileEventLogger info
+INFO: TCP_ACCEPTED remote=/192.168.0.12:62454
+jul 24, 2026 11:13:14 P. M. connect.FileEventLogger info
+INFO: JOIN_ACCEPTED remote=/192.168.0.12:62454 playerId=1 name=8
+jul 24, 2026 11:14:35 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=5
+jul 24, 2026 11:14:36 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=4
+jul 24, 2026 11:14:37 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=3
+jul 24, 2026 11:14:38 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=2
+jul 24, 2026 11:14:39 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=1
+jul 24, 2026 11:14:40 P. M. connect.FileEventLogger info
+INFO: MATCH_RUNNING players=1
+jul 24, 2026 11:14:41 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:41 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:14:41 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:42 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:14:42 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:14:42 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:14:42 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:14:42 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:14:42 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:43 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:44 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: INTERACT playerId=1
+jul 24, 2026 11:14:46 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:14:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:14:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:14:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:14:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:14:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:14:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:14:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:50 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:14:51 P. M. connect.FileEventLogger info
+INFO: MATCH_FINISHED tick=212 winnerId=1
+jul 24, 2026 11:15:37 P. M. connect.FileEventLogger info
+INFO: SERVER_STARTED tcpPort=5001 discoveryPort=5001
+jul 24, 2026 11:17:46 P. M. connect.FileEventLogger info
+INFO: SERVER_STARTED tcpPort=5001 discoveryPort=5001
+jul 24, 2026 11:17:49 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.12
+jul 24, 2026 11:18:27 P. M. connect.FileEventLogger info
+INFO: TCP_ACCEPTED remote=/192.168.0.12:62465
+jul 24, 2026 11:18:27 P. M. connect.FileEventLogger info
+INFO: JOIN_ACCEPTED remote=/192.168.0.12:62465 playerId=1 name=lk
+jul 24, 2026 11:18:39 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=5
+jul 24, 2026 11:18:40 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=4
+jul 24, 2026 11:18:41 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=3
+jul 24, 2026 11:18:42 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=2
+jul 24, 2026 11:18:43 P. M. connect.FileEventLogger info
+INFO: GAME_COUNTDOWN seconds=1
+jul 24, 2026 11:18:44 P. M. connect.FileEventLogger info
+INFO: MATCH_RUNNING players=1
+jul 24, 2026 11:18:44 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:18:45 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:18:46 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:18:46 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:46 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:46 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:46 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:47 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:48 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:18:49 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:50 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:18:50 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:50 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:50 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:18:50 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:18:51 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:18:51 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:51 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:52 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:53 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:54 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:55 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:18:55 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:55 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:18:55 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:55 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:55 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:18:56 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:57 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:58 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:18:59 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:19:00 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:00 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:19:00 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:00 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:00 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:19:01 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:19:01 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:19:01 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:19:01 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:19:01 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:19:01 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:19:01 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:19:02 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:19:02 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:19:02 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=DOWN
+jul 24, 2026 11:19:02 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:19:02 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:02 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:02 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:03 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:04 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:04 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:04 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:19:04 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:19:04 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:19:04 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=RIGHT
+jul 24, 2026 11:19:04 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:19:05 P. M. connect.FileEventLogger info
+INFO: INTERACT playerId=1
+jul 24, 2026 11:19:05 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:06 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:06 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:19:06 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:06 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:06 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:06 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:06 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=UP
+jul 24, 2026 11:19:07 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:19:08 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=NONE
+jul 24, 2026 11:19:08 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: INPUT playerId=1 direction=LEFT
+jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
+INFO: MATCH_FINISHED tick=509 winnerId=1

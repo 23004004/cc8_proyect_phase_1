@@ -3,5 +3,7 @@ package protocol;
 public interface ProtocolMessage {
     MessageType type();
 
-    String protocolVersion();
+    default int protocolVersion() {
+        return ProtocolVersion.V3;
+    }
 }

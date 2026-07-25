@@ -1,56 +1,51 @@
 package model;
 
 public record GameConfig(
-        int rows,
-        int columns,
-        int obstaclePercentage,
-        int movementIntervalMs,
-        int protectionTimeMs,
+        int mapSize,
+        int circleRadius,
+        int playerRadius,
+        int spawnMargin,
+        int playerSpeed,
+        int interactionRadius,
+        int tickIntervalMs,
+        int countdownSeconds,
         int maximumPlayers,
-        int centralFlagAreaPercentage,
-        int serverPort
+        int serverPort,
+        int discoveryPort,
+        String serverName
 ) {
     public GameConfig {
-        if (rows <= 0) {
-            throw new IllegalArgumentException("rows must be positive");
+        if (mapSize <= 0 || circleRadius <= 0 || playerRadius <= 0 || spawnMargin < 0 || playerSpeed <= 0
+                || interactionRadius <= 0 || tickIntervalMs <= 0 || countdownSeconds < 0) {
+            throw new IllegalArgumentException("Los parámetros de juego deben ser positivos.");
         }
-        if (columns <= 0) {
-            throw new IllegalArgumentException("columns must be positive");
+        if (maximumPlayers <= 0 || maximumPlayers > 100) {
+            throw new IllegalArgumentException("maximumPlayers debe estar entre 1 y 100.");
         }
-        if (obstaclePercentage < 0 || obstaclePercentage > 100) {
-            throw new IllegalArgumentException("obstaclePercentage must be between 0 and 100");
+        if (serverPort <= 0 || serverPort > 65535 || discoveryPort <= 0 || discoveryPort > 65535) {
+            throw new IllegalArgumentException("Los puertos deben estar entre 1 y 65535.");
         }
-        if (movementIntervalMs <= 0) {
-            throw new IllegalArgumentException("movementIntervalMs must be positive");
-        }
-        if (protectionTimeMs < 0) {
-            throw new IllegalArgumentException("protectionTimeMs must be non-negative");
-        }
-        if (maximumPlayers <= 0) {
-            throw new IllegalArgumentException("maximumPlayers must be positive");
-        }
-        if (centralFlagAreaPercentage < 0 || centralFlagAreaPercentage > 100) {
-            throw new IllegalArgumentException("centralFlagAreaPercentage must be between 0 and 100");
-        }
-        if (serverPort <= 0 || serverPort > 65535) {
-            throw new IllegalArgumentException("serverPort must be between 1 and 65535");
-        }
+        serverName = serverName == null || serverName.isBlank() ? "Captura la Bandera" : serverName.trim();
     }
 
     public static GameConfig defaults() {
-        return new GameConfig(20, 20, 10, 200, 1000, 50, 30, 5000);
+        return new GameConfig(2000, 500, 15, 80, 220, 60, 50, 5, 100, 5000, 5001, "Captura la Bandera");
     }
 
     public GameConfig withServerPort(int newServerPort) {
         return new GameConfig(
-                rows,
-                columns,
-                obstaclePercentage,
-                movementIntervalMs,
-                protectionTimeMs,
+                mapSize,
+                circleRadius,
+                playerRadius,
+                spawnMargin,
+                playerSpeed,
+                interactionRadius,
+                tickIntervalMs,
+                countdownSeconds,
                 maximumPlayers,
-                centralFlagAreaPercentage,
-                newServerPort
+                newServerPort,
+                discoveryPort,
+                serverName
         );
     }
 }

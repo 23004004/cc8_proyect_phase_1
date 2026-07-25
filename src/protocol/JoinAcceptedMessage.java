@@ -1,10 +1,6 @@
 package protocol;
 
-public record JoinAcceptedMessage(
-        String protocolVersion,
-        String playerId,
-        String gameId
-) implements ProtocolMessage {
+public record JoinAcceptedMessage(int playerId, int gameId) implements ProtocolMessage {
     @Override
     public MessageType type() {
         return MessageType.JOIN_ACCEPTED;

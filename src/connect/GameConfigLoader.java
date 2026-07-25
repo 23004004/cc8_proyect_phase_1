@@ -26,14 +26,18 @@ public final class GameConfigLoader {
         }
 
         return new GameConfig(
-                intProperty(properties, "rows", defaults.rows()),
-                intProperty(properties, "columns", defaults.columns()),
-                intProperty(properties, "obstaclePercentage", defaults.obstaclePercentage()),
-                intProperty(properties, "movementIntervalMs", defaults.movementIntervalMs()),
-                intProperty(properties, "protectionTimeMs", defaults.protectionTimeMs()),
+                intProperty(properties, "mapSize", defaults.mapSize()),
+                intProperty(properties, "circleRadius", defaults.circleRadius()),
+                intProperty(properties, "playerRadius", defaults.playerRadius()),
+                intProperty(properties, "spawnMargin", defaults.spawnMargin()),
+                intProperty(properties, "playerSpeed", defaults.playerSpeed()),
+                intProperty(properties, "interactionRadius", defaults.interactionRadius()),
+                intProperty(properties, "tickIntervalMs", defaults.tickIntervalMs()),
+                intProperty(properties, "countdownSeconds", defaults.countdownSeconds()),
                 intProperty(properties, "maximumPlayers", defaults.maximumPlayers()),
-                intProperty(properties, "centralFlagAreaPercentage", defaults.centralFlagAreaPercentage()),
-                intProperty(properties, "serverPort", defaults.serverPort())
+                intProperty(properties, "serverPort", defaults.serverPort()),
+                intProperty(properties, "discoveryPort", defaults.discoveryPort()),
+                stringProperty(properties, "serverName", defaults.serverName())
         );
     }
 
@@ -47,5 +51,10 @@ public final class GameConfigLoader {
         } catch (NumberFormatException ex) {
             throw new IllegalArgumentException("La propiedad " + key + " debe ser numérica.", ex);
         }
+    }
+
+    private static String stringProperty(Properties properties, String key, String defaultValue) {
+        String raw = properties.getProperty(key);
+        return raw == null || raw.isBlank() ? defaultValue : raw.trim();
     }
 }

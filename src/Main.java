@@ -48,7 +48,7 @@ public final class Main {
 
     private static String parseClientHost(String[] args) {
         if (args == null || args.length < 2) {
-            return "127.0.0.1";
+            return null;
         }
 
         if (args.length == 2) {
@@ -114,6 +114,13 @@ public final class Main {
     }
 
     private static void runClient(String host, Integer portOverride) {
+        if (host == null && portOverride == null) {
+            new Client().start();
+            return;
+        }
+        if (host == null) {
+            host = "127.0.0.1";
+        }
         int port = portOverride == null ? GameConfig.defaults().serverPort() : portOverride;
         new Client().start(host, port);
     }

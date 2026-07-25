@@ -8,32 +8,34 @@ import model.Game;
 import model.GameConfig;
 import model.GameStatus;
 import model.Player;
+import protocol.ChangeDirectionRequest;
 import protocol.ErrorCode;
 import protocol.ErrorMessage;
-import protocol.ProtocolDecodeException;
+import protocol.GameCountdownMessage;
 import protocol.GameMessageMapper;
+import protocol.InteractRequest;
 import protocol.JoinAcceptedMessage;
 import protocol.JoinRejectedMessage;
 import protocol.JoinRejectedReason;
-import protocol.LeaveRequest;
-import protocol.MessageType;
-import protocol.ProtocolMessage;
-import protocol.ProtocolVersion;
-import protocol.ChangeDirectionRequest;
 import protocol.JoinRequest;
-import protocol.PlayerDisconnectedMessage;
+import protocol.LeaveRequest;
+import protocol.ProtocolCodec;
+import protocol.ProtocolDecodeException;
+import protocol.ProtocolMessage;
 
 import java.io.IOException;
 import java.net.BindException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.concurrent.ConcurrentHashMap;
@@ -51,18 +53,20 @@ public final class Server {
     private final GameSession session;
     private final GameInitializer initializer;
     private final ServerEventLogger eventLogger;
-    private final Map<String, ClientContext> clientsByPlayerId;
+    private final ConcurrentHashMap<Integer, ClientContext> clientsByPlayerId;
     private final ExecutorService clientExecutor;
     private final ScheduledExecutorService tickExecutor;
     private final AtomicInteger playerSequence;
-    private final AtomicBoolean matchStarted;
+    private final AtomicBoolean shuttingDown;
+    private final ProtocolCodec codec;
 
     private volatile ServerSocket serverSocket;
+    private volatile DatagramSocket discoverySocket;
     private volatile ScheduledFuture<?> tickFuture;
 
     public Server(GameConfig config) {
         this.config = Objects.requireNonNull(config, "config must not be null");
-        this.game = new Game("GAME-001", config);
+        this.game = new Game(1, config);
         this.session = new GameSession(game);
         this.initializer = new GameInitializer();
         this.eventLogger = new ServerEventLogger();
@@ -70,76 +74,115 @@ public final class Server {
         this.clientExecutor = Executors.newCachedThreadPool();
         this.tickExecutor = Executors.newSingleThreadScheduledExecutor();
         this.playerSequence = new AtomicInteger(0);
-        this.matchStarted = new AtomicBoolean(false);
+        this.shuttingDown = new AtomicBoolean(false);
+        this.codec = new ProtocolCodec();
     }
 
     public void start() {
-        try (ServerSocket serverSocket = new ServerSocket(config.serverPort())) {
-            this.serverSocket = serverSocket;
+        try (ServerSocket tcpServer = new ServerSocket(config.serverPort())) {
+            this.serverSocket = tcpServer;
             startConsoleControl();
+            startDiscoveryResponder();
             printConnectionInfo();
-            printGameConfig();
-            eventLogger.info("SERVER_STARTED port=" + config.serverPort());
-            eventLogger.info("SERVER_CONFIG " + configSummary());
+            eventLogger.info("SERVER_STARTED tcpPort=" + config.serverPort() + " discoveryPort=" + config.discoveryPort());
             System.out.println("Escribe 'start' para iniciar la partida o 'stop' para salir.");
-
-            while (!serverSocket.isClosed()) {
-                Socket socket = serverSocket.accept();
-                acceptClient(socket);
+            while (!tcpServer.isClosed()) {
+                acceptClient(tcpServer.accept());
             }
         } catch (BindException ex) {
-            throw new IllegalStateException(
-                    "El puerto " + config.serverPort() + " ya está en uso. Prueba con otro, por ejemplo: make run-server PORT=5001",
-                    ex
-            );
+            throw new IllegalStateException("El puerto " + config.serverPort() + " ya está en uso.", ex);
         } catch (IOException ex) {
-            if (!isShuttingDown()) {
-                throw new IllegalStateException(
-                        "No se pudo iniciar el servidor en el puerto " + config.serverPort() + ": " + ex.getMessage(),
-                        ex
-                );
+            if (!shuttingDown.get()) {
+                throw new IllegalStateException("No se pudo iniciar el servidor: " + ex.getMessage(), ex);
             }
         } finally {
             shutdownExecutors();
         }
     }
 
+    private void startDiscoveryResponder() {
+        Thread thread = new Thread(() -> {
+            try (DatagramSocket socket = new DatagramSocket(config.discoveryPort())) {
+                discoverySocket = socket;
+                socket.setBroadcast(true);
+                byte[] buffer = new byte[512];
+                while (!shuttingDown.get()) {
+                    DatagramPacket request = new DatagramPacket(buffer, buffer.length);
+                    socket.receive(request);
+                    if (game.status() != GameStatus.WAITING || !codec.isDiscoverRequest(request.getData(), request.getLength())) {
+                        continue;
+                    }
+                    byte[] response = codec.serializeDiscoverResponse(
+                            game.gameId(),
+                            config.serverName(),
+                            config.serverPort(),
+                            game.status(),
+                            game.players().size(),
+                            config.maximumPlayers()
+                    );
+                    DatagramPacket packet = new DatagramPacket(response, response.length, request.getAddress(), request.getPort());
+                    socket.send(packet);
+                    eventLogger.info("DISCOVER_RESPONSE remote=" + request.getAddress().getHostAddress());
+                }
+            } catch (SocketException ex) {
+                if (!shuttingDown.get()) {
+                    eventLogger.warning("DISCOVERY_FAILED error=" + ex.getMessage());
+                }
+            } catch (IOException ex) {
+                if (!shuttingDown.get()) {
+                    eventLogger.warning("DISCOVERY_IO_ERROR error=" + ex.getMessage());
+                }
+            }
+        }, "server-discovery");
+        thread.setDaemon(true);
+        thread.start();
+    }
+
     private void printConnectionInfo() {
-        System.out.println("Servidor escuchando en el puerto " + config.serverPort() + ".");
-        System.out.println("Conexiones locales: 127.0.0.1:" + config.serverPort());
-
-        List<String> addresses = localIpv4Addresses();
-        if (addresses.isEmpty()) {
-            System.out.println("Conexiones en red local: no se detectaron interfaces IPv4 útiles.");
-            return;
-        }
-
-        System.out.println("Conexiones en red local:");
-        for (String address : addresses) {
-            System.out.println("  " + address + ":" + config.serverPort());
+        System.out.println("Servidor TCP escuchando en " + config.serverPort() + ". Discovery UDP en " + config.discoveryPort() + ".");
+        System.out.println("Conexión local: 127.0.0.1:" + config.serverPort());
+        for (String address : localIpv4Addresses()) {
+            System.out.println("Red local: " + address + ":" + config.serverPort());
         }
     }
 
-    private void printGameConfig() {
-        System.out.println("Configuración de juego:");
-        System.out.println("  rows=" + config.rows());
-        System.out.println("  columns=" + config.columns());
-        System.out.println("  obstaclePercentage=" + config.obstaclePercentage());
-        System.out.println("  movementIntervalMs=" + config.movementIntervalMs());
-        System.out.println("  protectionTimeMs=" + config.protectionTimeMs());
-        System.out.println("  maximumPlayers=" + config.maximumPlayers());
-        System.out.println("  centralFlagAreaPercentage=" + config.centralFlagAreaPercentage());
+    private List<String> localIpv4Addresses() {
+        List<String> addresses = new ArrayList<>();
+        try {
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces != null && interfaces.hasMoreElements()) {
+                NetworkInterface networkInterface = interfaces.nextElement();
+                if (!networkInterface.isUp() || networkInterface.isLoopback() || networkInterface.isVirtual()) {
+                    continue;
+                }
+                Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+                while (inetAddresses.hasMoreElements()) {
+                    InetAddress inetAddress = inetAddresses.nextElement();
+                    if (inetAddress instanceof Inet4Address && !inetAddress.isLoopbackAddress()) {
+                        addresses.add(inetAddress.getHostAddress());
+                    }
+                }
+            }
+        } catch (IOException ignored) {
+        }
+        return addresses;
     }
 
-    private String configSummary() {
-        return "rows=" + config.rows()
-                + " columns=" + config.columns()
-                + " obstaclePercentage=" + config.obstaclePercentage()
-                + " movementIntervalMs=" + config.movementIntervalMs()
-                + " protectionTimeMs=" + config.protectionTimeMs()
-                + " maximumPlayers=" + config.maximumPlayers()
-                + " centralFlagAreaPercentage=" + config.centralFlagAreaPercentage()
-                + " serverPort=" + config.serverPort();
+    private void startConsoleControl() {
+        Thread consoleThread = new Thread(() -> {
+            try (Scanner scanner = new Scanner(System.in)) {
+                while (!shuttingDown.get() && scanner.hasNextLine()) {
+                    switch (scanner.nextLine().trim().toLowerCase()) {
+                        case "start" -> startMatch();
+                        case "stop", "exit", "quit" -> shutdown();
+                        default -> {
+                        }
+                    }
+                }
+            }
+        }, "server-console");
+        consoleThread.setDaemon(true);
+        consoleThread.start();
     }
 
     private void acceptClient(Socket socket) {
@@ -156,125 +199,56 @@ public final class Server {
         }
     }
 
-    private List<String> localIpv4Addresses() {
-        List<String> addresses = new ArrayList<>();
-        try {
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-            while (interfaces != null && interfaces.hasMoreElements()) {
-                NetworkInterface networkInterface = interfaces.nextElement();
-                if (!networkInterface.isUp() || networkInterface.isLoopback() || networkInterface.isVirtual()) {
-                    continue;
-                }
-
-                Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
-                while (inetAddresses.hasMoreElements()) {
-                    InetAddress inetAddress = inetAddresses.nextElement();
-                    if (inetAddress instanceof Inet4Address && !inetAddress.isLoopbackAddress()) {
-                        String hostAddress = inetAddress.getHostAddress();
-                        if (!addresses.contains(hostAddress)) {
-                            addresses.add(hostAddress);
-                        }
-                    }
-                }
-            }
-        } catch (IOException ignored) {
-        }
-        return addresses;
-    }
-
-    private void startConsoleControl() {
-        Thread consoleThread = new Thread(() -> {
-            try (Scanner scanner = new Scanner(System.in)) {
-                while (!isShuttingDown() && scanner.hasNextLine()) {
-                    String command = scanner.nextLine().trim().toLowerCase();
-                    switch (command) {
-                        case "start" -> startMatch();
-                        case "stop", "exit", "quit" -> shutdown();
-                        default -> {
-                        }
-                    }
-                }
-            }
-        }, "server-console");
-        consoleThread.setDaemon(true);
-        consoleThread.start();
-    }
-
     private synchronized void startMatch() {
-        long nowEpochMillis = System.currentTimeMillis();
-        ProtocolMessage gameStartedMessage;
-        synchronized (session) {
-            if (matchStarted.get() || game.status() != GameStatus.WAITING) {
-                eventLogger.warning("START_IGNORED status=" + game.status() + " matchStarted=" + matchStarted.get());
-                return;
-            }
-            if (game.players().isEmpty()) {
-                System.out.println("No hay jugadores conectados.");
-                eventLogger.warning("START_REJECTED reason=NO_PLAYERS");
-                return;
-            }
-
-            game.setStatus(GameStatus.STARTING);
-            initializer.initialize(game);
-            matchStarted.set(true);
-            gameStartedMessage = GameMessageMapper.toGameStartedMessage(game, nowEpochMillis);
-            eventLogger.info("MATCH_STARTING gameId=" + game.gameId() + " players=" + game.players().size());
+        if (game.status() != GameStatus.WAITING) {
+            eventLogger.warning("START_IGNORED status=" + game.status());
+            return;
         }
+        if (game.players().isEmpty()) {
+            System.out.println("No hay jugadores conectados.");
+            return;
+        }
+        game.setStatus(GameStatus.STARTING);
+        broadcast(GameMessageMapper.toLobbyStateMessage(game));
+        tickExecutor.execute(this::runCountdownAndStart);
+    }
 
-        broadcast(gameStartedMessage);
-        synchronized (session) {
-            if (game.status() == GameStatus.STARTING) {
+    private void runCountdownAndStart() {
+        try {
+            for (int remaining = config.countdownSeconds(); remaining >= 1; remaining--) {
+                broadcast(new GameCountdownMessage(remaining));
+                eventLogger.info("GAME_COUNTDOWN seconds=" + remaining);
+                TimeUnit.SECONDS.sleep(1);
+            }
+            synchronized (session) {
+                initializer.initialize(game);
                 game.setStatus(GameStatus.RUNNING);
             }
+            broadcast(GameMessageMapper.toGameStartedMessage(game));
+            tickFuture = tickExecutor.scheduleAtFixedRate(this::runTickSafely, 0L, config.tickIntervalMs(), TimeUnit.MILLISECONDS);
+            eventLogger.info("MATCH_RUNNING players=" + game.players().size());
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
         }
-        tickFuture = tickExecutor.scheduleAtFixedRate(
-                this::runTickSafely,
-                0L,
-                config.movementIntervalMs(),
-                TimeUnit.MILLISECONDS
-        );
-
-        System.out.println("Partida iniciada.");
-        eventLogger.info("MATCH_RUNNING gameId=" + game.gameId());
     }
 
     private void runTickSafely() {
         try {
-            runTick();
+            GameTickResult result = session.tick();
+            if (!result.events().isEmpty()) {
+                broadcast(result.events());
+            }
+            broadcast(result.stateMessage());
+            if (result.gameOverMessage() != null) {
+                broadcast(result.gameOverMessage());
+                ScheduledFuture<?> current = tickFuture;
+                if (current != null) {
+                    current.cancel(false);
+                }
+                eventLogger.info("MATCH_FINISHED tick=" + result.tick() + " winnerId=" + result.gameOverMessage().winnerId());
+            }
         } catch (RuntimeException ex) {
-            ex.printStackTrace(System.err);
-        }
-    }
-
-    private void runTick() {
-        GameTickResult result = session.tick(System.currentTimeMillis());
-        if (!result.events().isEmpty()) {
-            logGameEvents(result.events());
-            broadcast(result.events());
-        }
-        broadcast(result.stateMessage());
-        if (result.finished()) {
-            ScheduledFuture<?> current = tickFuture;
-            if (current != null) {
-                current.cancel(false);
-            }
-            eventLogger.info("MATCH_FINISHED gameId=" + game.gameId() + " tick=" + result.tick());
-        }
-    }
-
-    private void logGameEvents(List<ProtocolMessage> events) {
-        for (ProtocolMessage event : events) {
-            switch (event) {
-                case protocol.FlagPickedUpMessage pickedUp ->
-                        eventLogger.info("FLAG_PICKED_UP gameId=" + pickedUp.gameId() + " tick=" + pickedUp.tick() + " playerId=" + pickedUp.playerId());
-                case protocol.FlagStolenMessage stolen ->
-                        eventLogger.info("FLAG_STOLEN gameId=" + stolen.gameId() + " tick=" + stolen.tick() + " previousCarrierId=" + stolen.previousCarrierId() + " newCarrierId=" + stolen.newCarrierId());
-                case protocol.GameOverMessage gameOver ->
-                        eventLogger.info("GAME_OVER gameId=" + gameOver.gameId() + " winnerId=" + gameOver.winnerId() + " winnerName=" + gameOver.winnerName() + " reason=" + gameOver.reason());
-                case protocol.PlayerDisconnectedMessage disconnected ->
-                        eventLogger.info("PLAYER_DISCONNECTED gameId=" + disconnected.gameId() + " playerId=" + disconnected.playerId());
-                default -> eventLogger.info("EVENT type=" + event.type());
-            }
+            eventLogger.warning("TICK_FAILED error=" + ex.getMessage());
         }
     }
 
@@ -292,12 +266,11 @@ public final class Server {
     }
 
     private synchronized void shutdown() {
-        if (serverSocket != null && !serverSocket.isClosed()) {
-            try {
-                serverSocket.close();
-            } catch (IOException ignored) {
-            }
+        if (!shuttingDown.compareAndSet(false, true)) {
+            return;
         }
+        closeQuietly(discoverySocket);
+        closeQuietly(serverSocket);
         shutdownExecutors();
     }
 
@@ -306,13 +279,23 @@ public final class Server {
         tickExecutor.shutdownNow();
     }
 
-    private boolean isShuttingDown() {
-        ServerSocket current = serverSocket;
-        return current != null && current.isClosed();
+    private void closeQuietly(DatagramSocket socket) {
+        if (socket != null) {
+            socket.close();
+        }
     }
 
-    private String nextPlayerId() {
-        return String.format("P%02d", playerSequence.incrementAndGet());
+    private void closeQuietly(ServerSocket socket) {
+        if (socket != null) {
+            try {
+                socket.close();
+            } catch (IOException ignored) {
+            }
+        }
+    }
+
+    private int nextPlayerId() {
+        return playerSequence.incrementAndGet();
     }
 
     private final class ClientHandler implements Runnable {
@@ -327,7 +310,7 @@ public final class Server {
         @Override
         public void run() {
             try {
-                while (true) {
+                while (!shuttingDown.get()) {
                     ProtocolMessage message = context.connection.readMessage();
                     if (message == null) {
                         handleUnexpectedDisconnect();
@@ -336,10 +319,8 @@ public final class Server {
                     handleMessage(message);
                 }
             } catch (ProtocolDecodeException ex) {
-                handleProtocolDecodeException(ex);
-            } catch (IllegalArgumentException ex) {
-                eventLogger.warning("CLIENT_MESSAGE_ERROR remote=" + remoteAddress + " playerId=" + context.playerId() + " error=" + ex.getMessage());
-                context.send(new ErrorMessage(ProtocolVersion.V1_0, ErrorCode.INVALID_MESSAGE, ex.getMessage()));
+                context.send(new ErrorMessage(ex.errorCode(), ex.getMessage()));
+                eventLogger.warning("PROTOCOL_ERROR remote=" + remoteAddress + " code=" + ex.errorCode() + " message=" + ex.getMessage());
             } catch (IOException ex) {
                 eventLogger.warning("CLIENT_IO_ERROR remote=" + remoteAddress + " playerId=" + context.playerId() + " error=" + ex.getMessage());
                 handleUnexpectedDisconnect();
@@ -348,120 +329,88 @@ public final class Server {
             }
         }
 
-        private void handleProtocolDecodeException(ProtocolDecodeException ex) {
-            ErrorCode code = ex.errorCode();
-            eventLogger.warning("PROTOCOL_ERROR remote=" + remoteAddress + " playerId=" + context.playerId() + " code=" + code + " message=" + ex.getMessage());
-            if (ex.messageType() == MessageType.JOIN && code == ErrorCode.UNSUPPORTED_PROTOCOL_VERSION) {
-                context.send(new JoinRejectedMessage(ProtocolVersion.V1_0, JoinRejectedReason.UNSUPPORTED_PROTOCOL_VERSION));
-                return;
-            }
-            context.send(new ErrorMessage(ProtocolVersion.V1_0, code, ex.getMessage()));
-        }
-
-        private void handleMessage(ProtocolMessage message) throws IOException {
+        private void handleMessage(ProtocolMessage message) {
             if (message instanceof JoinRequest joinRequest) {
                 handleJoin(joinRequest);
-                return;
+            } else if (!context.joined()) {
+                context.send(new ErrorMessage(ErrorCode.UNKNOWN_PLAYER, "Debes enviar JOIN primero."));
+            } else if (message instanceof ChangeDirectionRequest input) {
+                handleInput(input);
+            } else if (message instanceof InteractRequest interact) {
+                handleInteract(interact);
+            } else if (message instanceof LeaveRequest leave) {
+                handleLeave(leave);
+            } else {
+                context.send(new ErrorMessage(ErrorCode.INVALID_MESSAGE, "Tipo de mensaje no soportado."));
             }
-
-            if (!context.joined()) {
-                context.send(new ErrorMessage(ProtocolVersion.V1_0, ErrorCode.GAME_NOT_STARTED, "Debes enviar JOIN primero."));
-                return;
-            }
-
-            if (message instanceof ChangeDirectionRequest changeDirection) {
-                handleChangeDirection(changeDirection);
-                return;
-            }
-
-            if (message instanceof LeaveRequest leaveRequest) {
-                handleLeave(leaveRequest);
-                return;
-            }
-
-            context.send(new ErrorMessage(ProtocolVersion.V1_0, ErrorCode.INVALID_MESSAGE, "Tipo de mensaje no soportado."));
         }
 
-        private void handleJoin(JoinRequest joinRequest) throws IOException {
+        private void handleJoin(JoinRequest joinRequest) {
             if (context.joined()) {
-                context.send(new ErrorMessage(ProtocolVersion.V1_0, ErrorCode.GAME_ALREADY_STARTED, "Ya existe una sesión asociada a esta conexión."));
+                context.send(new ErrorMessage(ErrorCode.INVALID_MESSAGE, "La conexión ya tiene jugador."));
                 return;
             }
-
-            if (!ProtocolVersion.V1_0.equals(joinRequest.protocolVersion())) {
-                context.send(new JoinRejectedMessage(ProtocolVersion.V1_0, JoinRejectedReason.UNSUPPORTED_PROTOCOL_VERSION));
-                eventLogger.warning("JOIN_REJECTED remote=" + remoteAddress + " reason=UNSUPPORTED_PROTOCOL_VERSION name=" + joinRequest.name());
-                return;
-            }
-            if (joinRequest.name() == null || joinRequest.name().isBlank()) {
-                context.send(new JoinRejectedMessage(ProtocolVersion.V1_0, JoinRejectedReason.INVALID_NAME));
-                eventLogger.warning("JOIN_REJECTED remote=" + remoteAddress + " reason=INVALID_NAME");
-                return;
-            }
-            String playerId;
+            String name = joinRequest.name() == null ? "" : joinRequest.name().trim();
+            byte[] nameBytes = name.getBytes(java.nio.charset.StandardCharsets.UTF_8);
             JoinRejectedReason rejectedReason = null;
+            int playerId = 0;
             synchronized (session) {
-                if (game.status() != GameStatus.WAITING || matchStarted.get()) {
+                if (game.status() != GameStatus.WAITING) {
                     rejectedReason = JoinRejectedReason.GAME_ALREADY_STARTED;
-                    playerId = null;
                 } else if (game.players().size() >= config.maximumPlayers()) {
                     rejectedReason = JoinRejectedReason.GAME_FULL;
-                    playerId = null;
+                } else if (name.isBlank() || nameBytes.length > 20) {
+                    rejectedReason = JoinRejectedReason.INVALID_NAME;
                 } else {
                     playerId = nextPlayerId();
-                    Player player = new Player(
-                            playerId,
-                            joinRequest.name().trim(),
-                            -1,
-                            -1,
-                            Direction.DOWN,
-                            true,
-                            false,
-                            false,
-                            0L
-                    );
+                    Player player = new Player(playerId, name, 0, 0, Direction.NONE, true, false);
                     game.addPlayer(player);
                     context.joined(playerId);
                     clientsByPlayerId.put(playerId, context);
                 }
             }
             if (rejectedReason != null) {
-                context.send(new JoinRejectedMessage(ProtocolVersion.V1_0, rejectedReason));
-                eventLogger.warning("JOIN_REJECTED remote=" + remoteAddress + " reason=" + rejectedReason + " name=" + joinRequest.name().trim());
+                context.send(new JoinRejectedMessage(rejectedReason));
+                eventLogger.warning("JOIN_REJECTED remote=" + remoteAddress + " reason=" + rejectedReason + " name=" + name);
                 return;
             }
-            context.send(new JoinAcceptedMessage(ProtocolVersion.V1_0, playerId, game.gameId()));
-            eventLogger.info("JOIN_ACCEPTED remote=" + remoteAddress + " gameId=" + game.gameId() + " playerId=" + playerId + " name=" + joinRequest.name().trim());
+            context.send(new JoinAcceptedMessage(playerId, game.gameId()));
+            broadcast(GameMessageMapper.toLobbyStateMessage(game));
+            eventLogger.info("JOIN_ACCEPTED remote=" + remoteAddress + " playerId=" + playerId + " name=" + name);
         }
 
-        private void handleChangeDirection(ChangeDirectionRequest changeDirection) {
-            if (!game.gameId().equals(changeDirection.gameId())) {
-                context.send(new ErrorMessage(ProtocolVersion.V1_0, ErrorCode.INVALID_MESSAGE, "gameId incorrecto."));
+        private void handleInput(ChangeDirectionRequest input) {
+            if (input.playerId() != context.playerId()) {
+                context.send(new ErrorMessage(ErrorCode.UNKNOWN_PLAYER, "playerId no corresponde a esta conexión."));
                 return;
             }
-            if (!context.playerId().equals(changeDirection.playerId())) {
-                context.send(new ErrorMessage(ProtocolVersion.V1_0, ErrorCode.UNKNOWN_PLAYER, "playerId no corresponde a esta conexión."));
+            if (game.status() != GameStatus.RUNNING) {
+                context.send(new ErrorMessage(game.status() == GameStatus.FINISHED ? ErrorCode.GAME_FINISHED : ErrorCode.GAME_NOT_STARTED, "La partida no está en ejecución."));
                 return;
             }
-            GameStatus status;
-            synchronized (session) {
-                status = game.status();
-            }
-            if (status != GameStatus.RUNNING) {
-                ErrorCode code = status == GameStatus.FINISHED ? ErrorCode.GAME_FINISHED : ErrorCode.GAME_NOT_STARTED;
-                context.send(new ErrorMessage(ProtocolVersion.V1_0, code, "La partida no está en ejecución."));
-                return;
-            }
-            session.submitDirectionChange(changeDirection.playerId(), changeDirection.direction());
-            eventLogger.info("CHANGE_DIRECTION gameId=" + changeDirection.gameId() + " playerId=" + changeDirection.playerId() + " direction=" + changeDirection.direction());
+            session.submitDirectionChange(input.playerId(), input.direction());
+            eventLogger.info("INPUT playerId=" + input.playerId() + " direction=" + input.direction());
         }
 
-        private void handleLeave(LeaveRequest leaveRequest) {
-            if (!game.gameId().equals(leaveRequest.gameId()) || !context.playerId().equals(leaveRequest.playerId())) {
-                context.send(new ErrorMessage(ProtocolVersion.V1_0, ErrorCode.UNKNOWN_PLAYER, "Salida inválida."));
+        private void handleInteract(InteractRequest interact) {
+            if (interact.playerId() != context.playerId()) {
+                context.send(new ErrorMessage(ErrorCode.UNKNOWN_PLAYER, "playerId no corresponde a esta conexión."));
                 return;
             }
-            eventLogger.info("LEAVE gameId=" + leaveRequest.gameId() + " playerId=" + leaveRequest.playerId());
+            if (game.status() != GameStatus.RUNNING) {
+                context.send(new ErrorMessage(game.status() == GameStatus.FINISHED ? ErrorCode.GAME_FINISHED : ErrorCode.GAME_NOT_STARTED, "La partida no está en ejecución."));
+                return;
+            }
+            session.submitInteraction(interact.playerId());
+            eventLogger.info("INTERACT playerId=" + interact.playerId());
+        }
+
+        private void handleLeave(LeaveRequest leave) {
+            if (leave.playerId() != context.playerId()) {
+                context.send(new ErrorMessage(ErrorCode.UNKNOWN_PLAYER, "Salida inválida."));
+                return;
+            }
+            eventLogger.info("LEAVE playerId=" + leave.playerId());
             disconnectAndBroadcast();
         }
 
@@ -474,37 +423,38 @@ public final class Server {
         }
 
         private void disconnectAndBroadcast() {
-            String playerId = context.playerId();
-            if (playerId != null) {
+            int playerId = context.playerId();
+            if (playerId > 0) {
                 clientsByPlayerId.remove(playerId);
-                List<ProtocolMessage> events = session.disconnectPlayer(playerId, System.currentTimeMillis());
+                List<ProtocolMessage> events = session.disconnectPlayer(playerId);
                 broadcast(events);
+                if (game.status() == GameStatus.WAITING || game.status() == GameStatus.STARTING) {
+                    broadcast(GameMessageMapper.toLobbyStateMessage(game));
+                }
             }
-            context.markClosed();
             context.closeQuietly();
         }
     }
 
-    private final class ClientContext {
+    private static final class ClientContext {
         private final LineConnection connection;
-        private volatile String playerId;
+        private final AtomicBoolean closed = new AtomicBoolean(false);
+        private volatile int playerId;
         private volatile boolean joined;
-        private final AtomicBoolean closed;
 
         private ClientContext(LineConnection connection) {
             this.connection = connection;
-            this.closed = new AtomicBoolean(false);
         }
 
         private boolean joined() {
             return joined;
         }
 
-        private String playerId() {
+        private int playerId() {
             return playerId;
         }
 
-        private void joined(String playerId) {
+        private void joined(int playerId) {
             this.playerId = playerId;
             this.joined = true;
         }
@@ -513,12 +463,8 @@ public final class Server {
             try {
                 connection.sendMessage(message);
             } catch (IOException ignored) {
-                markClosed();
+                closeQuietly();
             }
-        }
-
-        private void markClosed() {
-            closed.set(true);
         }
 
         private void closeQuietly() {

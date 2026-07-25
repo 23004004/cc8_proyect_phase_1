@@ -3,40 +3,48 @@ package connect;
 import protocol.ProtocolCodec;
 import protocol.ProtocolMessage;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.Closeable;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 public final class LineConnection implements Closeable {
     private final Socket socket;
-    private final BufferedReader reader;
-    private final BufferedWriter writer;
+    private final DataInputStream reader;
+    private final DataOutputStream writer;
     private final ProtocolCodec codec;
 
     public LineConnection(Socket socket) throws IOException {
         this.socket = Objects.requireNonNull(socket, "socket must not be null");
-        this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
-        this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8));
+        this.reader = new DataInputStream(socket.getInputStream());
+        this.writer = new DataOutputStream(socket.getOutputStream());
         this.codec = new ProtocolCodec();
     }
 
     public ProtocolMessage readMessage() throws IOException {
-        String line = reader.readLine();
-        if (line == null) {
+        int length;
+        try {
+            length = reader.readUnsignedShort();
+        } catch (EOFException ex) {
             return null;
         }
-        return codec.deserialize(line);
+        byte[] payload = reader.readNBytes(length);
+        if (payload.length != length) {
+            throw new EOFException("Mensaje TCP incompleto.");
+        }
+        return codec.deserialize(payload);
     }
 
     public synchronized void sendMessage(ProtocolMessage message) throws IOException {
-        writer.write(codec.serialize(message));
-        writer.write('\n');
+        byte[] payload = codec.serialize(message);
+        if (payload.length > 65535) {
+            throw new IOException("Mensaje demasiado grande.");
+        }
+        writer.writeShort(payload.length);
+        writer.write(payload);
         writer.flush();
     }
 

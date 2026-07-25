@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,27 +7,23 @@ import java.util.Map;
 import java.util.Objects;
 
 public final class Game {
-    private final String gameId;
+    private final int gameId;
     private final GameConfig config;
-    private final Map<String, Player> players;
-    private final List<Position> obstacles;
+    private final Map<Integer, Player> players;
     private GameStatus status;
     private long tick;
     private Flag flag;
 
-    public Game(String gameId, GameConfig config) {
-        if (gameId == null || gameId.isBlank()) {
-            throw new IllegalArgumentException("gameId must not be blank");
-        }
+    public Game(int gameId, GameConfig config) {
         this.gameId = gameId;
         this.config = Objects.requireNonNull(config, "config must not be null");
         this.players = new LinkedHashMap<>();
-        this.obstacles = new ArrayList<>();
         this.status = GameStatus.WAITING;
         this.tick = 0L;
+        this.flag = new Flag(0, 0, FlagStatus.AVAILABLE, 0);
     }
 
-    public String gameId() {
+    public int gameId() {
         return gameId;
     }
 
@@ -48,15 +43,11 @@ public final class Game {
         return flag;
     }
 
-    public List<Position> obstacles() {
-        return Collections.unmodifiableList(obstacles);
-    }
-
     public List<Player> players() {
         return List.copyOf(players.values());
     }
 
-    public Player player(String playerId) {
+    public Player player(int playerId) {
         return players.get(playerId);
     }
 
@@ -72,14 +63,6 @@ public final class Game {
         this.flag = Objects.requireNonNull(flag, "flag must not be null");
     }
 
-    public void addObstacle(Position position) {
-        obstacles.add(Objects.requireNonNull(position, "position must not be null"));
-    }
-
-    public void clearObstacles() {
-        obstacles.clear();
-    }
-
     public void addPlayer(Player player) {
         Player validatedPlayer = Objects.requireNonNull(player, "player must not be null");
         players.put(validatedPlayer.playerId(), validatedPlayer);
@@ -90,7 +73,7 @@ public final class Game {
         players.put(validatedPlayer.playerId(), validatedPlayer);
     }
 
-    public Player removePlayer(String playerId) {
+    public Player removePlayer(int playerId) {
         return players.remove(playerId);
     }
 }

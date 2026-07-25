@@ -1,31 +1,40 @@
 package model;
 
 public enum Direction {
-    UP(-1, 0),
-    DOWN(1, 0),
-    LEFT(0, -1),
-    RIGHT(0, 1);
+    NONE(0x00, 0, 0),
+    UP(0x01, 0, -1),
+    DOWN(0x02, 0, 1),
+    LEFT(0x03, -1, 0),
+    RIGHT(0x04, 1, 0);
 
-    private final int rowDelta;
-    private final int columnDelta;
+    private final int code;
+    private final int xSign;
+    private final int ySign;
 
-    Direction(int rowDelta, int columnDelta) {
-        this.rowDelta = rowDelta;
-        this.columnDelta = columnDelta;
+    Direction(int code, int xSign, int ySign) {
+        this.code = code;
+        this.xSign = xSign;
+        this.ySign = ySign;
     }
 
-    public int rowDelta() {
-        return rowDelta;
+    public int code() {
+        return code;
     }
 
-    public int columnDelta() {
-        return columnDelta;
+    public int xSign() {
+        return xSign;
     }
 
-    public boolean isOpposite(Direction other) {
-        if (other == null) {
-            return false;
+    public int ySign() {
+        return ySign;
+    }
+
+    public static Direction fromCode(int code) {
+        for (Direction direction : values()) {
+            if (direction.code == code) {
+                return direction;
+            }
         }
-        return rowDelta + other.rowDelta == 0 && columnDelta + other.columnDelta == 0;
+        throw new IllegalArgumentException("Dirección desconocida: " + code);
     }
 }

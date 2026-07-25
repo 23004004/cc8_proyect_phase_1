@@ -5,13 +5,11 @@ import protocol.dto.PlayerDto;
 
 import java.util.List;
 
-public record GameStateMessage(
-        String protocolVersion,
-        String gameId,
-        long tick,
-        List<PlayerDto> players,
-        FlagDto flag
-) implements ProtocolMessage {
+public record GameStateMessage(long tick, FlagDto flag, List<PlayerDto> players) implements ProtocolMessage {
+    public GameStateMessage {
+        players = List.copyOf(players);
+    }
+
     @Override
     public MessageType type() {
         return MessageType.GAME_STATE;
