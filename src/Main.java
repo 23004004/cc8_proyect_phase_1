@@ -19,20 +19,32 @@ public final class Main {
     }
 
     public static void main(String[] args) {
-        Mode mode = parseMode(args);
-        if (mode == null) {
+        LaunchOptions options = parseLaunchOptions(args);
+        if (options == null) {
             System.out.print(USAGE);
             return;
         }
 
         try {
-            switch (mode) {
-                case SERVER -> runServer(parseOptionalPort(args), parseOptionalDiscoveryPort(args), parseOptionalExtraDiscoveryPorts(args));
-                case CLIENT -> runClient(parseClientHost(args), parseClientPort(args));
+            switch (options.mode()) {
+                case SERVER -> runServer(options.port(), options.discoveryPort(), options.extraDiscoveryPorts());
+                case CLIENT -> runClient(options.host(), options.port());
             }
         } catch (IllegalArgumentException | IllegalStateException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    private static LaunchOptions parseLaunchOptions(String[] args) {
+        // Centraliza el parseo para que server/client no vuelvan a interpretar args.
+        Mode mode = parseMode(args);
+        if (mode == null) {
+            return null;
+        }
+        return switch (mode) {
+            case SERVER -> new LaunchOptions(mode, null, parseOptionalPort(args), parseOptionalDiscoveryPort(args), parseOptionalExtraDiscoveryPorts(args));
+            case CLIENT -> new LaunchOptions(mode, parseClientHost(args), parseClientPort(args), null, null);
+        };
     }
 
     private static Mode parseMode(String[] args) {
@@ -155,5 +167,8 @@ public final class Main {
     private enum Mode {
         SERVER,
         CLIENT
+    }
+
+    private record LaunchOptions(Mode mode, String host, Integer port, Integer discoveryPort, String extraDiscoveryPorts) {
     }
 }

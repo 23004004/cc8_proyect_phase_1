@@ -29,10 +29,6 @@ public record Player(
         return new Player(playerId, name, x, y, newDirection, connected, hasFlag);
     }
 
-    public Player withConnected(boolean newConnected) {
-        return new Player(playerId, name, x, y, direction, newConnected, hasFlag);
-    }
-
     public Player withHasFlag(boolean newHasFlag) {
         return new Player(playerId, name, x, y, direction, connected, newHasFlag);
     }

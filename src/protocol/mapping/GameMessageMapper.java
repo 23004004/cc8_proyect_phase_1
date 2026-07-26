@@ -1,10 +1,13 @@
-package protocol;
+package protocol.mapping;
 
 import model.Flag;
 import model.Game;
 import model.Player;
 import protocol.dto.FlagDto;
 import protocol.dto.PlayerDto;
+import protocol.messages.GameStartedMessage;
+import protocol.messages.GameStateMessage;
+import protocol.messages.LobbyStateMessage;
 
 import java.util.Comparator;
 import java.util.List;

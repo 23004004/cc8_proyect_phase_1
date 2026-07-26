@@ -1,4 +1,4 @@
-package protocol;
+package protocol.core;
 
 public enum MessageType {
     DISCOVER_REQUEST(0x01),

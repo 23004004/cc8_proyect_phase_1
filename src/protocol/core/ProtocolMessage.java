@@ -1,4 +1,4 @@
-package protocol;
+package protocol.core;
 
 public interface ProtocolMessage {
     MessageType type();

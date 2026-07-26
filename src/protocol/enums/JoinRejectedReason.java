@@ -1,4 +1,4 @@
-package protocol;
+package protocol.enums;
 
 public enum JoinRejectedReason {
     GAME_ALREADY_STARTED(0x01),

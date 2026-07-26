@@ -1,4 +1,4 @@
-package protocol;
+package protocol.core;
 
 public final class ProtocolVersion {
     public static final int V3 = 3;

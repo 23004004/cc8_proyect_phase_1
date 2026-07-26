@@ -1,4 +1,7 @@
-package protocol;
+package protocol.messages;
+
+import protocol.core.MessageType;
+import protocol.core.ProtocolMessage;
 
 public record JoinAcceptedMessage(int playerId, int gameId) implements ProtocolMessage {
     @Override

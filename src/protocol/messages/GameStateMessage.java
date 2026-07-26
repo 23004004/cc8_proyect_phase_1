@@ -1,4 +1,7 @@
-package protocol;
+package protocol.messages;
+
+import protocol.core.MessageType;
+import protocol.core.ProtocolMessage;
 
 import protocol.dto.FlagDto;
 import protocol.dto.PlayerDto;

@@ -1,4 +1,6 @@
-package protocol;
+package protocol.core;
+
+import protocol.enums.ErrorCode;
 
 public final class ProtocolDecodeException extends RuntimeException {
     private final MessageType messageType;

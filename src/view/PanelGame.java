@@ -2,10 +2,10 @@ package view;
 
 import model.Direction;
 import model.GameStatus;
-import protocol.GameOverMessage;
-import protocol.GameStartedMessage;
-import protocol.GameStateMessage;
-import protocol.LobbyStateMessage;
+import protocol.messages.GameOverMessage;
+import protocol.messages.GameStartedMessage;
+import protocol.messages.GameStateMessage;
+import protocol.messages.LobbyStateMessage;
 import protocol.dto.FlagDto;
 import protocol.dto.PlayerDto;
 
@@ -52,10 +52,8 @@ public final class PanelGame extends JPanel {
         runOnEdt(() -> {
             synchronized (lock) {
                 namesById.clear();
-                for (PlayerDto player : message.players()) {
-                    namesById.put(player.playerId(), player.name());
-                }
                 players = List.copyOf(message.players());
+                rememberPlayerNames(players);
                 gameStatus = message.state();
                 statusText = "Lobby: " + message.players().size() + " jugador(es)";
             }
@@ -73,9 +71,7 @@ public final class PanelGame extends JPanel {
                 interactionRadius = message.interactionRadius();
                 flag = message.flag();
                 players = List.copyOf(message.players());
-                for (PlayerDto player : players) {
-                    namesById.put(player.playerId(), player.name());
-                }
+                rememberPlayerNames(players);
                 gameStatus = GameStatus.RUNNING;
                 tick = 0L;
                 statusText = "Partida iniciada";
@@ -141,13 +137,13 @@ public final class PanelGame extends JPanel {
 
     public boolean lobbyActive() {
         synchronized (lock) {
-            return gameStatus == GameStatus.WAITING || gameStatus == GameStatus.STARTING;
+            return isLobbyStatus(gameStatus);
         }
     }
 
     public boolean canReturnToServerList() {
         synchronized (lock) {
-            return gameStatus == GameStatus.WAITING || gameStatus == GameStatus.STARTING || gameStatus == GameStatus.FINISHED;
+            return isLobbyStatus(gameStatus) || gameStatus == GameStatus.FINISHED;
         }
     }
 
@@ -171,8 +167,12 @@ public final class PanelGame extends JPanel {
 
     private boolean isLobbyVisible() {
         synchronized (lock) {
-            return gameStatus == GameStatus.WAITING || gameStatus == GameStatus.STARTING;
+            return isLobbyStatus(gameStatus);
         }
+    }
+
+    private boolean isLobbyStatus(GameStatus status) {
+        return status == GameStatus.WAITING || status == GameStatus.STARTING;
     }
 
     private void paintLobby(Graphics2D g2) {
@@ -180,6 +180,7 @@ public final class PanelGame extends JPanel {
         GameStatus status;
         String text;
         synchronized (lock) {
+            // Se copia el estado para pintar sin sostener el lock durante todo el render.
             snapshot = new ArrayList<>(players);
             status = gameStatus;
             text = statusText;
@@ -322,6 +323,12 @@ public final class PanelGame extends JPanel {
             merged.add(new PlayerDto(player.playerId(), name, player.x(), player.y(), player.direction(), player.hasFlag()));
         }
         return merged;
+    }
+
+    private void rememberPlayerNames(List<PlayerDto> incomingPlayers) {
+        for (PlayerDto player : incomingPlayers) {
+            namesById.put(player.playerId(), player.name());
+        }
     }
 
     private String labelFor(PlayerDto player) {

@@ -23,7 +23,6 @@ import java.awt.Insets;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 public final class ServerDiscoveryDialog extends JDialog {
     private final Map<String, ServerChoice> serversByKey = new LinkedHashMap<>();
@@ -37,10 +36,10 @@ public final class ServerDiscoveryDialog extends JDialog {
     private final JLabel statusLabel = new JLabel("Buscando servidores...");
     private ServerChoice selectedServer;
 
-    public ServerDiscoveryDialog(Frame owner, Runnable refreshAction, Consumer<Boolean> scanningCallback) {
+    public ServerDiscoveryDialog(Frame owner, Runnable refreshAction) {
         super(owner, "Servidores disponibles", true);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setContentPane(buildContent(refreshAction, scanningCallback));
+        setContentPane(buildContent(refreshAction));
         setPreferredSize(new Dimension(820, 520));
         pack();
         setLocationRelativeTo(owner);
@@ -86,11 +85,7 @@ public final class ServerDiscoveryDialog extends JDialog {
         });
     }
 
-    public void setScanning(boolean scanning) {
-        runOnEdt(() -> statusLabel.setText(scanning ? "Buscando servidores..." : statusLabel.getText()));
-    }
-
-    private JPanel buildContent(Runnable refreshAction, Consumer<Boolean> scanningCallback) {
+    private JPanel buildContent(Runnable refreshAction) {
         JPanel root = new JPanel(new BorderLayout(12, 12));
         root.setBorder(BorderFactory.createEmptyBorder(14, 14, 14, 14));
 
@@ -149,7 +144,7 @@ public final class ServerDiscoveryDialog extends JDialog {
         buttons.add(cancelButton);
 
         refreshButton.addActionListener(event -> {
-            scanningCallback.accept(true);
+            statusLabel.setText("Buscando servidores...");
             refreshAction.run();
         });
         connectButton.addActionListener(event -> {

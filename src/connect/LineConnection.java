@@ -1,7 +1,7 @@
 package connect;
 
-import protocol.ProtocolCodec;
-import protocol.ProtocolMessage;
+import protocol.core.ProtocolCodec;
+import protocol.core.ProtocolMessage;
 
 import java.io.Closeable;
 import java.io.DataInputStream;
@@ -46,10 +46,6 @@ public final class LineConnection implements Closeable {
         writer.writeShort(payload.length);
         writer.write(payload);
         writer.flush();
-    }
-
-    public boolean isOpen() {
-        return !socket.isClosed();
     }
 
     @Override

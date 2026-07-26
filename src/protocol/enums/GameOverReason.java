@@ -1,4 +1,4 @@
-package protocol;
+package protocol.enums;
 
 public enum GameOverReason {
     EXITED_CIRCLE_WITH_FLAG(0x01);

@@ -8,20 +8,20 @@ import model.Game;
 import model.GameConfig;
 import model.GameStatus;
 import model.Player;
-import protocol.ChangeDirectionRequest;
-import protocol.ErrorCode;
-import protocol.ErrorMessage;
-import protocol.GameCountdownMessage;
-import protocol.GameMessageMapper;
-import protocol.InteractRequest;
-import protocol.JoinAcceptedMessage;
-import protocol.JoinRejectedMessage;
-import protocol.JoinRejectedReason;
-import protocol.JoinRequest;
-import protocol.LeaveRequest;
-import protocol.ProtocolCodec;
-import protocol.ProtocolDecodeException;
-import protocol.ProtocolMessage;
+import protocol.messages.ChangeDirectionRequest;
+import protocol.enums.ErrorCode;
+import protocol.messages.ErrorMessage;
+import protocol.messages.GameCountdownMessage;
+import protocol.mapping.GameMessageMapper;
+import protocol.messages.InteractRequest;
+import protocol.messages.JoinAcceptedMessage;
+import protocol.messages.JoinRejectedMessage;
+import protocol.enums.JoinRejectedReason;
+import protocol.messages.JoinRequest;
+import protocol.messages.LeaveRequest;
+import protocol.core.ProtocolCodec;
+import protocol.core.ProtocolDecodeException;
+import protocol.core.ProtocolMessage;
 import view.ServerDashboard;
 
 import java.io.IOException;
@@ -336,6 +336,7 @@ public final class Server {
             current.cancel(false);
         }
         synchronized (session) {
+            // Reinicia estado de partida sin desconectar a los jugadores actuales.
             session.resetForLobby();
             game.setStatus(GameStatus.WAITING);
         }

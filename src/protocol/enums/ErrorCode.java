@@ -1,4 +1,4 @@
-package protocol;
+package protocol.enums;
 
 public enum ErrorCode {
     INVALID_MESSAGE(0x01),

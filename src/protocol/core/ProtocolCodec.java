@@ -1,10 +1,28 @@
-package protocol;
+package protocol.core;
 
 import model.Direction;
 import model.FlagStatus;
 import model.GameStatus;
 import protocol.dto.FlagDto;
 import protocol.dto.PlayerDto;
+import protocol.enums.ErrorCode;
+import protocol.enums.GameOverReason;
+import protocol.enums.JoinRejectedReason;
+import protocol.messages.ChangeDirectionRequest;
+import protocol.messages.ErrorMessage;
+import protocol.messages.FlagPickedUpMessage;
+import protocol.messages.FlagStolenMessage;
+import protocol.messages.GameCountdownMessage;
+import protocol.messages.GameOverMessage;
+import protocol.messages.GameStartedMessage;
+import protocol.messages.GameStateMessage;
+import protocol.messages.InteractRequest;
+import protocol.messages.JoinAcceptedMessage;
+import protocol.messages.JoinRejectedMessage;
+import protocol.messages.JoinRequest;
+import protocol.messages.LeaveRequest;
+import protocol.messages.LobbyStateMessage;
+import protocol.messages.PlayerDisconnectedMessage;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

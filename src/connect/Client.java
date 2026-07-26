@@ -2,23 +2,23 @@ package connect;
 
 import model.Direction;
 import model.GameConfig;
-import protocol.ChangeDirectionRequest;
-import protocol.ErrorMessage;
-import protocol.FlagPickedUpMessage;
-import protocol.FlagStolenMessage;
-import protocol.GameCountdownMessage;
-import protocol.GameOverMessage;
-import protocol.GameStartedMessage;
-import protocol.GameStateMessage;
-import protocol.InteractRequest;
-import protocol.JoinAcceptedMessage;
-import protocol.JoinRejectedMessage;
-import protocol.JoinRequest;
-import protocol.LeaveRequest;
-import protocol.LobbyStateMessage;
-import protocol.PlayerDisconnectedMessage;
-import protocol.ProtocolCodec;
-import protocol.ProtocolMessage;
+import protocol.messages.ChangeDirectionRequest;
+import protocol.messages.ErrorMessage;
+import protocol.messages.FlagPickedUpMessage;
+import protocol.messages.FlagStolenMessage;
+import protocol.messages.GameCountdownMessage;
+import protocol.messages.GameOverMessage;
+import protocol.messages.GameStartedMessage;
+import protocol.messages.GameStateMessage;
+import protocol.messages.InteractRequest;
+import protocol.messages.JoinAcceptedMessage;
+import protocol.messages.JoinRejectedMessage;
+import protocol.messages.JoinRequest;
+import protocol.messages.LeaveRequest;
+import protocol.messages.LobbyStateMessage;
+import protocol.messages.PlayerDisconnectedMessage;
+import protocol.core.ProtocolCodec;
+import protocol.core.ProtocolMessage;
 import view.PanelGame;
 import view.ServerDiscoveryDialog;
 
@@ -159,9 +159,7 @@ public final class Client {
             SwingUtilities.invokeAndWait(() -> {
                 ServerDiscoveryDialog dialog = new ServerDiscoveryDialog(
                         null,
-                        () -> discoveryManager.restart(dialogRef.get()),
-                        scanning -> {
-                        }
+                        () -> discoveryManager.restart(dialogRef.get())
                 );
                 dialogRef.set(dialog);
                 discoveryManager.start(dialog);
@@ -387,6 +385,7 @@ public final class Client {
     ) {
         bindMovementAction(frame, "pressed " + key, "move-" + actionSuffix, () -> {
             synchronized (movementLock) {
+                // La ultima tecla presionada tiene prioridad mientras siga sostenida.
                 pressedDirections.remove(direction);
                 pressedDirections.addLast(direction);
                 return direction;
@@ -481,6 +480,7 @@ public final class Client {
             try {
                 int playerId = playerIdRef.get();
                 if (playerId > 0) {
+                    // LEAVE evita que el servidor mantenga al jugador en el lobby.
                     connection.sendMessage(new LeaveRequest(playerId));
                     eventLogger.info("LEAVE_SENT playerId=" + playerId);
                 }
@@ -561,10 +561,6 @@ public final class Client {
             if (current != null) {
                 current.interrupt();
             }
-        }
-
-        private void requestNow() {
-            forceRequest.set(true);
         }
 
         private void run() {

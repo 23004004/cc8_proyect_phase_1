@@ -6,16 +6,16 @@ import model.FlagStatus;
 import model.Game;
 import model.GameStatus;
 import model.Player;
-import protocol.ErrorCode;
-import protocol.ErrorMessage;
-import protocol.FlagPickedUpMessage;
-import protocol.FlagStolenMessage;
-import protocol.GameMessageMapper;
-import protocol.GameOverMessage;
-import protocol.GameOverReason;
-import protocol.GameStateMessage;
-import protocol.PlayerDisconnectedMessage;
-import protocol.ProtocolMessage;
+import protocol.enums.ErrorCode;
+import protocol.messages.ErrorMessage;
+import protocol.messages.FlagPickedUpMessage;
+import protocol.messages.FlagStolenMessage;
+import protocol.mapping.GameMessageMapper;
+import protocol.messages.GameOverMessage;
+import protocol.enums.GameOverReason;
+import protocol.messages.GameStateMessage;
+import protocol.messages.PlayerDisconnectedMessage;
+import protocol.core.ProtocolMessage;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -36,10 +36,6 @@ public final class GameSession {
         this.game = Objects.requireNonNull(game, "game must not be null");
         this.pendingDirections = new ConcurrentHashMap<>();
         this.pendingInteractions = ConcurrentHashMap.newKeySet();
-    }
-
-    public synchronized Game game() {
-        return game;
     }
 
     public void submitDirectionChange(int playerId, Direction direction) {
