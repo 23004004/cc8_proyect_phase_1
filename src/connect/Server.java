@@ -118,14 +118,25 @@ public final class Server {
     private List<Integer> discoveryPorts() {
         List<Integer> ports = new ArrayList<>();
         addPort(ports, config.discoveryPort());
-        addPort(ports, 5000);
-        addPort(ports, 5001);
+        addExtraPorts(ports, config.extraDiscoveryPorts());
         return ports;
     }
 
     private void addPort(List<Integer> ports, int port) {
         if (port > 0 && port <= 65535 && !ports.contains(port)) {
             ports.add(port);
+        }
+    }
+
+    private void addExtraPorts(List<Integer> ports, String rawPorts) {
+        if (rawPorts == null || rawPorts.isBlank()) {
+            return;
+        }
+        for (String rawPort : rawPorts.split(",")) {
+            try {
+                addPort(ports, Integer.parseInt(rawPort.trim()));
+            } catch (NumberFormatException ignored) {
+            }
         }
     }
 
@@ -154,7 +165,6 @@ public final class Server {
                         byte[] response = discoveryResponse();
                         DatagramPacket packet = new DatagramPacket(response, response.length, request.getAddress(), request.getPort());
                         socket.send(packet);
-                        eventLogger.info("DISCOVER_RESPONSE remote=" + request.getAddress().getHostAddress());
                     } catch (SocketTimeoutException ignored) {
                     }
                 }

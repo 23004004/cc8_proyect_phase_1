@@ -2370,3 +2370,19 @@ jul 25, 2026 7:17:51 P. M. connect.FileEventLogger info
 INFO: INPUT playerId=1 direction=LEFT
 jul 25, 2026 7:17:51 P. M. connect.FileEventLogger info
 INFO: MATCH_FINISHED tick=147 winnerId=1
+jul 25, 2026 7:36:56 P. M. connect.FileEventLogger info
+INFO: SERVER_STARTED tcpPort=5099 discoveryPort=5000
+jul 25, 2026 7:37:02 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.26
+jul 25, 2026 7:37:08 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.26
+jul 25, 2026 7:37:15 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.26
+jul 25, 2026 7:50:58 P. M. connect.FileEventLogger info
+INFO: SERVER_STARTED tcpPort=5001 discoveryPort=5001
+jul 25, 2026 8:02:49 P. M. connect.FileEventLogger info
+INFO: SERVER_STARTED tcpPort=5001 discoveryPort=5001
+jul 25, 2026 8:03:22 P. M. connect.FileEventLogger info
+INFO: TCP_ACCEPTED remote=/192.168.0.2:51629
+jul 25, 2026 8:03:22 P. M. connect.FileEventLogger info
+INFO: JOIN_ACCEPTED remote=/192.168.0.2:51629 playerId=1 name=Jugador

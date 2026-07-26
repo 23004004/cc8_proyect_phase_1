@@ -42,6 +42,7 @@ import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
@@ -56,8 +57,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 public final class Client {
+    private static final Path CONFIG_PATH = Path.of("config", "server.properties");
     private final ClientEventLogger eventLogger = new ClientEventLogger();
     private final ProtocolCodec codec = new ProtocolCodec();
+    private final GameConfig discoveryConfig = GameConfigLoader.load(CONFIG_PATH, GameConfig.defaults());
 
     public void start() {
         ClientSelection selection = chooseServerWithDiscovery();
@@ -131,25 +134,18 @@ public final class Client {
     }
 
     private ClientSelection chooseServerWithDiscovery() {
-        List<Integer> discoveryPorts = discoveryPorts();
-        List<DiscoveryController> controllers = new ArrayList<>();
+        DiscoveryManager discoveryManager = new DiscoveryManager();
         AtomicReference<ServerDiscoveryDialog> dialogRef = new AtomicReference<>();
         try {
             SwingUtilities.invokeAndWait(() -> {
                 ServerDiscoveryDialog dialog = new ServerDiscoveryDialog(
                         null,
-                        () -> controllers.forEach(DiscoveryController::requestNow),
+                        () -> discoveryManager.restart(dialogRef.get()),
                         scanning -> {
                         }
                 );
                 dialogRef.set(dialog);
-                Consumer<List<ServerChoice>> updateConsumer = dialog::updateServers;
-                for (int discoveryPort : discoveryPorts) {
-                    DiscoveryController controller = new DiscoveryController(discoveryPort);
-                    controller.onUpdate(updateConsumer);
-                    controllers.add(controller);
-                    controller.start();
-                }
+                discoveryManager.start(dialog);
                 dialog.setVisible(true);
             });
             ServerDiscoveryDialog dialog = dialogRef.get();
@@ -159,24 +155,35 @@ public final class Client {
             return new ClientSelection(dialog.selectedServer(), normalizePlayerName(dialog.playerName()));
         } catch (Exception ex) {
             eventLogger.warning("DISCOVERY_DIALOG_FAILED error=" + ex.getMessage());
-            ServerChoice server = discoverSingleServer(discoveryPorts);
+            ServerChoice server = discoverSingleServer(discoveryPorts(discoveryConfig));
             return server == null ? null : new ClientSelection(server, askPlayerName());
         } finally {
-            controllers.forEach(DiscoveryController::stop);
+            discoveryManager.stop();
         }
     }
 
-    private List<Integer> discoveryPorts() {
+    private List<Integer> discoveryPorts(GameConfig config) {
         List<Integer> ports = new ArrayList<>();
-        addPort(ports, GameConfig.defaults().discoveryPort());
-        addPort(ports, 5000);
-        addPort(ports, 5001);
+        addPort(ports, config.discoveryPort());
+        addExtraPorts(ports, config.extraDiscoveryPorts());
         return ports;
     }
 
     private void addPort(List<Integer> ports, int port) {
         if (port > 0 && port <= 65535 && !ports.contains(port)) {
             ports.add(port);
+        }
+    }
+
+    private void addExtraPorts(List<Integer> ports, String rawPorts) {
+        if (rawPorts == null || rawPorts.isBlank()) {
+            return;
+        }
+        for (String rawPort : rawPorts.split(",")) {
+            try {
+                addPort(ports, Integer.parseInt(rawPort.trim()));
+            } catch (NumberFormatException ignored) {
+            }
         }
     }
 
@@ -221,6 +228,23 @@ public final class Client {
                 if (broadcast != null) {
                     addresses.add(broadcast);
                 }
+            }
+        }
+        return addresses;
+    }
+
+    private Set<InetAddress> radminTargets(GameConfig config) throws IOException {
+        Set<InetAddress> addresses = new LinkedHashSet<>();
+        if (!config.radminScanEnabled()) {
+            return addresses;
+        }
+        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+        while (interfaces != null && interfaces.hasMoreElements()) {
+            NetworkInterface networkInterface = interfaces.nextElement();
+            if (!networkInterface.isUp() || networkInterface.isLoopback() || networkInterface.isVirtual()) {
+                continue;
+            }
+            for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
                 addLocalSubnetTargets(addresses, interfaceAddress);
             }
         }
@@ -255,6 +279,16 @@ public final class Client {
     private void sendDiscoverRequests(DatagramSocket socket, int discoveryPort) throws IOException {
         byte[] request = codec.serializeDiscoverRequest();
         for (InetAddress address : discoveryTargets()) {
+            try {
+                socket.send(new DatagramPacket(request, request.length, address, discoveryPort));
+            } catch (IOException ignored) {
+            }
+        }
+    }
+
+    private void sendRadminDiscoverRequests(DatagramSocket socket, int discoveryPort, GameConfig config) throws IOException {
+        byte[] request = codec.serializeDiscoverRequest();
+        for (InetAddress address : radminTargets(config)) {
             try {
                 socket.send(new DatagramPacket(request, request.length, address, discoveryPort));
             } catch (IOException ignored) {
@@ -416,8 +450,42 @@ public final class Client {
         });
     }
 
+    private final class DiscoveryManager {
+        private final List<DiscoveryController> controllers = new ArrayList<>();
+
+        private void start(ServerDiscoveryDialog dialog) {
+            restart(dialog);
+        }
+
+        private void restart(ServerDiscoveryDialog dialog) {
+            stop();
+            if (dialog == null) {
+                return;
+            }
+            GameConfig config = discoveryConfig
+                    .withDiscoveryPort(dialog.discoveryPort())
+                    .withExtraDiscoveryPorts(dialog.extraDiscoveryPorts())
+                    .withRadminScanEnabled(dialog.radminScanEnabled());
+            Consumer<List<ServerChoice>> updateConsumer = dialog::updateServers;
+            for (int discoveryPort : discoveryPorts(config)) {
+                DiscoveryController controller = new DiscoveryController(discoveryPort, config);
+                controller.onUpdate(updateConsumer);
+                controllers.add(controller);
+                controller.start();
+            }
+        }
+
+        private void stop() {
+            for (DiscoveryController controller : controllers) {
+                controller.stop();
+            }
+            controllers.clear();
+        }
+    }
+
     private final class DiscoveryController {
         private final int discoveryPort;
+        private final GameConfig config;
         private final AtomicBoolean running = new AtomicBoolean(false);
         private final AtomicBoolean forceRequest = new AtomicBoolean(true);
         private final Map<String, ServerChoice> serversByKey = new ConcurrentHashMap<>();
@@ -425,8 +493,9 @@ public final class Client {
         };
         private volatile Thread thread;
 
-        private DiscoveryController(int discoveryPort) {
+        private DiscoveryController(int discoveryPort, GameConfig config) {
             this.discoveryPort = discoveryPort;
+            this.config = config;
         }
 
         private void onUpdate(Consumer<List<ServerChoice>> updateConsumer) {
@@ -458,12 +527,18 @@ public final class Client {
         private void run() {
             try (DatagramSocket socket = openDiscoverySocket(discoveryPort)) {
                 socket.setSoTimeout(250);
-                long nextRequestAt = 0L;
+                long nextBroadcastAt = 0L;
+                long nextRadminScanAt = 0L;
                 while (running.get()) {
                     long now = System.currentTimeMillis();
-                    if (forceRequest.getAndSet(false) || now >= nextRequestAt) {
+                    boolean forced = forceRequest.getAndSet(false);
+                    if (forced || now >= nextBroadcastAt) {
                         sendDiscoverRequests(socket);
-                        nextRequestAt = now + 1000L;
+                        nextBroadcastAt = now + 1000L;
+                    }
+                    if (forced || now >= nextRadminScanAt) {
+                        sendRadminDiscoverRequests(socket, discoveryPort, config);
+                        nextRadminScanAt = now + config.radminScanIntervalMs();
                     }
                     receiveOne(socket);
                 }
@@ -483,12 +558,13 @@ public final class Client {
                 socket.receive(packet);
                 ProtocolCodec.DiscoverResponse response = codec.deserializeDiscoverResponse(packet.getData(), packet.getLength());
                 ServerChoice server = toServerChoice(packet, response, discoveryPort);
-                serversByKey.put(server.key(), server);
-                updateConsumer.accept(new ArrayList<>(serversByKey.values()));
-                eventLogger.info("DISCOVER_RESPONSE host=" + server.host() + " port=" + server.port() + " name=" + server.name());
+                ServerChoice previous = serversByKey.put(server.key(), server);
+                if (!server.equals(previous)) {
+                    updateConsumer.accept(new ArrayList<>(serversByKey.values()));
+                }
             } catch (SocketTimeoutException ignored) {
             } catch (RuntimeException ex) {
-                eventLogger.warning("DISCOVERY_RESPONSE_IGNORED error=" + ex.getMessage());
+                // Other projects may use incompatible UDP payloads on the same port.
             }
         }
     }

@@ -37,6 +37,9 @@ public final class GameConfigLoader {
                 intProperty(properties, "maximumPlayers", defaults.maximumPlayers()),
                 intProperty(properties, "serverPort", defaults.serverPort()),
                 intProperty(properties, "discoveryPort", defaults.discoveryPort()),
+                stringProperty(properties, "extraDiscoveryPorts", defaults.extraDiscoveryPorts()),
+                booleanProperty(properties, "radminScanEnabled", defaults.radminScanEnabled()),
+                intProperty(properties, "radminScanIntervalMs", defaults.radminScanIntervalMs()),
                 stringProperty(properties, "serverName", defaults.serverName())
         );
     }
@@ -56,5 +59,13 @@ public final class GameConfigLoader {
     private static String stringProperty(Properties properties, String key, String defaultValue) {
         String raw = properties.getProperty(key);
         return raw == null || raw.isBlank() ? defaultValue : raw.trim();
+    }
+
+    private static boolean booleanProperty(Properties properties, String key, boolean defaultValue) {
+        String raw = properties.getProperty(key);
+        if (raw == null || raw.isBlank()) {
+            return defaultValue;
+        }
+        return Boolean.parseBoolean(raw.trim());
     }
 }

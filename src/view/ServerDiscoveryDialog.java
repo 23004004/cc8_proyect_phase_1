@@ -29,9 +29,12 @@ public final class ServerDiscoveryDialog extends JDialog {
     private final Map<String, ServerChoice> serversByKey = new LinkedHashMap<>();
     private final javax.swing.DefaultListModel<ServerChoice> serverModel = new javax.swing.DefaultListModel<>();
     private final JList<ServerChoice> serverList = new JList<>(serverModel);
-    private final JTextField playerNameField = new JTextField("Jugador", 16);
-    private final JTextField hostField = new JTextField("127.0.0.1", 16);
-    private final JTextField portField = new JTextField("5000", 6);
+    private final JTextField playerNameField = new JTextField("Jugador", 24);
+    private final JTextField hostField = new JTextField("127.0.0.1", 24);
+    private final JTextField portField = new JTextField("5000", 10);
+    private final JTextField discoveryPortField = new JTextField("5000", 10);
+    private final javax.swing.JCheckBox compatibilityPortCheck = new javax.swing.JCheckBox("Buscar tambien UDP 5001");
+    private final javax.swing.JCheckBox radminScanCheck = new javax.swing.JCheckBox("Radmin/VPN", true);
     private final JLabel statusLabel = new JLabel("Buscando servidores...");
     private ServerChoice selectedServer;
 
@@ -39,7 +42,7 @@ public final class ServerDiscoveryDialog extends JDialog {
         super(owner, "Servidores disponibles", true);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setContentPane(buildContent(refreshAction, scanningCallback));
-        setPreferredSize(new Dimension(640, 420));
+        setPreferredSize(new Dimension(820, 520));
         pack();
         setLocationRelativeTo(owner);
     }
@@ -51,6 +54,18 @@ public final class ServerDiscoveryDialog extends JDialog {
     public String playerName() {
         String value = playerNameField.getText().trim();
         return value.isBlank() ? "Jugador" : value;
+    }
+
+    public int discoveryPort() {
+        return parsePort(discoveryPortField.getText(), 5000);
+    }
+
+    public String extraDiscoveryPorts() {
+        return compatibilityPortCheck.isSelected() && discoveryPort() != 5001 ? "5001" : "";
+    }
+
+    public boolean radminScanEnabled() {
+        return radminScanCheck.isSelected();
     }
 
     public void updateServers(List<ServerChoice> servers) {
@@ -88,23 +103,45 @@ public final class ServerDiscoveryDialog extends JDialog {
         root.add(new JScrollPane(serverList), BorderLayout.CENTER);
 
         JPanel manualPanel = new JPanel(new GridBagLayout());
+        manualPanel.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
         GridBagConstraints c = new GridBagConstraints();
-        c.insets = new Insets(4, 4, 4, 4);
+        c.insets = new Insets(6, 6, 6, 6);
         c.anchor = GridBagConstraints.WEST;
+        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 0;
+        c.weightx = 0;
         manualPanel.add(new JLabel("Nombre"), c);
         c.gridx = 1;
+        c.weightx = 1;
+        c.gridwidth = 3;
         manualPanel.add(playerNameField, c);
         c.gridx = 0;
         c.gridy = 1;
+        c.weightx = 0;
+        c.gridwidth = 1;
         manualPanel.add(new JLabel("Host"), c);
         c.gridx = 1;
+        c.weightx = 1;
         manualPanel.add(hostField, c);
         c.gridx = 2;
+        c.weightx = 0;
         manualPanel.add(new JLabel("Puerto"), c);
         c.gridx = 3;
+        c.weightx = 0.35;
         manualPanel.add(portField, c);
+        c.gridx = 0;
+        c.gridy = 2;
+        c.weightx = 0;
+        manualPanel.add(new JLabel("Discovery UDP"), c);
+        c.gridx = 1;
+        c.weightx = 0.35;
+        manualPanel.add(discoveryPortField, c);
+        c.gridx = 2;
+        c.weightx = 0;
+        manualPanel.add(compatibilityPortCheck, c);
+        c.gridx = 3;
+        manualPanel.add(radminScanCheck, c);
 
         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton refreshButton = new JButton("Actualizar");
@@ -150,19 +187,22 @@ public final class ServerDiscoveryDialog extends JDialog {
 
     private void selectManual() {
         String host = hostField.getText().trim();
-        int port;
-        try {
-            port = Integer.parseInt(portField.getText().trim());
-        } catch (NumberFormatException ex) {
-            statusLabel.setText("El puerto manual debe ser numérico.");
-            return;
-        }
+        int port = parsePort(portField.getText(), -1);
         if (host.isBlank() || port <= 0 || port > 65535) {
             statusLabel.setText("Host o puerto manual inválido.");
             return;
         }
         selectedServer = new ServerChoice(host, port, "Manual", 0, "MANUAL", 0, 0);
         dispose();
+    }
+
+    private int parsePort(String raw, int fallback) {
+        try {
+            int port = Integer.parseInt(raw.trim());
+            return port > 0 && port <= 65535 ? port : fallback;
+        } catch (NumberFormatException ex) {
+            return fallback;
+        }
     }
 
     private void runOnEdt(Runnable runnable) {

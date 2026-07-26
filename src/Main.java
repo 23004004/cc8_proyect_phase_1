@@ -2,15 +2,15 @@ import connect.Client;
 import connect.GameConfigLoader;
 import connect.Server;
 import model.GameConfig;
+import view.ServerConfigDialog;
 
-import javax.swing.JOptionPane;
 import java.nio.file.Path;
 
 public final class Main {
     private static final Path SERVER_CONFIG_PATH = Path.of("config", "server.properties");
     private static final String USAGE = """
             Uso:
-              java Main server [tcpPort] [udpDiscoveryPort]
+              java Main server [tcpPort] [udpDiscoveryPort] [extraDiscoveryPorts]
               java Main client [host] [port]
             """;
 
@@ -27,7 +27,7 @@ public final class Main {
 
         try {
             switch (mode) {
-                case SERVER -> runServer(parseOptionalPort(args), parseOptionalDiscoveryPort(args));
+                case SERVER -> runServer(parseOptionalPort(args), parseOptionalDiscoveryPort(args), parseOptionalExtraDiscoveryPorts(args));
                 case CLIENT -> runClient(parseClientHost(args), parseClientPort(args));
             }
         } catch (IllegalArgumentException | IllegalStateException ex) {
@@ -36,7 +36,7 @@ public final class Main {
     }
 
     private static Mode parseMode(String[] args) {
-        if (args == null || args.length < 1 || args.length > 3) {
+        if (args == null || args.length < 1 || args.length > 4) {
             return null;
         }
 
@@ -91,6 +91,13 @@ public final class Main {
         return parsePort(args[2]);
     }
 
+    private static String parseOptionalExtraDiscoveryPorts(String[] args) {
+        if (args == null || args.length < 4 || !"server".equalsIgnoreCase(args[0])) {
+            return null;
+        }
+        return args[3].trim();
+    }
+
     private static Integer parsePort(String raw) {
         try {
             int port = Integer.parseInt(raw.trim());
@@ -112,7 +119,7 @@ public final class Main {
         }
     }
 
-    private static void runServer(Integer portOverride, Integer discoveryPortOverride) {
+    private static void runServer(Integer portOverride, Integer discoveryPortOverride, String extraDiscoveryPortsOverride) {
         GameConfig config = GameConfigLoader.load(SERVER_CONFIG_PATH, GameConfig.defaults());
         if (portOverride != null) {
             config = config.withServerPort(portOverride);
@@ -120,7 +127,15 @@ public final class Main {
         if (discoveryPortOverride != null) {
             config = config.withDiscoveryPort(discoveryPortOverride);
         }
-        config = config.withServerName(askServerName(config.serverName()));
+        if (extraDiscoveryPortsOverride != null) {
+            config = config.withExtraDiscoveryPorts(extraDiscoveryPortsOverride);
+        }
+        if (portOverride == null && discoveryPortOverride == null && extraDiscoveryPortsOverride == null) {
+            config = ServerConfigDialog.showDialog(config);
+            if (config == null) {
+                return;
+            }
+        }
         System.out.println("Configuración del servidor: " + SERVER_CONFIG_PATH);
         new Server(config).start();
     }
@@ -140,17 +155,5 @@ public final class Main {
     private enum Mode {
         SERVER,
         CLIENT
-    }
-
-    private static String askServerName(String defaultName) {
-        try {
-            String value = JOptionPane.showInputDialog(null, "Nombre del servidor:", defaultName);
-            if (value == null || value.trim().isBlank()) {
-                return defaultName;
-            }
-            return value.trim();
-        } catch (RuntimeException ex) {
-            return defaultName;
-        }
     }
 }
