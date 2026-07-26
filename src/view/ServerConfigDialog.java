@@ -30,7 +30,7 @@ public final class ServerConfigDialog extends JDialog {
         this.serverNameField = new JTextField(defaults.serverName(), 20);
         this.tcpPortField = new JTextField(String.valueOf(defaults.serverPort()), 8);
         this.discoveryPortField = new JTextField(String.valueOf(defaults.discoveryPort()), 8);
-        this.compatibilityPortCheck = new JCheckBox("Anunciar tambien en UDP 5001", defaults.extraDiscoveryPorts().contains("5001"));
+        this.compatibilityPortCheck = new JCheckBox("Anunciar tambien en UDP 5000", defaults.extraDiscoveryPorts().contains("5000"));
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setContentPane(buildContent(defaults));
         pack();
@@ -99,7 +99,7 @@ public final class ServerConfigDialog extends JDialog {
         try {
             int tcpPort = parsePort(tcpPortField.getText());
             int discoveryPort = parsePort(discoveryPortField.getText());
-            String extraPorts = compatibilityPortCheck.isSelected() && discoveryPort != 5001 ? "5001" : "";
+            String extraPorts = compatibilityPortCheck.isSelected() && discoveryPort != 5000 ? "5000" : "";
             selectedConfig = defaults
                     .withServerName(serverNameField.getText())
                     .withServerPort(tcpPort)

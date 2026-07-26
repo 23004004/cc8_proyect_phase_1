@@ -32,9 +32,9 @@ public final class ServerDiscoveryDialog extends JDialog {
     private final JTextField playerNameField = new JTextField("Jugador", 24);
     private final JTextField hostField = new JTextField("127.0.0.1", 24);
     private final JTextField portField = new JTextField("5000", 10);
-    private final JTextField discoveryPortField = new JTextField("5000", 10);
-    private final javax.swing.JCheckBox compatibilityPortCheck = new javax.swing.JCheckBox("Buscar tambien UDP 5001");
-    private final javax.swing.JCheckBox radminScanCheck = new javax.swing.JCheckBox("Radmin/VPN", true);
+    private final JTextField discoveryPortField = new JTextField("5001", 10);
+    private final javax.swing.JCheckBox compatibilityPortCheck = new javax.swing.JCheckBox("Buscar tambien UDP 5000");
+    private final javax.swing.JCheckBox radminScanCheck = new javax.swing.JCheckBox("Radmin/VPN", false);
     private final JLabel statusLabel = new JLabel("Buscando servidores...");
     private ServerChoice selectedServer;
 
@@ -57,11 +57,11 @@ public final class ServerDiscoveryDialog extends JDialog {
     }
 
     public int discoveryPort() {
-        return parsePort(discoveryPortField.getText(), 5000);
+        return parsePort(discoveryPortField.getText(), 5001);
     }
 
     public String extraDiscoveryPorts() {
-        return compatibilityPortCheck.isSelected() && discoveryPort() != 5001 ? "5001" : "";
+        return compatibilityPortCheck.isSelected() && discoveryPort() != 5000 ? "5000" : "";
     }
 
     public boolean radminScanEnabled() {
