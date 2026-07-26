@@ -22,11 +22,14 @@ import protocol.LeaveRequest;
 import protocol.ProtocolCodec;
 import protocol.ProtocolDecodeException;
 import protocol.ProtocolMessage;
+import view.ServerDashboard;
 
 import java.io.IOException;
+import java.awt.GraphicsEnvironment;
 import java.net.BindException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InterfaceAddress;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -34,11 +37,14 @@ import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -64,6 +70,7 @@ public final class Server {
     private volatile ServerSocket serverSocket;
     private volatile DatagramSocket discoverySocket;
     private volatile ScheduledFuture<?> tickFuture;
+    private volatile ServerDashboard dashboard;
 
     public Server(GameConfig config) {
         this.config = Objects.requireNonNull(config, "config must not be null");
@@ -82,6 +89,7 @@ public final class Server {
     public void start() {
         try (ServerSocket tcpServer = new ServerSocket(config.serverPort())) {
             this.serverSocket = tcpServer;
+            startDashboard();
             startConsoleControl();
             startDiscoveryResponder();
             printConnectionInfo();
@@ -108,24 +116,27 @@ public final class Server {
                 socket.bind(new InetSocketAddress(config.discoveryPort()));
                 discoverySocket = socket;
                 socket.setBroadcast(true);
+                socket.setSoTimeout(250);
                 byte[] buffer = new byte[512];
+                long nextBeaconAt = 0L;
                 while (!shuttingDown.get()) {
-                    DatagramPacket request = new DatagramPacket(buffer, buffer.length);
-                    socket.receive(request);
-                    if (game.status() != GameStatus.WAITING || !codec.isDiscoverRequest(request.getData(), request.getLength())) {
-                        continue;
+                    long now = System.currentTimeMillis();
+                    if (game.status() == GameStatus.WAITING && now >= nextBeaconAt) {
+                        sendDiscoveryBeacons(socket);
+                        nextBeaconAt = now + 1000L;
                     }
-                    byte[] response = codec.serializeDiscoverResponse(
-                            game.gameId(),
-                            config.serverName(),
-                            config.serverPort(),
-                            game.status(),
-                            game.players().size(),
-                            config.maximumPlayers()
-                    );
-                    DatagramPacket packet = new DatagramPacket(response, response.length, request.getAddress(), request.getPort());
-                    socket.send(packet);
-                    eventLogger.info("DISCOVER_RESPONSE remote=" + request.getAddress().getHostAddress());
+                    try {
+                        DatagramPacket request = new DatagramPacket(buffer, buffer.length);
+                        socket.receive(request);
+                        if (game.status() != GameStatus.WAITING || !codec.isDiscoverRequest(request.getData(), request.getLength())) {
+                            continue;
+                        }
+                        byte[] response = discoveryResponse();
+                        DatagramPacket packet = new DatagramPacket(response, response.length, request.getAddress(), request.getPort());
+                        socket.send(packet);
+                        eventLogger.info("DISCOVER_RESPONSE remote=" + request.getAddress().getHostAddress());
+                    } catch (SocketTimeoutException ignored) {
+                    }
                 }
             } catch (SocketException ex) {
                 if (!shuttingDown.get()) {
@@ -139,6 +150,76 @@ public final class Server {
         }, "server-discovery");
         thread.setDaemon(true);
         thread.start();
+    }
+
+    private void sendDiscoveryBeacons(DatagramSocket socket) {
+        try {
+            byte[] response = discoveryResponse();
+            for (InetAddress address : broadcastAddresses()) {
+                try {
+                    socket.send(new DatagramPacket(response, response.length, address, config.discoveryPort()));
+                } catch (IOException ex) {
+                    // Some networks reject 255.255.255.255 but accept interface broadcasts.
+                }
+            }
+        } catch (IOException ex) {
+            eventLogger.warning("DISCOVER_BEACON_FAILED error=" + ex.getMessage());
+        }
+    }
+
+    private byte[] discoveryResponse() {
+        return codec.serializeDiscoverResponse(
+                game.gameId(),
+                config.serverName(),
+                config.serverPort(),
+                game.status(),
+                game.players().size(),
+                config.maximumPlayers()
+        );
+    }
+
+    private Set<InetAddress> broadcastAddresses() throws IOException {
+        Set<InetAddress> addresses = new LinkedHashSet<>();
+        addresses.add(InetAddress.getByName("255.255.255.255"));
+        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+        while (interfaces != null && interfaces.hasMoreElements()) {
+            NetworkInterface networkInterface = interfaces.nextElement();
+            if (!networkInterface.isUp() || networkInterface.isLoopback() || networkInterface.isVirtual()) {
+                continue;
+            }
+            for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
+                InetAddress broadcast = interfaceAddress.getBroadcast();
+                if (broadcast != null) {
+                    addresses.add(broadcast);
+                }
+            }
+        }
+        return addresses;
+    }
+
+    private void startDashboard() {
+        if (GraphicsEnvironment.isHeadless()) {
+            return;
+        }
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            try {
+                ServerDashboard serverDashboard = new ServerDashboard(config.serverName(), config.serverPort(), config.discoveryPort());
+                serverDashboard.setStartAction(this::startMatch);
+                serverDashboard.setStopAction(this::shutdown);
+                dashboard = serverDashboard;
+                refreshDashboard();
+                serverDashboard.setVisible(true);
+            } catch (RuntimeException ex) {
+                eventLogger.warning("SERVER_DASHBOARD_FAILED error=" + ex.getMessage());
+            }
+        });
+    }
+
+    private void refreshDashboard() {
+        ServerDashboard current = dashboard;
+        if (current != null) {
+            current.update(game.status(), game.players());
+        }
     }
 
     private void printConnectionInfo() {
@@ -213,6 +294,7 @@ public final class Server {
         }
         game.setStatus(GameStatus.STARTING);
         broadcast(GameMessageMapper.toLobbyStateMessage(game));
+        refreshDashboard();
         tickExecutor.execute(this::runCountdownAndStart);
     }
 
@@ -227,6 +309,7 @@ public final class Server {
                 initializer.initialize(game);
                 game.setStatus(GameStatus.RUNNING);
             }
+            refreshDashboard();
             broadcast(GameMessageMapper.toGameStartedMessage(game));
             tickFuture = tickExecutor.scheduleAtFixedRate(this::runTickSafely, 0L, config.tickIntervalMs(), TimeUnit.MILLISECONDS);
             eventLogger.info("MATCH_RUNNING players=" + game.players().size());
@@ -249,6 +332,7 @@ public final class Server {
                     current.cancel(false);
                 }
                 eventLogger.info("MATCH_FINISHED tick=" + result.tick() + " winnerId=" + result.gameOverMessage().winnerId());
+                refreshDashboard();
             }
         } catch (RuntimeException ex) {
             eventLogger.warning("TICK_FAILED error=" + ex.getMessage());
@@ -274,6 +358,10 @@ public final class Server {
         }
         closeQuietly(discoverySocket);
         closeQuietly(serverSocket);
+        ServerDashboard current = dashboard;
+        if (current != null) {
+            javax.swing.SwingUtilities.invokeLater(current::dispose);
+        }
         shutdownExecutors();
     }
 
@@ -379,6 +467,7 @@ public final class Server {
             }
             context.send(new JoinAcceptedMessage(playerId, game.gameId()));
             broadcast(GameMessageMapper.toLobbyStateMessage(game));
+            refreshDashboard();
             eventLogger.info("JOIN_ACCEPTED remote=" + remoteAddress + " playerId=" + playerId + " name=" + name);
         }
 
@@ -434,6 +523,7 @@ public final class Server {
                 if (game.status() == GameStatus.WAITING || game.status() == GameStatus.STARTING) {
                     broadcast(GameMessageMapper.toLobbyStateMessage(game));
                 }
+                refreshDashboard();
             }
             context.closeQuietly();
         }

@@ -48,4 +48,21 @@ public record GameConfig(
                 serverName
         );
     }
+
+    public GameConfig withServerName(String newServerName) {
+        return new GameConfig(
+                mapSize,
+                circleRadius,
+                playerRadius,
+                spawnMargin,
+                playerSpeed,
+                interactionRadius,
+                tickIntervalMs,
+                countdownSeconds,
+                maximumPlayers,
+                serverPort,
+                discoveryPort,
+                newServerName
+        );
+    }
 }

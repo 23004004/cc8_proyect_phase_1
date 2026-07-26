@@ -25,6 +25,7 @@ import view.ServerDiscoveryDialog;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
@@ -39,13 +40,13 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
@@ -59,20 +60,24 @@ public final class Client {
     private final ProtocolCodec codec = new ProtocolCodec();
 
     public void start() {
-        ServerChoice choice = chooseServerWithDiscovery(GameConfig.defaults().discoveryPort());
-        if (choice == null) {
+        ClientSelection selection = chooseServerWithDiscovery(GameConfig.defaults().discoveryPort());
+        if (selection == null) {
             return;
         }
+        ServerChoice choice = selection.server();
         System.out.println("Servidor seleccionado: " + choice.name() + " en " + choice.host() + ":" + choice.port()
                 + " (" + choice.playerCount() + "/" + choice.maximumPlayers() + ")");
-        start(choice.host(), choice.port());
+        start(choice.host(), choice.port(), selection.playerName());
     }
 
     public void start(String host, int port) {
+        start(host, port, askPlayerName());
+    }
+
+    private void start(String host, int port, String name) {
         JFrame frame = null;
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.print("Nombre del jugador: ");
-            String name = readNonBlankLine(scanner, "Jugador");
+        try {
+            name = normalizePlayerName(name);
             eventLogger.info("CONNECTING host=" + host + " port=" + port + " name=" + name);
             try (Socket socket = openSocket(host, port);
                  LineConnection connection = new LineConnection(socket)) {
@@ -125,7 +130,7 @@ public final class Client {
         return socket;
     }
 
-    private ServerChoice chooseServerWithDiscovery(int discoveryPort) {
+    private ClientSelection chooseServerWithDiscovery(int discoveryPort) {
         DiscoveryController controller = new DiscoveryController(discoveryPort);
         AtomicReference<ServerDiscoveryDialog> dialogRef = new AtomicReference<>();
         try {
@@ -142,18 +147,21 @@ public final class Client {
                 dialog.setVisible(true);
             });
             ServerDiscoveryDialog dialog = dialogRef.get();
-            return dialog == null ? null : dialog.selectedServer();
+            if (dialog == null || dialog.selectedServer() == null) {
+                return null;
+            }
+            return new ClientSelection(dialog.selectedServer(), normalizePlayerName(dialog.playerName()));
         } catch (Exception ex) {
             eventLogger.warning("DISCOVERY_DIALOG_FAILED error=" + ex.getMessage());
-            return discoverSingleServer(discoveryPort);
+            ServerChoice server = discoverSingleServer(discoveryPort);
+            return server == null ? null : new ClientSelection(server, askPlayerName());
         } finally {
             controller.stop();
         }
     }
 
     private ServerChoice discoverSingleServer(int discoveryPort) {
-        try (DatagramSocket socket = new DatagramSocket()) {
-            socket.setBroadcast(true);
+        try (DatagramSocket socket = openDiscoverySocket(discoveryPort)) {
             socket.setSoTimeout(1200);
             byte[] request = codec.serializeDiscoverRequest();
             for (InetAddress address : broadcastAddresses()) {
@@ -178,6 +186,14 @@ public final class Client {
             eventLogger.warning("DISCOVERY_FAILED error=" + ex.getMessage());
             return null;
         }
+    }
+
+    private DatagramSocket openDiscoverySocket(int discoveryPort) throws SocketException {
+        DatagramSocket socket = new DatagramSocket(null);
+        socket.setReuseAddress(true);
+        socket.bind(new InetSocketAddress(discoveryPort));
+        socket.setBroadcast(true);
+        return socket;
     }
 
     private Set<InetAddress> broadcastAddresses() throws IOException {
@@ -248,12 +264,18 @@ public final class Client {
         }
     }
 
-    private String readNonBlankLine(Scanner scanner, String fallback) {
-        if (!scanner.hasNextLine()) {
-            return fallback;
+    private String askPlayerName() {
+        try {
+            String value = JOptionPane.showInputDialog(null, "Nombre del jugador:", "Jugador");
+            return normalizePlayerName(value);
+        } catch (RuntimeException ex) {
+            return "Jugador";
         }
-        String value = scanner.nextLine().trim();
-        return value.isBlank() ? fallback : value;
+    }
+
+    private String normalizePlayerName(String name) {
+        String value = name == null ? "" : name.trim();
+        return value.isBlank() ? "Jugador" : value;
     }
 
     private void installKeyboardControls(JFrame frame, LineConnection connection, AtomicInteger playerIdRef, PanelGame panel) {
@@ -375,8 +397,7 @@ public final class Client {
         }
 
         private void run() {
-            try (DatagramSocket socket = new DatagramSocket()) {
-                socket.setBroadcast(true);
+            try (DatagramSocket socket = openDiscoverySocket(discoveryPort)) {
                 socket.setSoTimeout(250);
                 long nextRequestAt = 0L;
                 while (running.get()) {
@@ -422,5 +443,8 @@ public final class Client {
                 eventLogger.warning("DISCOVERY_RESPONSE_IGNORED error=" + ex.getMessage());
             }
         }
+    }
+
+    private record ClientSelection(ServerChoice server, String playerName) {
     }
 }

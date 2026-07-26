@@ -29,6 +29,7 @@ public final class ServerDiscoveryDialog extends JDialog {
     private final Map<String, ServerChoice> serversByKey = new LinkedHashMap<>();
     private final javax.swing.DefaultListModel<ServerChoice> serverModel = new javax.swing.DefaultListModel<>();
     private final JList<ServerChoice> serverList = new JList<>(serverModel);
+    private final JTextField playerNameField = new JTextField("Jugador", 16);
     private final JTextField hostField = new JTextField("127.0.0.1", 16);
     private final JTextField portField = new JTextField("5000", 6);
     private final JLabel statusLabel = new JLabel("Buscando servidores...");
@@ -45,6 +46,11 @@ public final class ServerDiscoveryDialog extends JDialog {
 
     public ServerChoice selectedServer() {
         return selectedServer;
+    }
+
+    public String playerName() {
+        String value = playerNameField.getText().trim();
+        return value.isBlank() ? "Jugador" : value;
     }
 
     public void updateServers(List<ServerChoice> servers) {
@@ -87,6 +93,11 @@ public final class ServerDiscoveryDialog extends JDialog {
         c.anchor = GridBagConstraints.WEST;
         c.gridx = 0;
         c.gridy = 0;
+        manualPanel.add(new JLabel("Nombre"), c);
+        c.gridx = 1;
+        manualPanel.add(playerNameField, c);
+        c.gridx = 0;
+        c.gridy = 1;
         manualPanel.add(new JLabel("Host"), c);
         c.gridx = 1;
         manualPanel.add(hostField, c);

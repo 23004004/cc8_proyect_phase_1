@@ -3,6 +3,7 @@ import connect.GameConfigLoader;
 import connect.Server;
 import model.GameConfig;
 
+import javax.swing.JOptionPane;
 import java.nio.file.Path;
 
 public final class Main {
@@ -109,6 +110,7 @@ public final class Main {
         if (portOverride != null) {
             config = config.withServerPort(portOverride);
         }
+        config = config.withServerName(askServerName(config.serverName()));
         System.out.println("Configuración del servidor: " + SERVER_CONFIG_PATH);
         new Server(config).start();
     }
@@ -128,5 +130,17 @@ public final class Main {
     private enum Mode {
         SERVER,
         CLIENT
+    }
+
+    private static String askServerName(String defaultName) {
+        try {
+            String value = JOptionPane.showInputDialog(null, "Nombre del servidor:", defaultName);
+            if (value == null || value.trim().isBlank()) {
+                return defaultName;
+            }
+            return value.trim();
+        } catch (RuntimeException ex) {
+            return defaultName;
+        }
     }
 }
