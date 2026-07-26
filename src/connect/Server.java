@@ -68,7 +68,7 @@ public final class Server {
     private final ProtocolCodec codec;
 
     private volatile ServerSocket serverSocket;
-    private volatile DatagramSocket discoverySocket;
+    private final List<DatagramSocket> discoverySockets = new java.util.concurrent.CopyOnWriteArrayList<>();
     private volatile ScheduledFuture<?> tickFuture;
     private volatile ServerDashboard dashboard;
 
@@ -110,11 +110,31 @@ public final class Server {
     }
 
     private void startDiscoveryResponder() {
+        for (int discoveryPort : discoveryPorts()) {
+            startDiscoveryResponder(discoveryPort);
+        }
+    }
+
+    private List<Integer> discoveryPorts() {
+        List<Integer> ports = new ArrayList<>();
+        addPort(ports, config.discoveryPort());
+        addPort(ports, 5000);
+        addPort(ports, 5001);
+        return ports;
+    }
+
+    private void addPort(List<Integer> ports, int port) {
+        if (port > 0 && port <= 65535 && !ports.contains(port)) {
+            ports.add(port);
+        }
+    }
+
+    private void startDiscoveryResponder(int discoveryPort) {
         Thread thread = new Thread(() -> {
             try (DatagramSocket socket = new DatagramSocket(null)) {
                 socket.setReuseAddress(true);
-                socket.bind(new InetSocketAddress(config.discoveryPort()));
-                discoverySocket = socket;
+                socket.bind(new InetSocketAddress(discoveryPort));
+                discoverySockets.add(socket);
                 socket.setBroadcast(true);
                 socket.setSoTimeout(250);
                 byte[] buffer = new byte[512];
@@ -122,7 +142,7 @@ public final class Server {
                 while (!shuttingDown.get()) {
                     long now = System.currentTimeMillis();
                     if (game.status() == GameStatus.WAITING && now >= nextBeaconAt) {
-                        sendDiscoveryBeacons(socket);
+                        sendDiscoveryBeacons(socket, discoveryPort);
                         nextBeaconAt = now + 1000L;
                     }
                     try {
@@ -140,24 +160,26 @@ public final class Server {
                 }
             } catch (SocketException ex) {
                 if (!shuttingDown.get()) {
-                    eventLogger.warning("DISCOVERY_FAILED error=" + ex.getMessage());
+                    eventLogger.warning("DISCOVERY_FAILED port=" + discoveryPort + " error=" + ex.getMessage());
                 }
             } catch (IOException ex) {
                 if (!shuttingDown.get()) {
-                    eventLogger.warning("DISCOVERY_IO_ERROR error=" + ex.getMessage());
+                    eventLogger.warning("DISCOVERY_IO_ERROR port=" + discoveryPort + " error=" + ex.getMessage());
                 }
+            } finally {
+                discoverySockets.removeIf(DatagramSocket::isClosed);
             }
-        }, "server-discovery");
+        }, "server-discovery-" + discoveryPort);
         thread.setDaemon(true);
         thread.start();
     }
 
-    private void sendDiscoveryBeacons(DatagramSocket socket) {
+    private void sendDiscoveryBeacons(DatagramSocket socket, int discoveryPort) {
         try {
             byte[] response = discoveryResponse();
             for (InetAddress address : broadcastAddresses()) {
                 try {
-                    socket.send(new DatagramPacket(response, response.length, address, config.discoveryPort()));
+                    socket.send(new DatagramPacket(response, response.length, address, discoveryPort));
                 } catch (IOException ex) {
                     // Some networks reject 255.255.255.255 but accept interface broadcasts.
                 }
@@ -356,7 +378,9 @@ public final class Server {
         if (!shuttingDown.compareAndSet(false, true)) {
             return;
         }
-        closeQuietly(discoverySocket);
+        for (DatagramSocket socket : discoverySockets) {
+            closeQuietly(socket);
+        }
         closeQuietly(serverSocket);
         ServerDashboard current = dashboard;
         if (current != null) {

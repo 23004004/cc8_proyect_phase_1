@@ -60,7 +60,7 @@ public final class Client {
     private final ProtocolCodec codec = new ProtocolCodec();
 
     public void start() {
-        ClientSelection selection = chooseServerWithDiscovery(GameConfig.defaults().discoveryPort());
+        ClientSelection selection = chooseServerWithDiscovery();
         if (selection == null) {
             return;
         }
@@ -130,20 +130,26 @@ public final class Client {
         return socket;
     }
 
-    private ClientSelection chooseServerWithDiscovery(int discoveryPort) {
-        DiscoveryController controller = new DiscoveryController(discoveryPort);
+    private ClientSelection chooseServerWithDiscovery() {
+        List<Integer> discoveryPorts = discoveryPorts();
+        List<DiscoveryController> controllers = new ArrayList<>();
         AtomicReference<ServerDiscoveryDialog> dialogRef = new AtomicReference<>();
         try {
             SwingUtilities.invokeAndWait(() -> {
                 ServerDiscoveryDialog dialog = new ServerDiscoveryDialog(
                         null,
-                        controller::requestNow,
+                        () -> controllers.forEach(DiscoveryController::requestNow),
                         scanning -> {
                         }
                 );
                 dialogRef.set(dialog);
-                controller.onUpdate(dialog::updateServers);
-                controller.start();
+                Consumer<List<ServerChoice>> updateConsumer = dialog::updateServers;
+                for (int discoveryPort : discoveryPorts) {
+                    DiscoveryController controller = new DiscoveryController(discoveryPort);
+                    controller.onUpdate(updateConsumer);
+                    controllers.add(controller);
+                    controller.start();
+                }
                 dialog.setVisible(true);
             });
             ServerDiscoveryDialog dialog = dialogRef.get();
@@ -153,39 +159,44 @@ public final class Client {
             return new ClientSelection(dialog.selectedServer(), normalizePlayerName(dialog.playerName()));
         } catch (Exception ex) {
             eventLogger.warning("DISCOVERY_DIALOG_FAILED error=" + ex.getMessage());
-            ServerChoice server = discoverSingleServer(discoveryPort);
+            ServerChoice server = discoverSingleServer(discoveryPorts);
             return server == null ? null : new ClientSelection(server, askPlayerName());
         } finally {
-            controller.stop();
+            controllers.forEach(DiscoveryController::stop);
         }
     }
 
-    private ServerChoice discoverSingleServer(int discoveryPort) {
-        try (DatagramSocket socket = openDiscoverySocket(discoveryPort)) {
-            socket.setSoTimeout(1200);
-            byte[] request = codec.serializeDiscoverRequest();
-            for (InetAddress address : broadcastAddresses()) {
-                socket.send(new DatagramPacket(request, request.length, address, discoveryPort));
-            }
-            byte[] buffer = new byte[512];
-            DatagramPacket responsePacket = new DatagramPacket(buffer, buffer.length);
-            socket.receive(responsePacket);
-            ProtocolCodec.DiscoverResponse response = codec.deserializeDiscoverResponse(responsePacket.getData(), responsePacket.getLength());
-            return new ServerChoice(
-                    responsePacket.getAddress().getHostAddress(),
-                    response.tcpPort(),
-                    response.serverName(),
-                    response.gameId(),
-                    response.state().name(),
-                    response.playerCount(),
-                    response.maximumPlayers()
-            );
-        } catch (SocketTimeoutException ex) {
-            return null;
-        } catch (IOException | RuntimeException ex) {
-            eventLogger.warning("DISCOVERY_FAILED error=" + ex.getMessage());
-            return null;
+    private List<Integer> discoveryPorts() {
+        List<Integer> ports = new ArrayList<>();
+        addPort(ports, GameConfig.defaults().discoveryPort());
+        addPort(ports, 5000);
+        addPort(ports, 5001);
+        return ports;
+    }
+
+    private void addPort(List<Integer> ports, int port) {
+        if (port > 0 && port <= 65535 && !ports.contains(port)) {
+            ports.add(port);
         }
+    }
+
+    private ServerChoice discoverSingleServer(List<Integer> discoveryPorts) {
+        for (int discoveryPort : discoveryPorts) {
+            try (DatagramSocket socket = openDiscoverySocket(discoveryPort)) {
+                socket.setSoTimeout(1200);
+                sendDiscoverRequests(socket, discoveryPort);
+                byte[] buffer = new byte[512];
+                DatagramPacket responsePacket = new DatagramPacket(buffer, buffer.length);
+                socket.receive(responsePacket);
+                ProtocolCodec.DiscoverResponse response = codec.deserializeDiscoverResponse(responsePacket.getData(), responsePacket.getLength());
+                return toServerChoice(responsePacket, response, discoveryPort);
+            } catch (SocketTimeoutException ex) {
+                // Try the next compatibility port.
+            } catch (IOException | RuntimeException ex) {
+                eventLogger.warning("DISCOVERY_FAILED port=" + discoveryPort + " error=" + ex.getMessage());
+            }
+        }
+        return null;
     }
 
     private DatagramSocket openDiscoverySocket(int discoveryPort) throws SocketException {
@@ -196,7 +207,7 @@ public final class Client {
         return socket;
     }
 
-    private Set<InetAddress> broadcastAddresses() throws IOException {
+    private Set<InetAddress> discoveryTargets() throws IOException {
         Set<InetAddress> addresses = new LinkedHashSet<>();
         addresses.add(InetAddress.getByName("255.255.255.255"));
         Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
@@ -210,9 +221,57 @@ public final class Client {
                 if (broadcast != null) {
                     addresses.add(broadcast);
                 }
+                addLocalSubnetTargets(addresses, interfaceAddress);
             }
         }
         return addresses;
+    }
+
+    private void addLocalSubnetTargets(Set<InetAddress> addresses, InterfaceAddress interfaceAddress) {
+        InetAddress address = interfaceAddress.getAddress();
+        if (!(address instanceof java.net.Inet4Address)) {
+            return;
+        }
+        byte[] raw = address.getAddress();
+        int base = ((raw[0] & 0xFF) << 24) | ((raw[1] & 0xFF) << 16) | ((raw[2] & 0xFF) << 8);
+        int self = raw[3] & 0xFF;
+        for (int host = 1; host <= 254; host++) {
+            if (host == self) {
+                continue;
+            }
+            int value = base | host;
+            try {
+                addresses.add(InetAddress.getByAddress(new byte[]{
+                        (byte) ((value >>> 24) & 0xFF),
+                        (byte) ((value >>> 16) & 0xFF),
+                        (byte) ((value >>> 8) & 0xFF),
+                        (byte) (value & 0xFF)
+                }));
+            } catch (IOException ignored) {
+            }
+        }
+    }
+
+    private void sendDiscoverRequests(DatagramSocket socket, int discoveryPort) throws IOException {
+        byte[] request = codec.serializeDiscoverRequest();
+        for (InetAddress address : discoveryTargets()) {
+            try {
+                socket.send(new DatagramPacket(request, request.length, address, discoveryPort));
+            } catch (IOException ignored) {
+            }
+        }
+    }
+
+    private ServerChoice toServerChoice(DatagramPacket packet, ProtocolCodec.DiscoverResponse response, int discoveryPort) {
+        return new ServerChoice(
+                packet.getAddress().getHostAddress(),
+                response.tcpPort(),
+                response.serverName(),
+                response.gameId(),
+                response.state().name() + " UDP:" + discoveryPort,
+                response.playerCount(),
+                response.maximumPlayers()
+        );
     }
 
     private void readLoop(LineConnection connection, PanelGame panel, AtomicInteger playerIdRef, CountDownLatch finished) {
@@ -414,10 +473,7 @@ public final class Client {
         }
 
         private void sendDiscoverRequests(DatagramSocket socket) throws IOException {
-            byte[] request = codec.serializeDiscoverRequest();
-            for (InetAddress address : broadcastAddresses()) {
-                socket.send(new DatagramPacket(request, request.length, address, discoveryPort));
-            }
+            Client.this.sendDiscoverRequests(socket, discoveryPort);
         }
 
         private void receiveOne(DatagramSocket socket) throws IOException {
@@ -426,15 +482,7 @@ public final class Client {
             try {
                 socket.receive(packet);
                 ProtocolCodec.DiscoverResponse response = codec.deserializeDiscoverResponse(packet.getData(), packet.getLength());
-                ServerChoice server = new ServerChoice(
-                        packet.getAddress().getHostAddress(),
-                        response.tcpPort(),
-                        response.serverName(),
-                        response.gameId(),
-                        response.state().name(),
-                        response.playerCount(),
-                        response.maximumPlayers()
-                );
+                ServerChoice server = toServerChoice(packet, response, discoveryPort);
                 serversByKey.put(server.key(), server);
                 updateConsumer.accept(new ArrayList<>(serversByKey.values()));
                 eventLogger.info("DISCOVER_RESPONSE host=" + server.host() + " port=" + server.port() + " name=" + server.name());

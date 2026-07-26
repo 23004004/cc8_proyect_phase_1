@@ -60,6 +60,13 @@ En el servidor escribe `start` para iniciar el countdown y la partida.
 Por compatibilidad con la clase, el discovery UDP queda por defecto en `5000`.
 TCP y UDP pueden usar el mismo número de puerto sin conflicto.
 
+El discovery del cliente escucha y consulta `5000` y `5001` para mantener
+compatibilidad con versiones anteriores. En VPNs como Radmin, el broadcast puede
+no atravesar la red virtual; por eso el cliente también intenta discovery UDP por
+unicast en la subred local de cada adaptador IPv4. Si la VPN bloquea broadcast y
+el servidor está fuera de esa subred, usa conexión manual con la IP de Radmin del
+servidor y el puerto TCP mostrado por la ventana del servidor.
+
 ## Controles del cliente
 
 - `W`: moverse arriba.
