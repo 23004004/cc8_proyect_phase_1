@@ -1862,3 +1862,95 @@ jul 25, 2026 6:41:58 P. M. connect.FileEventLogger info
 INFO: INPUT_SENT playerId=1 direction=NONE
 jul 25, 2026 6:41:58 P. M. connect.FileEventLogger warning
 WARNING: SERVER_ERROR code=GAME_FINISHED description=La partida no está en ejecución.
+jul 25, 2026 7:02:04 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:04 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:05 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:05 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:06 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:06 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:07 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:07 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:07 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:07 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:07 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:07 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:08 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:08 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:08 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:08 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:08 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:08 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:09 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:09 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:09 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:09 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:10 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:10 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:11 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:11 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:12 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:12 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:13 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:13 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:14 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:14 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:14 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:14 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:14 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:14 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:15 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:15 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:16 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:16 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:17 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:17 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:18 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:18 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:19 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.
+jul 25, 2026 7:02:19 P. M. connect.FileEventLogger warning
+WARNING: DISCOVERY_RESPONSE_IGNORED error=Respuesta de descubrimiento inválida.

@@ -29,7 +29,7 @@ public record GameConfig(
     }
 
     public static GameConfig defaults() {
-        return new GameConfig(2000, 500, 15, 80, 220, 60, 50, 5, 100, 5000, 5001, "Captura la Bandera");
+        return new GameConfig(2000, 500, 15, 80, 220, 60, 50, 5, 100, 5000, 5000, "Captura la Bandera");
     }
 
     public GameConfig withServerPort(int newServerPort) {
@@ -63,6 +63,23 @@ public record GameConfig(
                 serverPort,
                 discoveryPort,
                 newServerName
+        );
+    }
+
+    public GameConfig withDiscoveryPort(int newDiscoveryPort) {
+        return new GameConfig(
+                mapSize,
+                circleRadius,
+                playerRadius,
+                spawnMargin,
+                playerSpeed,
+                interactionRadius,
+                tickIntervalMs,
+                countdownSeconds,
+                maximumPlayers,
+                serverPort,
+                newDiscoveryPort,
+                serverName
         );
     }
 }

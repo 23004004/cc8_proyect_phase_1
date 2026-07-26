@@ -10,7 +10,7 @@ public final class Main {
     private static final Path SERVER_CONFIG_PATH = Path.of("config", "server.properties");
     private static final String USAGE = """
             Uso:
-              java Main server [port]
+              java Main server [tcpPort] [udpDiscoveryPort]
               java Main client [host] [port]
             """;
 
@@ -27,7 +27,7 @@ public final class Main {
 
         try {
             switch (mode) {
-                case SERVER -> runServer(parseOptionalPort(args));
+                case SERVER -> runServer(parseOptionalPort(args), parseOptionalDiscoveryPort(args));
                 case CLIENT -> runClient(parseClientHost(args), parseClientPort(args));
             }
         } catch (IllegalArgumentException | IllegalStateException ex) {
@@ -84,6 +84,13 @@ public final class Main {
         return parsePort(args[1]);
     }
 
+    private static Integer parseOptionalDiscoveryPort(String[] args) {
+        if (args == null || args.length < 3 || !"server".equalsIgnoreCase(args[0])) {
+            return null;
+        }
+        return parsePort(args[2]);
+    }
+
     private static Integer parsePort(String raw) {
         try {
             int port = Integer.parseInt(raw.trim());
@@ -105,10 +112,13 @@ public final class Main {
         }
     }
 
-    private static void runServer(Integer portOverride) {
+    private static void runServer(Integer portOverride, Integer discoveryPortOverride) {
         GameConfig config = GameConfigLoader.load(SERVER_CONFIG_PATH, GameConfig.defaults());
         if (portOverride != null) {
             config = config.withServerPort(portOverride);
+        }
+        if (discoveryPortOverride != null) {
+            config = config.withDiscoveryPort(discoveryPortOverride);
         }
         config = config.withServerName(askServerName(config.serverName()));
         System.out.println("Configuración del servidor: " + SERVER_CONFIG_PATH);

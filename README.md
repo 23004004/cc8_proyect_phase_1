@@ -37,10 +37,10 @@ Levantar servidor:
 make run-server
 ```
 
-Levantar servidor en otro puerto TCP:
+Levantar servidor en otros puertos:
 
 ```bash
-make run-server PORT=5000
+make run-server PORT=5000 DISCOVERY=5000
 ```
 
 Levantar cliente con discovery UDP:
@@ -56,6 +56,9 @@ make run-client HOST=127.0.0.1 PORT=5000
 ```
 
 En el servidor escribe `start` para iniciar el countdown y la partida.
+
+Por compatibilidad con la clase, el discovery UDP queda por defecto en `5000`.
+TCP y UDP pueden usar el mismo número de puerto sin conflicto.
 
 ## Controles del cliente
 
