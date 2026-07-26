@@ -52,7 +52,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public final class Server {
     private final GameConfig config;
@@ -63,7 +62,6 @@ public final class Server {
     private final ConcurrentHashMap<Integer, ClientContext> clientsByPlayerId;
     private final ExecutorService clientExecutor;
     private final ScheduledExecutorService tickExecutor;
-    private final AtomicInteger playerSequence;
     private final AtomicBoolean shuttingDown;
     private final ProtocolCodec codec;
 
@@ -81,7 +79,6 @@ public final class Server {
         this.clientsByPlayerId = new ConcurrentHashMap<>();
         this.clientExecutor = Executors.newCachedThreadPool();
         this.tickExecutor = Executors.newSingleThreadScheduledExecutor();
-        this.playerSequence = new AtomicInteger(0);
         this.shuttingDown = new AtomicBoolean(false);
         this.codec = new ProtocolCodec();
     }
@@ -316,6 +313,9 @@ public final class Server {
     }
 
     private synchronized void startMatch() {
+        if (game.status() == GameStatus.FINISHED) {
+            resetFinishedMatch();
+        }
         if (game.status() != GameStatus.WAITING) {
             eventLogger.warning("START_IGNORED status=" + game.status());
             return;
@@ -328,6 +328,19 @@ public final class Server {
         broadcast(GameMessageMapper.toLobbyStateMessage(game));
         refreshDashboard();
         tickExecutor.execute(this::runCountdownAndStart);
+    }
+
+    private void resetFinishedMatch() {
+        ScheduledFuture<?> current = tickFuture;
+        if (current != null) {
+            current.cancel(false);
+        }
+        synchronized (session) {
+            session.resetForLobby();
+            game.setStatus(GameStatus.WAITING);
+        }
+        broadcast(GameMessageMapper.toLobbyStateMessage(game));
+        refreshDashboard();
     }
 
     private void runCountdownAndStart() {
@@ -420,7 +433,12 @@ public final class Server {
     }
 
     private int nextPlayerId() {
-        return playerSequence.incrementAndGet();
+        for (int playerId = 1; playerId <= 65535; playerId++) {
+            if (game.player(playerId) == null) {
+                return playerId;
+            }
+        }
+        throw new IllegalStateException("No hay playerId disponible.");
     }
 
     private final class ClientHandler implements Runnable {

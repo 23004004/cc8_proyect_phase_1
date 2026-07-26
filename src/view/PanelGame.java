@@ -1,6 +1,7 @@
 package view;
 
 import model.Direction;
+import model.GameStatus;
 import protocol.GameOverMessage;
 import protocol.GameStartedMessage;
 import protocol.GameStateMessage;
@@ -35,6 +36,7 @@ public final class PanelGame extends JPanel {
     private long tick;
     private int localPlayerId;
     private Direction localDirection = Direction.NONE;
+    private GameStatus gameStatus = GameStatus.WAITING;
     private String statusText = "Esperando partida";
     private FlagDto flag = new FlagDto(0, 0, model.FlagStatus.AVAILABLE, 0);
     private List<PlayerDto> players = List.of();
@@ -53,6 +55,8 @@ public final class PanelGame extends JPanel {
                 for (PlayerDto player : message.players()) {
                     namesById.put(player.playerId(), player.name());
                 }
+                players = List.copyOf(message.players());
+                gameStatus = message.state();
                 statusText = "Lobby: " + message.players().size() + " jugador(es)";
             }
             repaint();
@@ -72,6 +76,7 @@ public final class PanelGame extends JPanel {
                 for (PlayerDto player : players) {
                     namesById.put(player.playerId(), player.name());
                 }
+                gameStatus = GameStatus.RUNNING;
                 tick = 0L;
                 statusText = "Partida iniciada";
             }
@@ -89,6 +94,7 @@ public final class PanelGame extends JPanel {
                 tick = message.tick();
                 flag = message.flag();
                 players = mergeNames(message.players());
+                gameStatus = GameStatus.RUNNING;
                 statusText = "En juego";
             }
             repaint();
@@ -99,6 +105,7 @@ public final class PanelGame extends JPanel {
         Objects.requireNonNull(message, "message must not be null");
         runOnEdt(() -> {
             synchronized (lock) {
+                gameStatus = GameStatus.FINISHED;
                 statusText = "Ganador: " + message.winnerName() + " (" + message.winnerId() + ")";
             }
             repaint();
@@ -132,18 +139,107 @@ public final class PanelGame extends JPanel {
         });
     }
 
+    public boolean lobbyActive() {
+        synchronized (lock) {
+            return gameStatus == GameStatus.WAITING || gameStatus == GameStatus.STARTING;
+        }
+    }
+
+    public boolean canReturnToServerList() {
+        synchronized (lock) {
+            return gameStatus == GameStatus.WAITING || gameStatus == GameStatus.STARTING || gameStatus == GameStatus.FINISHED;
+        }
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g.create();
         try {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            Viewport viewport = viewport();
-            paintMap(g2, viewport);
+            if (isLobbyVisible()) {
+                paintLobby(g2);
+            } else {
+                Viewport viewport = viewport();
+                paintMap(g2, viewport);
+            }
             paintFooter(g2);
         } finally {
             g2.dispose();
         }
+    }
+
+    private boolean isLobbyVisible() {
+        synchronized (lock) {
+            return gameStatus == GameStatus.WAITING || gameStatus == GameStatus.STARTING;
+        }
+    }
+
+    private void paintLobby(Graphics2D g2) {
+        List<PlayerDto> snapshot;
+        GameStatus status;
+        String text;
+        synchronized (lock) {
+            snapshot = new ArrayList<>(players);
+            status = gameStatus;
+            text = statusText;
+        }
+        snapshot.sort(Comparator.comparingInt(PlayerDto::playerId));
+
+        int margin = 48;
+        int width = Math.max(280, getWidth() - margin * 2);
+        int x = margin;
+        int y = 56;
+
+        g2.setColor(new Color(0x17212B));
+        g2.fillRoundRect(x, y, width, Math.max(280, getHeight() - 152), 12, 12);
+        g2.setColor(new Color(0x314252));
+        g2.setStroke(new BasicStroke(1.5f));
+        g2.drawRoundRect(x, y, width, Math.max(280, getHeight() - 152), 12, 12);
+
+        g2.setColor(getForeground());
+        g2.setFont(getFont().deriveFont(Font.BOLD, 24f));
+        g2.drawString("Lobby de jugadores", x + 24, y + 42);
+
+        g2.setFont(getFont().deriveFont(Font.PLAIN, 15f));
+        g2.setColor(new Color(0xB7C7D3));
+        g2.drawString(text + " | Estado: " + statusTextFor(status), x + 24, y + 70);
+
+        int rowY = y + 112;
+        g2.setFont(getFont().deriveFont(Font.BOLD, 14f));
+        g2.setColor(new Color(0x8BD3DD));
+        g2.drawString("Jugador", x + 24, rowY);
+        g2.drawString("Estatus", x + width - 180, rowY);
+
+        g2.setFont(getFont().deriveFont(Font.PLAIN, 15f));
+        if (snapshot.isEmpty()) {
+            g2.setColor(new Color(0xB7C7D3));
+            g2.drawString("Esperando jugadores conectados...", x + 24, rowY + 36);
+            return;
+        }
+
+        int currentY = rowY + 32;
+        for (PlayerDto player : snapshot) {
+            boolean local = player.playerId() == localPlayerId;
+            g2.setColor(local ? new Color(0x203948) : new Color(0x1C2A35));
+            g2.fillRoundRect(x + 18, currentY - 22, width - 36, 34, 8, 8);
+            g2.setColor(local ? Color.WHITE : getForeground());
+            String name = labelFor(player) + (local ? "  (Tu)" : "");
+            g2.drawString(name, x + 32, currentY);
+            g2.setColor(status == GameStatus.STARTING ? new Color(0xF2C14E) : new Color(0x06D6A0));
+            g2.drawString(status == GameStatus.STARTING ? "Iniciando" : "En lobby", x + width - 180, currentY);
+            currentY += 42;
+        }
+    }
+
+    private String statusTextFor(GameStatus status) {
+        return switch (status) {
+            case WAITING -> "Esperando";
+            case STARTING -> "Iniciando";
+            case RUNNING -> "En juego";
+            case FINISHED -> "Finalizado";
+            case CANCELLED -> "Cancelado";
+        };
     }
 
     private void paintMap(Graphics2D g2, Viewport viewport) {

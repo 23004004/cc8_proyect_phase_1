@@ -1,7 +1,7 @@
 package connect;
 
 public final class ClientEventLogger {
-    private final FileEventLogger logger = new FileEventLogger(ClientEventLogger.class.getName(), "logs/client.log");
+    private final ConsoleEventLogger logger = new ConsoleEventLogger("CLIENT");
 
     public void info(String message) {
         logger.info(message);

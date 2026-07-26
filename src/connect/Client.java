@@ -23,12 +23,16 @@ import view.PanelGame;
 import view.ServerDiscoveryDialog;
 
 import javax.swing.AbstractAction;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.WindowConstants;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -43,7 +47,9 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.nio.file.Path;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -63,39 +69,46 @@ public final class Client {
     private final GameConfig discoveryConfig = GameConfigLoader.load(CONFIG_PATH, GameConfig.defaults());
 
     public void start() {
-        ClientSelection selection = chooseServerWithDiscovery();
-        if (selection == null) {
-            return;
+        while (true) {
+            ClientSelection selection = chooseServerWithDiscovery();
+            if (selection == null) {
+                return;
+            }
+            ServerChoice choice = selection.server();
+            System.out.println("Servidor seleccionado: " + choice.name() + " en " + choice.host() + ":" + choice.port()
+                    + " (" + choice.playerCount() + "/" + choice.maximumPlayers() + ")");
+            if (!start(choice.host(), choice.port(), selection.playerName())) {
+                return;
+            }
         }
-        ServerChoice choice = selection.server();
-        System.out.println("Servidor seleccionado: " + choice.name() + " en " + choice.host() + ":" + choice.port()
-                + " (" + choice.playerCount() + "/" + choice.maximumPlayers() + ")");
-        start(choice.host(), choice.port(), selection.playerName());
     }
 
     public void start(String host, int port) {
         start(host, port, askPlayerName());
     }
 
-    private void start(String host, int port, String name) {
-        JFrame frame = null;
+    private boolean start(String host, int port, String name) {
+        ClientWindow window = null;
+        AtomicBoolean returnToDiscovery = new AtomicBoolean(false);
         try {
             name = normalizePlayerName(name);
             eventLogger.info("CONNECTING host=" + host + " port=" + port + " name=" + name);
             try (Socket socket = openSocket(host, port);
                  LineConnection connection = new LineConnection(socket)) {
                 PanelGame panel = new PanelGame();
-                frame = createFrame(panel);
+                window = createWindow(panel);
                 AtomicInteger playerIdRef = new AtomicInteger(0);
                 AtomicBoolean closing = new AtomicBoolean(false);
                 CountDownLatch finished = new CountDownLatch(1);
 
                 connection.sendMessage(new JoinRequest(name));
                 eventLogger.info("JOIN_SENT host=" + host + " port=" + port + " name=" + name);
-                installCloseHandler(frame, connection, playerIdRef, closing, finished);
-                installKeyboardControls(frame, connection, playerIdRef, panel);
+                installReturnToDiscoveryButton(window.returnButton(), panel, connection, playerIdRef, closing, finished, returnToDiscovery);
+                installCloseHandler(window.frame(), connection, playerIdRef, closing, finished);
+                installKeyboardControls(window.frame(), connection, playerIdRef, panel);
 
-                Thread reader = new Thread(() -> readLoop(connection, panel, playerIdRef, finished), "client-reader");
+                JButton returnButton = window.returnButton();
+                Thread reader = new Thread(() -> readLoop(connection, panel, playerIdRef, returnButton, finished), "client-reader");
                 reader.setDaemon(true);
                 reader.start();
 
@@ -110,21 +123,27 @@ public final class Client {
             eventLogger.warning("CONNECTION_FAILED error=" + ex.getMessage());
             System.out.println("No se pudo conectar al servidor: " + ex.getMessage());
         } finally {
-            if (frame != null) {
-                frame.dispose();
+            if (window != null) {
+                window.frame().dispose();
             }
             eventLogger.info("CLIENT_STOPPED");
         }
+        return returnToDiscovery.get();
     }
 
-    private JFrame createFrame(PanelGame panel) {
+    private ClientWindow createWindow(PanelGame panel) {
         JFrame frame = new JFrame("Captura la Bandera");
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.setContentPane(panel);
+        JButton returnButton = new JButton("Volver a listado de servidores");
+        returnButton.setEnabled(false);
+        JPanel root = new JPanel(new BorderLayout());
+        root.add(panel, BorderLayout.CENTER);
+        root.add(returnButton, BorderLayout.SOUTH);
+        frame.setContentPane(root);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        return frame;
+        return new ClientWindow(frame, returnButton);
     }
 
     private Socket openSocket(String host, int port) throws IOException {
@@ -233,62 +252,9 @@ public final class Client {
         return addresses;
     }
 
-    private Set<InetAddress> radminTargets(GameConfig config) throws IOException {
-        Set<InetAddress> addresses = new LinkedHashSet<>();
-        if (!config.radminScanEnabled()) {
-            return addresses;
-        }
-        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-        while (interfaces != null && interfaces.hasMoreElements()) {
-            NetworkInterface networkInterface = interfaces.nextElement();
-            if (!networkInterface.isUp() || networkInterface.isLoopback() || networkInterface.isVirtual()) {
-                continue;
-            }
-            for (InterfaceAddress interfaceAddress : networkInterface.getInterfaceAddresses()) {
-                addLocalSubnetTargets(addresses, interfaceAddress);
-            }
-        }
-        return addresses;
-    }
-
-    private void addLocalSubnetTargets(Set<InetAddress> addresses, InterfaceAddress interfaceAddress) {
-        InetAddress address = interfaceAddress.getAddress();
-        if (!(address instanceof java.net.Inet4Address)) {
-            return;
-        }
-        byte[] raw = address.getAddress();
-        int base = ((raw[0] & 0xFF) << 24) | ((raw[1] & 0xFF) << 16) | ((raw[2] & 0xFF) << 8);
-        int self = raw[3] & 0xFF;
-        for (int host = 1; host <= 254; host++) {
-            if (host == self) {
-                continue;
-            }
-            int value = base | host;
-            try {
-                addresses.add(InetAddress.getByAddress(new byte[]{
-                        (byte) ((value >>> 24) & 0xFF),
-                        (byte) ((value >>> 16) & 0xFF),
-                        (byte) ((value >>> 8) & 0xFF),
-                        (byte) (value & 0xFF)
-                }));
-            } catch (IOException ignored) {
-            }
-        }
-    }
-
     private void sendDiscoverRequests(DatagramSocket socket, int discoveryPort) throws IOException {
         byte[] request = codec.serializeDiscoverRequest();
         for (InetAddress address : discoveryTargets()) {
-            try {
-                socket.send(new DatagramPacket(request, request.length, address, discoveryPort));
-            } catch (IOException ignored) {
-            }
-        }
-    }
-
-    private void sendRadminDiscoverRequests(DatagramSocket socket, int discoveryPort, GameConfig config) throws IOException {
-        byte[] request = codec.serializeDiscoverRequest();
-        for (InetAddress address : radminTargets(config)) {
             try {
                 socket.send(new DatagramPacket(request, request.length, address, discoveryPort));
             } catch (IOException ignored) {
@@ -308,7 +274,7 @@ public final class Client {
         );
     }
 
-    private void readLoop(LineConnection connection, PanelGame panel, AtomicInteger playerIdRef, CountDownLatch finished) {
+    private void readLoop(LineConnection connection, PanelGame panel, AtomicInteger playerIdRef, JButton returnButton, CountDownLatch finished) {
         try {
             while (true) {
                 ProtocolMessage message = connection.readMessage();
@@ -327,10 +293,12 @@ public final class Client {
                     return;
                 } else if (message instanceof LobbyStateMessage lobby) {
                     panel.applyLobbyState(lobby);
+                    updateReturnButton(returnButton, panel);
                 } else if (message instanceof GameCountdownMessage countdown) {
                     panel.applyStatusText("Inicia en " + countdown.secondsRemaining() + "...");
                 } else if (message instanceof GameStartedMessage started) {
                     panel.applyGameStarted(started);
+                    updateReturnButton(returnButton, panel);
                     eventLogger.info("GAME_STARTED players=" + started.players().size());
                 } else if (message instanceof GameStateMessage state) {
                     panel.applyGameState(state);
@@ -344,6 +312,8 @@ public final class Client {
                     panel.applyStatusText("Jugador desconectado: " + disconnected.playerId());
                 } else if (message instanceof GameOverMessage gameOver) {
                     panel.applyGameOver(gameOver);
+                    updateReturnButton(returnButton, panel);
+                    showGameOverDialog(gameOver);
                     eventLogger.info("GAME_OVER winnerId=" + gameOver.winnerId() + " winnerName=" + gameOver.winnerName());
                 } else if (message instanceof ErrorMessage error) {
                     panel.applyStatusText("Error: " + error.code());
@@ -355,6 +325,26 @@ public final class Client {
         } finally {
             finished.countDown();
         }
+    }
+
+    private void showGameOverDialog(GameOverMessage gameOver) {
+        SwingUtilities.invokeLater(() -> {
+            String winnerName = gameOver.winnerName() == null ? "" : gameOver.winnerName().trim();
+            String message = "Fin de la partida";
+            if (gameOver.winnerId() > 0 && !winnerName.isBlank()) {
+                message += "\n\nGanador: #" + gameOver.winnerId() + " - " + winnerName;
+            }
+            JOptionPane optionPane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
+            javax.swing.JDialog dialog = optionPane.createDialog(null, "Partida finalizada");
+            Timer closeTimer = new Timer(5000, event -> dialog.dispose());
+            closeTimer.setRepeats(false);
+            closeTimer.start();
+            dialog.setVisible(true);
+        });
+    }
+
+    private void updateReturnButton(JButton returnButton, PanelGame panel) {
+        SwingUtilities.invokeLater(() -> returnButton.setEnabled(panel.canReturnToServerList()));
     }
 
     private String askPlayerName() {
@@ -372,24 +362,55 @@ public final class Client {
     }
 
     private void installKeyboardControls(JFrame frame, LineConnection connection, AtomicInteger playerIdRef, PanelGame panel) {
-        bindDirection(frame, "pressed W", "move-up", Direction.UP, connection, playerIdRef, panel);
-        bindDirection(frame, "pressed A", "move-left", Direction.LEFT, connection, playerIdRef, panel);
-        bindDirection(frame, "pressed S", "move-down", Direction.DOWN, connection, playerIdRef, panel);
-        bindDirection(frame, "pressed D", "move-right", Direction.RIGHT, connection, playerIdRef, panel);
-        bindDirection(frame, "released W", "stop-up", Direction.NONE, connection, playerIdRef, panel);
-        bindDirection(frame, "released A", "stop-left", Direction.NONE, connection, playerIdRef, panel);
-        bindDirection(frame, "released S", "stop-down", Direction.NONE, connection, playerIdRef, panel);
-        bindDirection(frame, "released D", "stop-right", Direction.NONE, connection, playerIdRef, panel);
+        Object movementLock = new Object();
+        Deque<Direction> pressedDirections = new ArrayDeque<>();
+        AtomicReference<Direction> sentDirectionRef = new AtomicReference<>(Direction.NONE);
+        bindMovementKey(frame, "W", "up", Direction.UP, connection, playerIdRef, panel, movementLock, pressedDirections, sentDirectionRef);
+        bindMovementKey(frame, "A", "left", Direction.LEFT, connection, playerIdRef, panel, movementLock, pressedDirections, sentDirectionRef);
+        bindMovementKey(frame, "S", "down", Direction.DOWN, connection, playerIdRef, panel, movementLock, pressedDirections, sentDirectionRef);
+        bindMovementKey(frame, "D", "right", Direction.RIGHT, connection, playerIdRef, panel, movementLock, pressedDirections, sentDirectionRef);
         bindInteract(frame, "pressed R", "interact-r", connection, playerIdRef, panel);
         bindInteract(frame, "SPACE", "interact-space", connection, playerIdRef, panel);
     }
 
-    private void bindDirection(JFrame frame, String keyStroke, String actionName, Direction direction, LineConnection connection, AtomicInteger playerIdRef, PanelGame panel) {
+    private void bindMovementKey(
+            JFrame frame,
+            String key,
+            String actionSuffix,
+            Direction direction,
+            LineConnection connection,
+            AtomicInteger playerIdRef,
+            PanelGame panel,
+            Object movementLock,
+            Deque<Direction> pressedDirections,
+            AtomicReference<Direction> sentDirectionRef
+    ) {
+        bindMovementAction(frame, "pressed " + key, "move-" + actionSuffix, () -> {
+            synchronized (movementLock) {
+                pressedDirections.remove(direction);
+                pressedDirections.addLast(direction);
+                return direction;
+            }
+        }, connection, playerIdRef, panel, sentDirectionRef);
+        bindMovementAction(frame, "released " + key, "stop-" + actionSuffix, () -> {
+            synchronized (movementLock) {
+                pressedDirections.remove(direction);
+                Direction current = pressedDirections.peekLast();
+                return current == null ? Direction.NONE : current;
+            }
+        }, connection, playerIdRef, panel, sentDirectionRef);
+    }
+
+    private void bindMovementAction(JFrame frame, String keyStroke, String actionName, DirectionSupplier directionSupplier, LineConnection connection, AtomicInteger playerIdRef, PanelGame panel, AtomicReference<Direction> sentDirectionRef) {
         JComponent root = frame.getRootPane();
         root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(keyStroke), actionName);
         root.getActionMap().put(actionName, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent event) {
+                Direction direction = directionSupplier.get();
+                if (sentDirectionRef.get() == direction) {
+                    return;
+                }
                 int playerId = playerIdRef.get();
                 if (playerId <= 0) {
                     panel.applyStatusText("Esperando JOIN_ACCEPTED.");
@@ -397,6 +418,7 @@ public final class Client {
                 }
                 try {
                     connection.sendMessage(new ChangeDirectionRequest(playerId, direction));
+                    sentDirectionRef.set(direction);
                     panel.applyLocalDirection(direction);
                     eventLogger.info("INPUT_SENT playerId=" + playerId + " direction=" + direction);
                 } catch (IOException ex) {
@@ -427,27 +449,49 @@ public final class Client {
         });
     }
 
+    private void installReturnToDiscoveryButton(
+            JButton returnButton,
+            PanelGame panel,
+            LineConnection connection,
+            AtomicInteger playerIdRef,
+            AtomicBoolean closing,
+            CountDownLatch finished,
+            AtomicBoolean returnToDiscovery
+    ) {
+        returnButton.addActionListener(event -> {
+            if (!panel.canReturnToServerList()) {
+                return;
+            }
+            returnToDiscovery.set(true);
+            closeClient(connection, playerIdRef, closing, finished);
+        });
+    }
+
     private void installCloseHandler(JFrame frame, LineConnection connection, AtomicInteger playerIdRef, AtomicBoolean closing, CountDownLatch finished) {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent event) {
-                if (closing.compareAndSet(false, true)) {
-                    try {
-                        int playerId = playerIdRef.get();
-                        if (playerId > 0) {
-                            connection.sendMessage(new LeaveRequest(playerId));
-                            eventLogger.info("LEAVE_SENT playerId=" + playerId);
-                        }
-                    } catch (IOException ignored) {
-                    }
-                    try {
-                        connection.close();
-                    } catch (IOException ignored) {
-                    }
-                    finished.countDown();
-                }
+                closeClient(connection, playerIdRef, closing, finished);
             }
         });
+    }
+
+    private void closeClient(LineConnection connection, AtomicInteger playerIdRef, AtomicBoolean closing, CountDownLatch finished) {
+        if (closing.compareAndSet(false, true)) {
+            try {
+                int playerId = playerIdRef.get();
+                if (playerId > 0) {
+                    connection.sendMessage(new LeaveRequest(playerId));
+                    eventLogger.info("LEAVE_SENT playerId=" + playerId);
+                }
+            } catch (IOException ignored) {
+            }
+            try {
+                connection.close();
+            } catch (IOException ignored) {
+            }
+            finished.countDown();
+        }
     }
 
     private final class DiscoveryManager {
@@ -464,8 +508,7 @@ public final class Client {
             }
             GameConfig config = discoveryConfig
                     .withDiscoveryPort(dialog.discoveryPort())
-                    .withExtraDiscoveryPorts(dialog.extraDiscoveryPorts())
-                    .withRadminScanEnabled(dialog.radminScanEnabled());
+                    .withExtraDiscoveryPorts(dialog.extraDiscoveryPorts());
             Consumer<List<ServerChoice>> updateConsumer = dialog::updateServers;
             for (int discoveryPort : discoveryPorts(config)) {
                 DiscoveryController controller = new DiscoveryController(discoveryPort, config);
@@ -528,17 +571,12 @@ public final class Client {
             try (DatagramSocket socket = openDiscoverySocket(discoveryPort)) {
                 socket.setSoTimeout(250);
                 long nextBroadcastAt = 0L;
-                long nextRadminScanAt = 0L;
                 while (running.get()) {
                     long now = System.currentTimeMillis();
                     boolean forced = forceRequest.getAndSet(false);
                     if (forced || now >= nextBroadcastAt) {
                         sendDiscoverRequests(socket);
-                        nextBroadcastAt = now + 1000L;
-                    }
-                    if (forced || now >= nextRadminScanAt) {
-                        sendRadminDiscoverRequests(socket, discoveryPort, config);
-                        nextRadminScanAt = now + config.radminScanIntervalMs();
+                        nextBroadcastAt = now + 500L;
                     }
                     receiveOne(socket);
                 }
@@ -570,5 +608,13 @@ public final class Client {
     }
 
     private record ClientSelection(ServerChoice server, String playerName) {
+    }
+
+    private record ClientWindow(JFrame frame, JButton returnButton) {
+    }
+
+    @FunctionalInterface
+    private interface DirectionSupplier {
+        Direction get();
     }
 }

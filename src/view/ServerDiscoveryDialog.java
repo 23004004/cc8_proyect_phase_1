@@ -34,7 +34,6 @@ public final class ServerDiscoveryDialog extends JDialog {
     private final JTextField portField = new JTextField("5000", 10);
     private final JTextField discoveryPortField = new JTextField("5001", 10);
     private final javax.swing.JCheckBox compatibilityPortCheck = new javax.swing.JCheckBox("Buscar tambien UDP 5000");
-    private final javax.swing.JCheckBox radminScanCheck = new javax.swing.JCheckBox("Radmin/VPN", false);
     private final JLabel statusLabel = new JLabel("Buscando servidores...");
     private ServerChoice selectedServer;
 
@@ -62,10 +61,6 @@ public final class ServerDiscoveryDialog extends JDialog {
 
     public String extraDiscoveryPorts() {
         return compatibilityPortCheck.isSelected() && discoveryPort() != 5000 ? "5000" : "";
-    }
-
-    public boolean radminScanEnabled() {
-        return radminScanCheck.isSelected();
     }
 
     public void updateServers(List<ServerChoice> servers) {
@@ -139,9 +134,9 @@ public final class ServerDiscoveryDialog extends JDialog {
         manualPanel.add(discoveryPortField, c);
         c.gridx = 2;
         c.weightx = 0;
+        c.gridwidth = 2;
         manualPanel.add(compatibilityPortCheck, c);
-        c.gridx = 3;
-        manualPanel.add(radminScanCheck, c);
+        c.gridwidth = 1;
 
         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton refreshButton = new JButton("Actualizar");

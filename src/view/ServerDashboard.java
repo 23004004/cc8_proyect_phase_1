@@ -22,6 +22,7 @@ import java.util.List;
 public final class ServerDashboard extends JFrame {
     private final JLabel statusLabel = new JLabel("Estado: WAITING");
     private final JLabel countLabel = new JLabel("Jugadores: 0");
+    private final JLabel playersTitleLabel = new JLabel("Lobby de jugadores");
     private final DefaultListModel<String> playersModel = new DefaultListModel<>();
     private final JButton startButton = new JButton("Iniciar partida");
     private final JButton stopButton = new JButton("Cerrar servidor");
@@ -53,12 +54,14 @@ public final class ServerDashboard extends JFrame {
         SwingUtilities.invokeLater(() -> {
             statusLabel.setText("Estado: " + status);
             countLabel.setText("Jugadores: " + players.size());
+            playersTitleLabel.setText(status == GameStatus.WAITING ? "Lobby de jugadores" : "Jugadores conectados");
             playersModel.clear();
             players.stream()
                     .sorted(Comparator.comparingInt(Player::playerId))
-                    .map(player -> player.playerId() + " | " + player.name())
+                    .map(player -> "#" + player.playerId() + "  " + player.name())
                     .forEach(playersModel::addElement);
-            startButton.setEnabled(status == GameStatus.WAITING && !players.isEmpty());
+            startButton.setText(status == GameStatus.FINISHED ? "Reiniciar partida" : "Iniciar partida");
+            startButton.setEnabled((status == GameStatus.WAITING || status == GameStatus.FINISHED) && !players.isEmpty());
         });
     }
 
@@ -74,7 +77,10 @@ public final class ServerDashboard extends JFrame {
         root.add(header, BorderLayout.NORTH);
 
         JList<String> playersList = new JList<>(playersModel);
-        root.add(new JScrollPane(playersList), BorderLayout.CENTER);
+        JPanel playersPanel = new JPanel(new BorderLayout(6, 6));
+        playersPanel.add(playersTitleLabel, BorderLayout.NORTH);
+        playersPanel.add(new JScrollPane(playersList), BorderLayout.CENTER);
+        root.add(playersPanel, BorderLayout.CENTER);
 
         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         buttons.add(startButton);

@@ -40,13 +40,13 @@ make run-server
 Levantar servidor en otros puertos:
 
 ```bash
-make run-server PORT=5000 DISCOVERY=5000
+make run-server PORT=5000 DISCOVERY=5001
 ```
 
 Levantar servidor anunciando tambien en un puerto extra:
 
 ```bash
-make run-server PORT=5000 DISCOVERY=5000 EXTRA_DISCOVERY=5001
+make run-server PORT=5000 DISCOVERY=5001 EXTRA_DISCOVERY=5000
 ```
 
 Levantar cliente con discovery UDP:
@@ -63,17 +63,12 @@ make run-client HOST=127.0.0.1 PORT=5000
 
 En el servidor escribe `start` para iniciar el countdown y la partida.
 
-Por compatibilidad con la clase, el discovery UDP queda por defecto en `5000`.
+Por compatibilidad con la clase, el discovery UDP queda por defecto en `5001`.
 TCP y UDP pueden usar el mismo numero de puerto sin conflicto.
 
-Para discovery rapido, deja solo `discoveryPort=5000`. Para compatibilidad con
+Para discovery rapido, deja solo `discoveryPort=5001`. Para compatibilidad con
 otra version, agrega puertos separados por coma en `extraDiscoveryPorts`, por
-ejemplo `extraDiscoveryPorts=5001`.
-
-En VPNs como Radmin, el broadcast puede no atravesar la red virtual. Por eso el
-cliente intenta discovery UDP por unicast en la subred local de cada adaptador
-IPv4 cuando `radminScanEnabled=true`. Si quieres busqueda mas rapida y solo
-dependes de broadcast, cambia ese valor a `false`.
+ejemplo `extraDiscoveryPorts=5000`.
 
 ## Controles del cliente
 
@@ -81,7 +76,6 @@ dependes de broadcast, cambia ese valor a `false`.
 - `A`: moverse izquierda.
 - `S`: moverse abajo.
 - `D`: moverse derecha.
-- Soltar la tecla de movimiento: enviar `NONE`.
 - `R` o barra espaciadora: enviar `INTERACT`.
 - Cerrar la ventana: enviar `LEAVE`.
 
@@ -104,5 +98,3 @@ Parámetros PRFC v3 incluidos:
 - `serverPort`
 - `discoveryPort`
 - `extraDiscoveryPorts`
-- `radminScanEnabled`
-- `radminScanIntervalMs`

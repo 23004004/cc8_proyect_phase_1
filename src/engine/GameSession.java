@@ -70,6 +70,12 @@ public final class GameSession {
         return List.copyOf(events);
     }
 
+    public synchronized void resetForLobby() {
+        pendingDirections.clear();
+        pendingInteractions.clear();
+        game.resetForLobby();
+    }
+
     public synchronized GameTickResult tick() {
         if (game.status() != GameStatus.RUNNING) {
             return new GameTickResult(game.tick(), List.of(), GameMessageMapper.toGameStateMessage(game), null);

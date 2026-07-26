@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +56,22 @@ public final class Game {
 
     public void incrementTick() {
         tick++;
+    }
+
+    public void resetForLobby() {
+        tick = 0L;
+        flag = new Flag(0, 0, FlagStatus.AVAILABLE, 0);
+        for (Player player : List.copyOf(players.values())) {
+            players.put(player.playerId(), new Player(
+                    player.playerId(),
+                    player.name(),
+                    0,
+                    0,
+                    Direction.NONE,
+                    player.connected(),
+                    false
+            ));
+        }
     }
 
     public void setFlag(Flag flag) {
