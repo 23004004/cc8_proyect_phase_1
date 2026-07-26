@@ -3,25 +3,17 @@
 ### IA Utilizada: Codex - GPT-5.5
 
 #### PROMP:
-Hay que hacer varias mejoras, ya que como es grupal surguieron cambios y ya estan las instrucciones, estabamos adelantando.
-CapturaLaBandera.md fue la idea principal en eso esta basado actualmente ahora bien, lo que debemos de seguir ahora es este: https://github.com/erickm13/CC8-Protocolo/tree/main
-Pero el que nos interesa es el archivo PRFC-VERSION-3, pero si ayudame a hacer los cambios necesario porfavor, y tomar en cuenta las intrucciones del pdf, lo que pasa es que ya esta implementado pero hay varios cambios de UI y de protocolo
+Estamos en la etapa final del proyecto y quiero que lo revises con estos objetivos, en este orden:
 
+1.Identifica código que no se usa (métodos, clases, imports muertos) y lístalo antes de eliminarlo, explicando brevemente por qué crees que no se usa.
+2.Señala puntos de mejora de legibilidad y estructura (nombres, organización de paquetes/clases, duplicación de código).
+3.Refactoriza donde tenga sentido, sin cambiar el comportamiento funcional del proyecto.
+4.Añade comentarios breves (una línea) solo en las partes clave o complejas, evitando párrafos largos.
+5.El protocolo ya no lo toques por que con las pruebas con compañeros ya fue funcional y todo lo que tenga que ver logica del servidor o Broadcast
+6.Si es posible trata de mejorar la estructura actual del proyecto tratando de no romper nada
+7.Al final, dame un resumen de todos los cambios realizados y verifica que el proyecto siga compilando/funcionando correctamente.
 
-# Captura la Bandera - PRFC v3
-
-Proyecto Java Swing con arquitectura cliente-servidor, TCP sockets para partida y UDP broadcast para descubrimiento. La implementación actual sigue `PRFC-CC8-2026`, documento `3.0.0`, con `protocolVersion` byte `3`.
-
-## Cambios principales de esta versión
-
-- Protocolo binario big-endian con framing TCP `u16 length + payload`.
-- Discovery por UDP broadcast en `discoveryPort`.
-- Mapa continuo centrado en `(0, 0)`, sin grilla ni obstáculos.
-- Círculo central, bandera en el centro y victoria al salir completamente del círculo con la bandera.
-- Movimiento con `INPUT`: `NONE`, `UP`, `DOWN`, `LEFT`, `RIGHT`.
-- Interacción explícita con `INTERACT`; tomar y robar bandera ya no ocurre automáticamente.
-- Sin protección ni inmunidad después del robo.
-- Servidor no juega: solo hospeda, valida y muestra/loguea estado.
+Trabaja de forma incremental y avísame si hay algún cambio que requiera mi confirmación antes de aplicarlo.
 
 ## Ejecución local
 
