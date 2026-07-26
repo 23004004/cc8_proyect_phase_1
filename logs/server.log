@@ -1358,3 +1358,93 @@ jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
 INFO: INPUT playerId=1 direction=LEFT
 jul 24, 2026 11:19:09 P. M. connect.FileEventLogger info
 INFO: MATCH_FINISHED tick=509 winnerId=1
+jul 25, 2026 6:07:06 P. M. connect.FileEventLogger info
+INFO: SERVER_STARTED tcpPort=5001 discoveryPort=5001
+jul 25, 2026 6:07:20 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:20 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:21 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:21 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:22 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:22 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:23 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:23 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:24 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:24 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:25 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:25 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:25 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:25 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:26 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:26 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:31 P. M. connect.FileEventLogger info
+INFO: TCP_ACCEPTED remote=/192.168.0.2:51232
+jul 25, 2026 6:07:31 P. M. connect.FileEventLogger info
+INFO: JOIN_ACCEPTED remote=/192.168.0.2:51232 playerId=1 name=s
+jul 25, 2026 6:07:41 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:41 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:42 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:42 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:43 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:43 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:44 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:44 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:45 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:45 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:46 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:46 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:47 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:47 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:48 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:48 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:48 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:48 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:49 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:49 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:49 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:49 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:49 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:49 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:50 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2
+jul 25, 2026 6:07:50 P. M. connect.FileEventLogger info
+INFO: DISCOVER_RESPONSE remote=192.168.0.2

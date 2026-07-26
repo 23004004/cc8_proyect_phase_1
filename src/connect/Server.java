@@ -29,6 +29,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -102,7 +103,9 @@ public final class Server {
 
     private void startDiscoveryResponder() {
         Thread thread = new Thread(() -> {
-            try (DatagramSocket socket = new DatagramSocket(config.discoveryPort())) {
+            try (DatagramSocket socket = new DatagramSocket(null)) {
+                socket.setReuseAddress(true);
+                socket.bind(new InetSocketAddress(config.discoveryPort()));
                 discoverySocket = socket;
                 socket.setBroadcast(true);
                 byte[] buffer = new byte[512];
