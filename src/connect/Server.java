@@ -12,6 +12,9 @@ import protocol.messages.ChangeDirectionRequest;
 import protocol.enums.ErrorCode;
 import protocol.messages.ErrorMessage;
 import protocol.messages.GameCountdownMessage;
+import protocol.messages.GameOverMessage;
+import protocol.messages.GameStartedMessage;
+import protocol.messages.GameStateMessage;
 import protocol.mapping.GameMessageMapper;
 import protocol.messages.InteractRequest;
 import protocol.messages.JoinAcceptedMessage;
@@ -248,6 +251,9 @@ public final class Server {
         ServerDashboard current = dashboard;
         if (current != null) {
             current.update(game.status(), game.players());
+            if (game.status() == GameStatus.WAITING || game.status() == GameStatus.STARTING) {
+                current.showLobby(GameMessageMapper.toLobbyStateMessage(game));
+            }
         }
     }
 
@@ -356,7 +362,9 @@ public final class Server {
                 game.setStatus(GameStatus.RUNNING);
             }
             refreshDashboard();
-            broadcast(GameMessageMapper.toGameStartedMessage(game));
+            GameStartedMessage started = GameMessageMapper.toGameStartedMessage(game);
+            showGameStartedOnDashboard(started);
+            broadcast(started);
             tickFuture = tickExecutor.scheduleAtFixedRate(this::runTickSafely, 0L, config.tickIntervalMs(), TimeUnit.MILLISECONDS);
             eventLogger.info("MATCH_RUNNING players=" + game.players().size());
         } catch (InterruptedException ex) {
@@ -370,14 +378,18 @@ public final class Server {
             if (!result.events().isEmpty()) {
                 broadcast(result.events());
             }
-            broadcast(result.stateMessage());
+            GameStateMessage state = result.stateMessage();
+            showGameStateOnDashboard(state);
+            broadcast(state);
             if (result.gameOverMessage() != null) {
-                broadcast(result.gameOverMessage());
+                GameOverMessage gameOver = result.gameOverMessage();
+                showGameOverOnDashboard(gameOver);
+                broadcast(gameOver);
                 ScheduledFuture<?> current = tickFuture;
                 if (current != null) {
                     current.cancel(false);
                 }
-                eventLogger.info("MATCH_FINISHED tick=" + result.tick() + " winnerId=" + result.gameOverMessage().winnerId());
+                eventLogger.info("MATCH_FINISHED tick=" + result.tick() + " winnerId=" + gameOver.winnerId());
                 refreshDashboard();
             }
         } catch (RuntimeException ex) {
@@ -387,6 +399,27 @@ public final class Server {
 
     private void broadcast(ProtocolMessage message) {
         broadcast(List.of(message));
+    }
+
+    private void showGameStartedOnDashboard(GameStartedMessage message) {
+        ServerDashboard current = dashboard;
+        if (current != null) {
+            current.showGameStarted(message);
+        }
+    }
+
+    private void showGameStateOnDashboard(GameStateMessage message) {
+        ServerDashboard current = dashboard;
+        if (current != null) {
+            current.showGameState(message);
+        }
+    }
+
+    private void showGameOverOnDashboard(GameOverMessage message) {
+        ServerDashboard current = dashboard;
+        if (current != null) {
+            current.showGameOver(message);
+        }
     }
 
     private void broadcast(List<? extends ProtocolMessage> messages) {
